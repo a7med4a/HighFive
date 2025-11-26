@@ -1,0 +1,186 @@
+/* === General Layout === */
+.tax_report {
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    background-color: #f8f9fb;
+    color: #333;
+}
+
+/* === Header === */
+.tax_report .header {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.tax_report .header_section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-grow: 1;
+}
+
+/* === Sub Headers Left === */
+.tax_report .sub_header_left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tax_report .btn_report_print_pdf {
+    color: #fff;
+    border: none;
+    background-color: #714B67;
+    border-radius: 6px;
+    padding: 6px;
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.tax_report .btn_report_print_pdf:hover {
+    background-color: #5a374a;
+}
+
+.tax_report .btn_report_print_xlsx {
+    color: #374151;
+    background-color: #e7e9ed;
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.tax_report .btn_report_print_xlsx:hover {
+    background-color: #d2d6db;
+}
+
+/* === Sub Headers Right === */
+.tax_report .sub_header_right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.tax_report .sub_header_right .time_range,
+.tax_report .sub_header_right .comparison_range,
+.tax_report .sub_header_right .option,
+.tax_report .sub_header_right .o_searchview {
+    margin: 8px;
+    padding: 6px;
+    border-radius: 6px;
+    color: #374151;
+    background-color: #e7e9ed;
+}
+
+.tax_report .sub_header_right .option:hover,
+.tax_report .sub_header_right .comparison_range:hover,
+.tax_report .sub_header_right .time_range:hover {
+    background-color: #d2d6db;
+}
+
+.tax_report .list-group .date_bottoms {
+    display: flex;
+    justify-content: center;
+}
+
+.tax_report .header .dropdown-toggle {
+    cursor: pointer;
+    color: #374151;
+    font-weight: 500;
+}
+
+.tax_report .header .dropdown-menu {
+    border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.tax_report .report-filter-button {
+    background-color: #fff;
+    border: none;
+    text-align: left;
+    width: 100%;
+    padding: 8px 12px;
+    transition:  background-color 0.2s;
+}
+
+.tax_report .report-filter-button:hover {
+     background-color: #f1f1f1;
+}
+
+/* === Table Styling === */
+.tax_report .table_view_gl {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tax_report .table_main_view {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 60%;
+}
+
+.tax_report .table_main_view table {
+    border-collapse: collapse;
+}
+
+.tax_report .table_main_view .main_row {
+    background-color: #d2d6db;
+}
+
+.tax_report .table_main_view th,
+.tax_report .table_main_view td {
+    text-align: start;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.tax_report .table_main_view thead {
+    background-color: #fff;
+    color: #374151;
+}
+
+.tax_report .empty::after {
+    content: "\00a0";
+}
+
+.tax_report .show_gl {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.tax_report .show_gl:hover {
+    background-color: #d2d6db;
+}
+
+
+/* === Partner Rows === */
+.tax_report .border-dark {
+    border-bottom: 2px solid #dee2e6 !important;
+}
+
+.tax_report .partner_buttons {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.tax_report .o_heading {
+    font-weight: 600;
+    color: #111827;
+}
+
+.tax_report .span_number {
+    margin-right: 2px;
+}

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+manager_access_easy_expense,users.access.advance.salary,model_easy_expense,,1,1,1,1
+access_pay_exp_wizard,pay.exp.wizard,model_pay_exp_wizard,,1,1,1,1
+

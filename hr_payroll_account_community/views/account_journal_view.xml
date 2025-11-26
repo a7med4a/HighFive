@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+        <!-- Inherit the Account Journal form -->
+        <record id="view_account_journal_form_inherit_salary" model="ir.ui.view">
+            <field name="name">account.journal.form.inherit.salary</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Add our checkbox field below the type field -->
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="is_salaries"/>
+                    <field name="is_loan"/>
+                    <field name="is_expense"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

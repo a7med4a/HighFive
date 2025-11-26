@@ -1,0 +1,132 @@
+<odoo>
+    <data>
+        <!-- Window Actions -->
+        <record id="action_freelance_service" model="ir.actions.act_window">
+            <field name="name">Freelance Services</field>
+            <field name="res_model">freelance.service</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_employee_deduction" model="ir.actions.act_window">
+            <field name="name">Employee Deductions</field>
+            <field name="res_model">employee.deduction</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_employee_bonus" model="ir.actions.act_window">
+            <field name="name">Employee Bonuses</field>
+            <field name="res_model">employee.bonus</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- HR menu -->
+        <menuitem id="menu_hr_custom_root"
+                  name="HR"
+                  sequence="100"
+                  web_icon="hr_custom_transactions,static/description/icon.png"/>
+
+        <!-- Employee menu -->
+        <menuitem id="menu_hr_employee_root_custom"
+                  name="Employees"
+                  parent="menu_hr_custom_root"
+                  sequence="10"/>
+
+        <record id="hr.menu_hr_employee_user" model="ir.ui.menu">
+            <field name="parent_id" ref="hr_custom_transactions.menu_hr_employee_root_custom"/>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="hr_contract.hr_menu_contract" model="ir.ui.menu">
+            <field name="parent_id" ref="hr_custom_transactions.menu_hr_employee_root_custom"/>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="hr.menu_hr_department_kanban" model="ir.ui.menu">
+            <field name="parent_id" ref="hr_custom_transactions.menu_hr_employee_root_custom"/>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- Transactions -->
+        <menuitem id="menu_transactions_root"
+                  name="Transactions"
+                  parent="menu_hr_custom_root"
+                  sequence="40"/>
+        <menuitem id="menu_freelance_service_action"
+                  name="Freelance Services"
+                  parent="menu_transactions_root"
+                  action="action_freelance_service"
+                  sequence="10"/>
+        <menuitem id="menu_employee_deduction_action"
+                  name="Employee Deductions"
+                  parent="menu_transactions_root"
+                  action="action_employee_deduction"
+                  sequence="20"/>
+        <menuitem id="menu_employee_bonus_action"
+                  name="Employee Bonuses"
+                  parent="menu_transactions_root"
+                  action="action_employee_bonus"
+                  sequence="30"/>
+
+        <!-- hr payroll -->
+        <record id="hr_payroll_community.menu_hr_payroll_community_root" model="ir.ui.menu">
+            <field name="parent_id" ref="hr_custom_transactions.menu_hr_custom_root"/>
+            <field name="sequence">60</field>
+        </record>
+
+        <!-- attendance -->
+        <menuitem id="menu_hr_Attendance_root_custom"
+                  name="Attendance"
+                  parent="menu_hr_custom_root"
+                  sequence="80"/>
+
+        <menuitem id="menu_hr_attendance_view_attendances_custom"
+                  name="Attendance"
+                  parent="hr_custom_transactions.menu_hr_Attendance_root_custom"
+                  sequence="10"
+                  groups="hr_attendance.group_hr_attendance_officer"
+                  action="hr_attendance.hr_attendance_action"/>
+
+        <!-- holidays -->
+        <menuitem id="menu_hr_Time_off_root_custom"
+                  name="Time Off"
+                  parent="menu_hr_custom_root"
+                  sequence="80"/>
+
+        <record id="hr_holidays.menu_open_department_leave_approve" model="ir.ui.menu">
+            <field name="parent_id" ref="hr_custom_transactions.menu_hr_Time_off_root_custom"/>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="hr_holidays.hr_holidays_menu_manager_approve_allocations" model="ir.ui.menu">
+            <field name="parent_id" ref="hr_custom_transactions.menu_hr_Time_off_root_custom"/>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="hr_holidays.hr_holidays_status_menu_configuration" model="ir.ui.menu">
+            <field name="parent_id" ref="hr_custom_transactions.menu_hr_Time_off_root_custom"/>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- Employee Config -->
+        <menuitem id="menu_hr_config_root_custom"
+                  name="HR Config"
+                  parent="menu_hr_custom_root"
+                  groups="base.group_system"
+                  sequence="120"/>
+
+        <record id="hr.menu_hr_root" model="ir.ui.menu">
+            <field name="parent_id" ref="hr_custom_transactions.menu_hr_config_root_custom"/>
+            <field name="sequence">100</field>
+        </record>
+
+        <record id="hr_attendance.menu_hr_attendance_root" model="ir.ui.menu">
+            <field name="parent_id" ref="hr_custom_transactions.menu_hr_config_root_custom"/>
+            <field name="sequence">110</field>
+        </record>
+
+        <record id="hr_holidays.menu_hr_holidays_root" model="ir.ui.menu">
+            <field name="parent_id" ref="hr_custom_transactions.menu_hr_config_root_custom"/>
+            <field name="sequence">120</field>
+        </record>
+    </data>
+</odoo>

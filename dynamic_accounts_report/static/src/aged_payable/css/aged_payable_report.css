@@ -1,0 +1,170 @@
+/* === General Layout === */
+.aged_payable {
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    background-color: #f8f9fb;
+    color: #333;
+}
+
+/* === Header === */
+.aged_payable .header_section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-grow: 1;
+}
+
+.aged_payable .header {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+/* === Sub Headers Left === */
+.aged_payable .sub_header_left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.aged_payable .btn_report_print_pdf {
+    color: #fff;
+    border: none;
+    background-color: #714B67;
+    border-radius: 6px;
+    padding: 6px;
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.aged_payable .btn_report_print_pdf:hover {
+    background-color: #5a374a;
+}
+
+.aged_payable .btn_report_print_xlsx {
+    color: #374151;
+    background-color: #e7e9ed;
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.aged_payable .btn_report_print_xlsx:hover {
+    background-color: #d2d6db;
+}
+
+/* === Sub Headers Right === */
+.aged_payable .sub_header_right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;  
+}
+.aged_payable .sub_header_right .time_range,
+.aged_payable .sub_header_right .option,
+.aged_payable .sub_header_right .o_searchview {
+    margin: 8px;
+    padding: 6px;
+    border-radius: 6px;
+    color: #374151;
+    background-color: #e7e9ed;
+}
+
+.aged_payable .sub_header_right .option:hover,
+.aged_payable .sub_header_right .time_range:hover {
+    background-color: #d2d6db;
+}
+
+.aged_payable .list-group .date_bottoms {
+    display: flex;
+    justify-content: center;
+}
+
+.aged_payable .header .dropdown-toggle {
+    cursor: pointer;
+    color: #374151;
+    font-weight: 500;
+}
+
+.aged_payable .header .dropdown-menu {
+    border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.aged_payable .report-filter-button {
+    background-color: #fff;
+    border: none;
+    text-align: left;
+    width: 100%;
+    padding: 8px 12px;
+    transition:  background-color 0.2s;
+}
+
+.aged_payable .report-filter-button:hover {
+     background-color: #f1f1f1;
+}
+
+/* === Table Styling === */
+.aged_payable .table_view_gl {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.aged_payable .table_main_view table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.aged_payable .table_main_view th,
+.aged_payable .table_main_view td {
+    text-align: center;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.aged_payable .table_main_view thead {
+    background-color: #fff;
+    color: #374151;
+}
+
+/* === Partner Rows === */
+.aged_payable .border-dark {
+    border-bottom: 2px solid #dee2e6 !important;
+}
+
+.aged_payable .aged_payable_buttons {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.aged_payable .aged_payable_buttons .buttoms_open button {
+    color: #374151;
+    padding: 2px 2px;
+    border-radius: 4px;
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    margin: 3px 5px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.aged_payable .aged_payable_buttons .buttoms_open button:hover {
+    color: #0c7a87;
+} 
+
+.aged_payable .o_heading {
+    font-weight: 600;
+    color: #111827;
+}
+
+.aged_payable .span_number {
+    margin-right: 2px;
+}

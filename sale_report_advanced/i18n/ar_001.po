@@ -1,0 +1,773 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sale_report_advanced
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250505\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-14 10:41+0000\n"
+"PO-Revision-Date: 2025-09-14 10:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_hourly_view
+msgid ""
+"<b>\n"
+"                                            <span>Total Amount</span>\n"
+"                                        </b>"
+msgstr "إجمالي المبلغ"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+msgid "<span>Subtotal</span>"
+msgstr "الإجمالي الفرعي"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+msgid "<span>Total Amount</span>"
+msgstr "إجمالي المبلغ"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+msgid "<span>Total Balance:</span>"
+msgstr "إجمالي الرصيد:"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+msgid "<span>Total Discount:</span>"
+msgstr "إجمالي الخصم:"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+msgid "<span>Total Paid:</span>"
+msgstr "إجمالي المدفوع:"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+msgid "<span>Total Price:</span>"
+msgstr "السعر الإجمالي:"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+msgid "<span>Total Profit:</span>"
+msgstr "إجمالي الربح:"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+msgid "<span>Total Quantity</span>"
+msgstr "إجمالي الكمية"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+msgid "<span>Total Subtotal:</span>"
+msgstr "الإجمالي الفرعي:"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+msgid "<span>Total Total:</span>"
+msgstr "المجموع الكلي:"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+msgid "<span>Total cost</span>"
+msgstr "إجمالي التكلفة"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_analysis_view
+msgid "<span>Total due:</span>"
+msgstr "إجمالي المستحق:"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_analysis_view
+msgid "<span>Total invoiced</span>"
+msgstr "إجمالي الفواتير"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+msgid "<span>Total margin:</span>"
+msgstr "إجمالي الهامش:"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_analysis_view
+msgid "<span>Total paid:</span>"
+msgstr "إجمالي المدفوع:"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_analysis__status__all
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_indent__status__all
+msgid "All"
+msgstr "الكل"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_analysis_view
+msgid "Amount Due"
+msgstr "المبلغ المستحق"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_analysis_view
+msgid "Amount Invoiced"
+msgstr "المبلغ المفوتر"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+msgid "Amount Paid"
+msgstr "المبلغ المدفوع"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_category__today_date
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_indent__today_date
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_invoice__today_date
+msgid "Automatically set to the current date."
+msgstr ".يُضبط تلقائيًا على تاريخ اليوم"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+msgid "Balance"
+msgstr "الرصيد"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_advance__type__both
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_invoice__status__both
+msgid "Both"
+msgstr "كلاهما"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_category__category_ids
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__category_ids
+msgid "Categories"
+msgstr "الفئات"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_advance__type
+msgid ""
+"Choose the type of report to generate: by Customers, Products, or Both."
+msgstr ".اختر نوع التقرير المراد إنشاؤه: حسب العملاء أو المنتجات أو كلاهما"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__company_ids
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_category__company_ids
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__company_ids
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_invoice__company_ids
+msgid "Companies"
+msgstr "الشركات"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+msgid "Cost"
+msgstr "التكلفة"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__create_uid
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__create_uid
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_category__create_uid
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__create_uid
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_invoice__create_uid
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_weekly__create_uid
+msgid "Created by"
+msgstr "تم الإنشاء بواسطة"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__create_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__create_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_category__create_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__create_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_invoice__create_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_weekly__create_date
+msgid "Created on"
+msgstr "تاريخ الإنشاء"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+msgid "Customer"
+msgstr "العميل"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__customer_ids
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__customer_ids
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__customer_ids
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_invoice__customer_ids
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_advance__type__customer
+msgid "Customers"
+msgstr "العملاء"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__today_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__today_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_category__today_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_weekly__date
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+msgid "Date"
+msgstr "تاريخ"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_analysis__today_date
+msgid "Date of the report"
+msgstr "تاريخ التقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_advance__today_date
+msgid "Default value is set to today's date for the report."
+msgstr ".القيمة الافتراضية مضبوطة على تاريخ اليوم للتقرير"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+msgid "Discount(%)"
+msgstr "الخصم (%)"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__display_name
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__display_name
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_category__display_name
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__display_name
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_invoice__display_name
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_weekly__display_name
+msgid "Display Name"
+msgstr "الاسم المعروض"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_analysis__status__draft
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_indent__status__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__to_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__to_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_category__to_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__to_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_invoice__to_date
+msgid "End Date"
+msgstr "تاريخ الانتهاء"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_analysis__to_date
+msgid "End date of report"
+msgstr "تاريخ انتهاء التقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_advance__company_ids
+msgid "Filter the report by selecting specific companies."
+msgstr ".تصفية التقرير باختيار شركات محددة"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_weekly__invoice_status__invoiced
+msgid "Fully Invoiced"
+msgstr "مفوتر بالكامل"
+
+#. module: sale_report_advanced
+#: model:ir.actions.act_window,name:sale_report_advanced.sale_report_weekly_action
+#: model:ir.actions.report,name:sale_report_advanced.action_sales_weekly
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_hourly_view
+msgid "Hourly Sales Report"
+msgstr "تقرير المبيعات حسب الساعة"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__id
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__id
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_category__id
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__id
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_invoice__id
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_weekly__id
+msgid "ID"
+msgstr "بطاقة تعريف"
+
+#. module: sale_report_advanced
+#: model:ir.actions.report,name:sale_report_advanced.action_invoice_analysis
+msgid "Invoice Analysis"
+msgstr "تحليل الفاتورة"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_analysis_view
+msgid "Invoice Analysis Report"
+msgstr "تقرير تحليل الفاتورة"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_analysis_view
+msgid "Invoice Date"
+msgstr "تاريخ الفاتورة"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_analysis_view
+msgid "Invoice Number"
+msgstr "رقم الفاتورة"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_weekly__invoice_status
+msgid "Invoice Status"
+msgstr "حالة الفاتورة"
+
+#. module: sale_report_advanced
+#: model:ir.ui.menu,name:sale_report_advanced.sale_report_invoice_menu
+msgid "Invoice analysis"
+msgstr "تحليل الفاتورة"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__write_uid
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__write_uid
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_category__write_uid
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__write_uid
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_invoice__write_uid
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_weekly__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__write_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__write_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_category__write_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__write_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_invoice__write_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_weekly__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_analysis__status__done
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_indent__status__done
+msgid "Locked"
+msgstr "مغلق"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+msgid "Margin(%)"
+msgstr "(%) هامش"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_weekly__invoice_status__no
+msgid "Nothing to Invoice"
+msgstr "لا يوجد شيء للفاتورة"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_invoice__status__open
+msgid "Open"
+msgstr "مفتوح"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+msgid "Order"
+msgstr "طلب"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_hourly_view
+msgid "Order Date"
+msgstr "تاريخ الطلب"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_hourly_view
+msgid "Order Number"
+msgstr "رقم الطلب"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.indent_wizard
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_wizard
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_advance_view_form
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_analysis_view_form
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_category_view_form
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_weekly_view_form
+msgid "PDF Report"
+msgstr "PDF تقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_invoice__status__paid
+msgid "Paid"
+msgstr "مدفوع"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+msgid "Price"
+msgstr "السعر"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__print_type
+msgid "Print By"
+msgstr "طباعة بواسطة"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_indent_view
+msgid "Product"
+msgstr "المنتج"
+
+#. module: sale_report_advanced
+#: model:ir.actions.report,name:sale_report_advanced.action_sale_indent
+#: model:ir.ui.menu,name:sale_report_advanced.sale_report_indent_menu
+msgid "Product Sales Indent"
+msgstr "طلب مبيعات المنتجات"
+
+#. module: sale_report_advanced
+#: model:ir.actions.act_window,name:sale_report_advanced.sale_indent_report
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_indent_view
+msgid "Product Sales Indent Report"
+msgstr "تقرير طلب مبيعات المنتجات"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__product_ids
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__product_ids
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_advance__type__product
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_analysis__print_type__product
+msgid "Products"
+msgstr "منتجات"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+msgid "Profit"
+msgstr "ربح"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_indent_view
+msgid "Quantity"
+msgstr "كمية"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_analysis__status__sent
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_indent__status__sent
+msgid "Quotation Sent"
+msgstr "تم إرسال عرض الأسعار"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__type
+msgid "Report Print By"
+msgstr "تقرير الطباعة بواسطة"
+
+#. module: sale_report_advanced
+#: model:ir.ui.menu,name:sale_report_advanced.sale_advanced_report_root
+msgid "Sale Advanced Reports"
+msgstr "تقارير المبيعات المتقدمة"
+
+#. module: sale_report_advanced
+#: model:ir.actions.act_window,name:sale_report_advanced.sale_invoice_report
+msgid "Sale Invoice Report"
+msgstr "تقرير فاتورة البيع"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_analysis__print_type__sale
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_analysis__status__sale
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_indent__status__sale
+msgid "Sale Order"
+msgstr "أمر بيع"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+msgid "Sale Price"
+msgstr "سعر البيع"
+
+#. module: sale_report_advanced
+#: model:ir.ui.menu,name:sale_report_advanced.sale_advanced_report_menu
+msgid "Sale Product Profit"
+msgstr "ربح منتجات المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.actions.act_window,name:sale_report_advanced.sale_report_advance_action
+#: model:ir.model,name:sale_report_advanced.model_sale_report_advance
+msgid "Sale Report Advance"
+msgstr "تقرير مبيعات متقدم"
+
+#. module: sale_report_advanced
+#: model:ir.model,name:sale_report_advanced.model_sale_report_analysis
+msgid "Sale Report Analysis"
+msgstr "تقرير تحليل المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.model,name:sale_report_advanced.model_sale_report_indent
+msgid "Sale Report Indent"
+msgstr "تقرير طلب المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.actions.report,name:sale_report_advanced.action_sale_report
+msgid "Sales"
+msgstr "مبيعات"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+msgid "Sales Amount"
+msgstr "مبلغ المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.ui.menu,name:sale_report_advanced.sale_analysis_report_menu
+msgid "Sales Analysis"
+msgstr "تحليل المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.actions.act_window,name:sale_report_advanced.sale_analysis_report_action
+#: model:ir.actions.report,name:sale_report_advanced.action_sales_analysis
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+msgid "Sales Analysis Report"
+msgstr "تقرير تحليل المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.actions.report,name:sale_report_advanced.action_sale_category
+msgid "Sales Category"
+msgstr "فئة المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.actions.act_window,name:sale_report_advanced.sale_report_category_action
+msgid "Sales Category Report"
+msgstr "تقرير فئة المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.ui.menu,name:sale_report_advanced.sales_weekly_report_menu
+msgid "Sales Hourly Wise"
+msgstr "المبيعات بالساعة"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+msgid "Sales Person"
+msgstr "مندوب المبيعات"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+msgid "Sales Profit Report"
+msgstr "تقرير أرباح المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.model,name:sale_report_advanced.model_sale_report_invoice
+msgid "Sales Report Invoices"
+msgstr "فواتير تقارير المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.model,name:sale_report_advanced.model_sale_report_weekly
+msgid "Sales Report Weekly"
+msgstr "تقرير المبيعات الأسبوعي"
+
+#. module: sale_report_advanced
+#: model:ir.ui.menu,name:sale_report_advanced.sale_report_category_menu
+msgid "Sales category"
+msgstr "فئة المبيعات"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+msgid "Sales category Report"
+msgstr "تقرير فئة المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_category__company_ids
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_indent__company_ids
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_invoice__company_ids
+msgid "Select one or more companies for the report."
+msgstr ".قم باختيار شركة واحدة أو أكثر للتقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_indent__customer_ids
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_invoice__customer_ids
+msgid "Select one or more customers for the report."
+msgstr ".حدد عميلاً واحداً أو أكثر للتقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_category__category_ids
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_indent__category_ids
+msgid "Select one or more product categories."
+msgstr ".حدد فئة واحدة أو أكثر من فئات المنتجات"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_analysis__product_ids
+msgid "Select products of sale report"
+msgstr "حدد المنتجات لتقرير المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_advance__customer_ids
+msgid "Select specific customers for the report."
+msgstr ".حدد عملاء محددين للتقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_advance__product_ids
+msgid "Select specific products for the report."
+msgstr ".حدد المنتجات المحددة للتقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_analysis__customer_ids
+msgid "Select the customers of sales"
+msgstr "حدد عملاء المبيعات"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_weekly__date
+msgid "Select the date of the report"
+msgstr "حدد تاريخ التقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_weekly__invoice_status
+msgid ""
+"Select the invoice status for this record. Fully Invoiced: All invoices are "
+"fully paid. To Invoice: There are pending invoices. Nothing to Invoice: No "
+"invoices are related to this record."
+msgstr "حدد حالة الفاتورة لهذا السجل. مُفوتر بالكامل: جميع الفواتير مدفوعة بالكامل. إلى الفاتورة: هناك فواتير معلقة. لا يوجد فواتير: لا توجد فواتير مرتبطة بهذا السجل."
+
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_analysis__status
+msgid "Select the status of sale order"
+msgstr ".حدد حالة طلب البيع"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_invoice__status
+msgid "Select the status of the invoices to include in the report."
+msgstr ".حدد حالة الفواتير التي تريد تضمينها في التقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_indent__status
+msgid "Select the status of the orders to include in the report."
+msgstr ".حدد حالة الطلبات التي تريد تضمينها في التقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_weekly__amount_type
+msgid ""
+"Select the type of amount to be used. Total Amount: Includes taxes. Untaxed "
+"Amount: Excludes taxes."
+msgstr "حدد نوع المبلغ المُراد استخدامه. المبلغ الإجمالي: شامل الضرائب. المبلغ غير الخاضع للضريبة: لا يشمل الضرائب."
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_analysis__print_type
+msgid "Select the type of print: \"Sale Order\" or \"Products\"."
+msgstr "حدد نوع الطباعة: \"طلب بيع\" أو \"منتجات\"."
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_category__from_date
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_indent__from_date
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_invoice__from_date
+msgid "Specify the beginning date for your report."
+msgstr ".حدد تاريخ بداية تقريرك"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_advance__to_date
+msgid "Specify the end date of the report period."
+msgstr ".حدد تاريخ نهاية فترة التقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_category__to_date
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_indent__to_date
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_invoice__to_date
+msgid "Specify the ending date for your report."
+msgstr ".حدد تاريخ انتهاء تقريرك"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_advance__from_date
+msgid "Specify the start date of the report period."
+msgstr ".حدد تاريخ بدء فترة التقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_advance__from_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__from_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_category__from_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__from_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_invoice__from_date
+msgid "Start Date"
+msgstr "تاريخ البدء"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_analysis__from_date
+msgid "Start date of report"
+msgstr "تاريخ بدء التقرير"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_analysis__status
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__status
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_invoice__status
+msgid "Status"
+msgstr "حالة"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+msgid "Subtotal"
+msgstr "المجموع الفرعي"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+msgid "Tax(%)"
+msgstr "(%)الضريبة"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,help:sale_report_advanced.field_sale_report_weekly__today_date
+msgid "This field is automatically set to the current date."
+msgstr ".يتم تعيين هذا الحقل تلقائيًا إلى التاريخ الحالي"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_indent_view
+msgid "To"
+msgstr "إلي"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_weekly__invoice_status__to_invoice
+msgid "To Invoice"
+msgstr "إلى الفاتورة"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_indent__today_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_invoice__today_date
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_weekly__today_date
+msgid "Today Date"
+msgstr "تاريخ اليوم"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_hourly_view
+msgid "Total"
+msgstr "لإجمالي"
+
+#. module: sale_report_advanced
+#: model:ir.model.fields,field_description:sale_report_advanced.field_sale_report_weekly__amount_type
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_weekly__amount_type__total
+msgid "Total Amount"
+msgstr "المبلغ الإجمالي"
+
+#. module: sale_report_advanced
+#: model:ir.model,name:sale_report_advanced.model_sale_report_category
+msgid "Transient model for sales report categories"
+msgstr "نموذج لفئات تقرير المبيعات"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_category_view
+msgid "UOM"
+msgstr ""
+
+#. module: sale_report_advanced
+#: model:ir.model.fields.selection,name:sale_report_advanced.selection__sale_report_weekly__amount_type__untax
+msgid "Untaxed Amount"
+msgstr "المبلغ غير شامل الضريبة"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_hourly_view
+msgid "Untaxed Total"
+msgstr "احمالي غير شامل الضريبة"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.indent_wizard
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.invoice_wizard
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_advance_view_form
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_analysis_view_form
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_category_view_form
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sale_report_weekly_view_form
+msgid "XLSX Report"
+msgstr "XLSX تقرير"
+
+#. module: sale_report_advanced
+#: model_terms:ir.ui.view,arch_db:sale_report_advanced.sales_analysis_view
+msgid "price"
+msgstr "السعر"

@@ -1,0 +1,546 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_custom_transactions
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250505\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-16 12:34+0000\n"
+"PO-Revision-Date: 2025-10-16 12:34+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__message_needaction
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__message_needaction
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__message_needaction
+msgid "Action Needed"
+msgstr "الإجراء مطلوب"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__activity_ids
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__activity_ids
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__activity_ids
+msgid "Activities"
+msgstr "أنشطة"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__activity_exception_decoration
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__activity_exception_decoration
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "زخرفة استثناء النشاط"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__activity_state
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__activity_state
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__activity_state
+msgid "Activity State"
+msgstr "حالة النشاط"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__activity_type_icon
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__activity_type_icon
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "رمز نوع النشاط"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__message_attachment_count
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__message_attachment_count
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__message_attachment_count
+msgid "Attachment Count"
+msgstr "عدد المرفقات"
+
+#. module: hr_custom_transactions
+#: model:ir.ui.menu,name:hr_custom_transactions.menu_hr_Attendance_root_custom
+#: model:ir.ui.menu,name:hr_custom_transactions.menu_hr_attendance_view_attendances_custom
+msgid "Attendance"
+msgstr "الحضور"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__total_value
+msgid "Bonus Value"
+msgstr "قيمة المكافأة"
+
+#. module: hr_custom_transactions
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_bonus_view_form
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_deduction_view_form
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.freelance_service_view_form
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__employee_bonus__state__cancelled
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__employee_deduction__state__cancelled
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__freelance_service__state__cancelled
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_bonus_view_search
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_deduction_view_search
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.freelance_service_view_search
+msgid "Cancelled"
+msgstr "ملغي"
+
+#. module: hr_custom_transactions
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_bonus_view_form
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_deduction_view_form
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.freelance_service_view_form
+msgid "Confirm"
+msgstr "تأكيد"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__employee_bonus__state__confirmed
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__employee_deduction__state__confirmed
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__freelance_service__state__confirmed
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_bonus_view_search
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_deduction_view_search
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.freelance_service_view_search
+msgid "Confirmed"
+msgstr "مؤكد"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__unit_count
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__unit_count
+msgid "Count (Days/Hours)"
+msgstr "العدد (أيام/ساعات)"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__create_uid
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__create_uid
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__create_date
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__create_date
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__create_date
+msgid "Creation Date"
+msgstr "تاريخ الإنشاء"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__currency_id
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__currency_id
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__currency_id
+msgid "Currency"
+msgstr "عملة"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__employee_bonus__bonus_type__days
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__employee_deduction__deduction_type__days
+msgid "Days"
+msgstr "أيام"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__total_value
+msgid "Deduction Value"
+msgstr "قيمة الخصم"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__display_name
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__display_name
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__display_name
+msgid "Display Name"
+msgstr "اسم العرض"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__employee_bonus__state__draft
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__employee_deduction__state__draft
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__freelance_service__state__draft
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_bonus_view_search
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_deduction_view_search
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.freelance_service_view_search
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: hr_custom_transactions
+#: model:ir.model,name:hr_custom_transactions.model_hr_employee
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__employee_id
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__employee_id
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__employee_id
+msgid "Employee"
+msgstr "الموظف"
+
+#. module: hr_custom_transactions
+#: model:ir.model,name:hr_custom_transactions.model_employee_bonus
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_bonus_view_form
+msgid "Employee Bonus"
+msgstr "مكافأة موظف"
+
+#. module: hr_custom_transactions
+#: model:ir.actions.act_window,name:hr_custom_transactions.action_employee_bonus
+#: model:ir.ui.menu,name:hr_custom_transactions.menu_employee_bonus_action
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_bonus_view_tree
+msgid "Employee Bonuses"
+msgstr "مكافآت الموظفين"
+
+#. module: hr_custom_transactions
+#: model:ir.model,name:hr_custom_transactions.model_employee_deduction
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_deduction_view_form
+msgid "Employee Deduction"
+msgstr "خصم على الموظف"
+
+#. module: hr_custom_transactions
+#: model:ir.actions.act_window,name:hr_custom_transactions.action_employee_deduction
+#: model:ir.ui.menu,name:hr_custom_transactions.menu_employee_deduction_action
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_deduction_view_tree
+msgid "Employee Deductions"
+msgstr "خصومات الموظفين"
+
+#. module: hr_custom_transactions
+#: model:ir.ui.menu,name:hr_custom_transactions.menu_hr_employee_root_custom
+msgid "Employees"
+msgstr "الموظفون"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__message_follower_ids
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__message_follower_ids
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__message_partner_ids
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__message_partner_ids
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_bonus__activity_type_icon
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_deduction__activity_type_icon
+#: model:ir.model.fields,help:hr_custom_transactions.field_freelance_service__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: hr_custom_transactions
+#: model:ir.model,name:hr_custom_transactions.model_freelance_service
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.freelance_service_view_form
+msgid "Freelance Service"
+msgstr "خدمة عمل حر"
+
+#. module: hr_custom_transactions
+#: model:ir.actions.act_window,name:hr_custom_transactions.action_freelance_service
+#: model:ir.ui.menu,name:hr_custom_transactions.menu_freelance_service_action
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.freelance_service_view_tree
+msgid "Freelance Services"
+msgstr "خدمات العمل الحر"
+
+#. module: hr_custom_transactions
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_bonus_view_search
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_deduction_view_search
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.freelance_service_view_search
+msgid "Group By"
+msgstr "المجموعة حسب"
+
+#. module: hr_custom_transactions
+#: model:ir.ui.menu,name:hr_custom_transactions.menu_hr_custom_root
+msgid "HR"
+msgstr "الموارد البشرية"
+
+#. module: hr_custom_transactions
+#: model:ir.ui.menu,name:hr_custom_transactions.menu_hr_config_root_custom
+msgid "HR Config"
+msgstr "اعدادات الموارد البشرية"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__has_message
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__has_message
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__has_message
+msgid "Has Message"
+msgstr "لديه رسالة"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_hr_employee__hourly_rate
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.view_employee_freelancer_form
+msgid "Hourly Rate"
+msgstr "سعر الساعة"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__employee_bonus__bonus_type__hours
+#: model:ir.model.fields.selection,name:hr_custom_transactions.selection__employee_deduction__deduction_type__hours
+msgid "Hours"
+msgstr "ساعات"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__id
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__id
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__id
+msgid "ID"
+msgstr "الرقم التعريفي"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__activity_exception_icon
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__activity_exception_icon
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__activity_exception_icon
+msgid "Icon"
+msgstr "أيقونة للإشارة إلى نشاط استثناء."
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_bonus__activity_exception_icon
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_deduction__activity_exception_icon
+#: model:ir.model.fields,help:hr_custom_transactions.field_freelance_service__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_bonus__message_needaction
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_deduction__message_needaction
+#: model:ir.model.fields,help:hr_custom_transactions.field_freelance_service__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "إذا تم تحديد هذا المدخل، فإن الرسائل الجديدة تتطلب اهتمامك."
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_bonus__message_has_error
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_bonus__message_has_sms_error
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_deduction__message_has_error
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_deduction__message_has_sms_error
+#: model:ir.model.fields,help:hr_custom_transactions.field_freelance_service__message_has_error
+#: model:ir.model.fields,help:hr_custom_transactions.field_freelance_service__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "إذا تم تحديد هذا المدخل، فقد يكون هناك خطأ في التسليم في بعض الرسائل."
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__message_is_follower
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__message_is_follower
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_hr_employee__is_freelancer
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.view_employee_freelancer_form
+msgid "Is Freelancer"
+msgstr "عامل حر"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__write_uid
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__write_uid
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__write_date
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__write_date
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث بتاريخ"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__message_has_error
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__message_has_error
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__message_has_error
+msgid "Message Delivery error"
+msgstr "خطأ في تسليم الرسالة"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__message_ids
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__message_ids
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__message_ids
+msgid "Messages"
+msgstr "رسائل"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__my_activity_date_deadline
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__my_activity_date_deadline
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "الموعد النهائي لنشاطي"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__activity_calendar_event_id
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__activity_calendar_event_id
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "حدث تقويم النشاط التالي"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__activity_date_deadline
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__activity_date_deadline
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "الموعد النهائي للنشاط التالي"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__activity_summary
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__activity_summary
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__activity_summary
+msgid "Next Activity Summary"
+msgstr "ملخص النشاط التالي"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__activity_type_id
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__activity_type_id
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع النشاط التالي"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__message_needaction_counter
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__message_needaction_counter
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__message_needaction_counter
+msgid "Number of Actions"
+msgstr "عدد الإجراءات"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__hours_count
+msgid "Number of Hours"
+msgstr "عدد الساعات"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__message_has_error_counter
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__message_has_error_counter
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__message_has_error_counter
+msgid "Number of errors"
+msgstr "عدد الأخطاء"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_bonus__message_needaction_counter
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_deduction__message_needaction_counter
+#: model:ir.model.fields,help:hr_custom_transactions.field_freelance_service__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "عدد الرسائل التي تتطلب اتخاذ إجراء"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_bonus__message_has_error_counter
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_deduction__message_has_error_counter
+#: model:ir.model.fields,help:hr_custom_transactions.field_freelance_service__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "عدد الرسائل التي بها خطأ في التسليم"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__rating_ids
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__rating_ids
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__rating_ids
+msgid "Ratings"
+msgstr "التقييمات"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__description
+msgid "Reason for Bonus"
+msgstr "سبب المكافأة"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__description
+msgid "Reason for Deduction"
+msgstr "سبب الخصم"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__request_date
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__request_date
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__request_date
+msgid "Request Date"
+msgstr "تاريخ الطلب"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__activity_user_id
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__activity_user_id
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__activity_user_id
+msgid "Responsible User"
+msgstr "المستخدم المسؤول"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__message_has_sms_error
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__message_has_sms_error
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطأ في تسليم الرسائل القصيرة"
+
+#. module: hr_custom_transactions
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_bonus_view_search
+msgid "Search Employee Bonus"
+msgstr "بحث عن مكافأة الموظف"
+
+#. module: hr_custom_transactions
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_deduction_view_search
+msgid "Search Employee Deduction"
+msgstr "بحث عن خصم الموظف"
+
+#. module: hr_custom_transactions
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.freelance_service_view_search
+msgid "Search Freelance Service"
+msgstr "بحث عن خدمة مستقلة"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__description
+msgid "Service Description"
+msgstr "وصف الخدمة"
+
+#. module: hr_custom_transactions
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_bonus_view_form
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_deduction_view_form
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.freelance_service_view_form
+msgid "Set to Draft"
+msgstr "إعادة إلى مسودة"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__state
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__state
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__state
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_bonus_view_search
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.employee_deduction_view_search
+#: model_terms:ir.ui.view,arch_db:hr_custom_transactions.freelance_service_view_search
+msgid "Status"
+msgstr "الحالة"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_bonus__activity_state
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_deduction__activity_state
+#: model:ir.model.fields,help:hr_custom_transactions.field_freelance_service__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"الحالة بناءً على الأنشطة\n"
+"متأخر: تاريخ الاستحقاق قد مر بالفعل\n"
+"اليوم: تاريخ النشاط هو اليوم\n"
+"مخطط: أنشطة مستقبلية."
+
+#. module: hr_custom_transactions
+#: model:ir.ui.menu,name:hr_custom_transactions.menu_hr_Time_off_root_custom
+msgid "Time Off"
+msgstr "الإجازات"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__total_value
+msgid "Total Value"
+msgstr "إجمالي القيمة"
+
+#. module: hr_custom_transactions
+#: model:ir.ui.menu,name:hr_custom_transactions.menu_transactions_root
+msgid "Transactions"
+msgstr "المعاملات"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_bonus__activity_exception_decoration
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_deduction__activity_exception_decoration
+#: model:ir.model.fields,help:hr_custom_transactions.field_freelance_service__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع النشاط الاستثنائي المسجل."
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__bonus_type
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__deduction_type
+msgid "Unit Type"
+msgstr "نوع الوحدة"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_bonus__website_message_ids
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_employee_deduction__website_message_ids
+#: model:ir.model.fields,field_description:hr_custom_transactions.field_freelance_service__website_message_ids
+msgid "Website Messages"
+msgstr "رسائل الموقع"
+
+#. module: hr_custom_transactions
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_bonus__website_message_ids
+#: model:ir.model.fields,help:hr_custom_transactions.field_employee_deduction__website_message_ids
+#: model:ir.model.fields,help:hr_custom_transactions.field_freelance_service__website_message_ids
+msgid "Website communication history"
+msgstr "تاريخ اتصالات الموقع"

@@ -1,0 +1,44 @@
+<odoo>
+    <record id="view_sale_order_terms_and_conditions_inherit_form" model="ir.ui.view">
+        <field name="name">sale.order.terms.and.conditions.inherit.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_print_sale_report" string="طباعة عرض السعر" class="oe_highlight" type="object"/>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="before">
+                <field name="terms_and_conditions"/>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="before">
+                <field name="business_type"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_sales_order_filter_inherit_business_type" model="ir.ui.view">
+        <field name="name">sale.order.list.select.inherit.business.type</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <!-- Add a new filter before Group By -->
+            <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
+                <filter string="Printing" name="business_type"
+                        domain="[('business_type', '=', 'printing')]"/>
+                <filter string="Marketing" name="business_type"
+                        domain="[('business_type', '=', 'marketing')]"/>
+                <filter string="Printing and Marketing" name="business_type"
+                        domain="[('business_type', '=', 'printing_marketing')]"/>
+            </xpath>
+
+            <!-- Add a new 'Group By' option -->
+            <xpath expr="//group" position="inside">
+                <filter string="Business Type" name="business_type_group"
+                        domain="[]" context="{'group_by': 'business_type'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

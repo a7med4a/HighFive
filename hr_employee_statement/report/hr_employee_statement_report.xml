@@ -1,0 +1,45 @@
+<odoo>
+    <report
+        id="action_report_employee_statement"
+        model="hr.employee.statement.wizard"
+        string="Employee Statement"
+        report_type="qweb-pdf"
+        name="hr_employee_statement.report_employee_statement_template"
+        file="hr_employee_statement.report_employee_statement_template"
+        print_report_name="'Employee Statement - %s' % (object.employee_id.name)"/>
+
+    <template id="report_employee_statement_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <h2>Employee Statement</h2>
+                    <p><strong>Employee:</strong> <t t-esc="o.employee_id.name"/></p>
+                    <p><strong>Period:</strong> <t t-esc="o.date_from"/> - <t t-esc="o.date_to"/></p>
+                    <table class="table table-sm mt16">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="movements" t-as="m">
+                                <tr>
+                                    <td><t t-esc="m['date']"/></td>
+                                    <td><t t-esc="m['desc']"/></td>
+                                    <td class="text-end"><t t-esc="m['debit']"/></td>
+                                    <td class="text-end"><t t-esc="m['credit']"/></td>
+                                    <td class="text-end"><t t-esc="m['balance']"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <h4 class="text-end mt16">Final Balance: <t t-esc="balance"/></h4>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_freelance_service_user,freelance.service.user,model_freelance_service,base.group_user,1,1,1,1
+access_employee_deduction_user,employee.deduction.user,model_employee_deduction,base.group_user,1,1,1,1
+access_employee_bonus_user,employee.bonus.user,model_employee_bonus,base.group_user,1,1,1,1
+

@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Report Template for Deferred Revenue -->
+    <template id="deferred_revenue_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="data_report_margin_top" t-value="12"/>
+                <t t-set="data_report_header_spacing" t-value="9"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <div class="page">
+                    <h3>
+                        <center>
+                            <b>
+                                <span t-esc="title or 'Deferred Revenue Report'"/>
+                            </b>
+                        </center>
+                    </h3>
+                    <br/>
+                    <div class="filters">
+                        <table class="table table-borderless" style="font-size:14px;">
+                            <tbody>
+                                <tr style="background-color:#d6dbe1;">
+                                    <th>Date Range</th>
+                                    <th>Journal</th>
+                                    <th>Analytic</th>
+                                    <th>Options</th>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <t t-if="filters and filters.get('start_date')" t-out="filters['start_date']"/>
+                                        <t t-if="filters and filters.get('end_date')">
+                                            to
+                                            <t t-out="filters['end_date']"/>
+                                        </t>
+                                    </th>
+                                    <th>
+                                        <t t-set="first_journal" t-value="True"/>
+                                        <t t-if="filters and filters.get('journal')"
+                                           t-foreach="filters.get('journal', [])" t-as="selected_journal">
+                                            <t t-if="not first_journal">,</t>
+                                            <t t-out="selected_journal"/>
+                                            <t t-set="first_journal" t-value="False"/>
+                                        </t>
+                                    </th>
+                                    <th>
+                                        <t t-set="first_account" t-value="True"/>
+                                        <t t-if="filters and filters.get('analytic')"
+                                           t-foreach="filters.get('analytic', [])" t-as="selected_analytic_account">
+                                            <t t-if="not first_account">,</t>
+                                            <t t-out="selected_analytic_account"/>
+                                            <t t-set="first_account" t-value="False"/>
+                                        </t>
+                                    </th>
+                                    <th>
+                                        <t t-if="filters and filters.get('options')">Posted ,</t>
+                                        <t t-else="">Posted</t>
+                                        <t t-set="first_option" t-value="True"/>
+                                        <t t-if="filters and filters.get('options')"
+                                           t-foreach="filters.get('options', {})" t-as="selected_options">
+                                            <t t-if="not first_option">,</t>
+                                            <t t-out="selected_options"/>
+                                            <t t-set="first_option" t-value="False"/>
+                                        </t>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+                    <br/>
+
+                    <t t-if="account">
+                        <table class="table table-borderless">
+                            <tbody style="font-size:14px;font-weight:100;">
+                                <tr style="background-color:#d6dbe1;">
+                                    <th style="width:25%">Reference</th>
+                                    <th style="width:10%">Date</th>
+                                    <th style="width:15%">Communication</th>
+                                    <th style="width:10%">Partner</th>
+                                    <th style="width:10%">Total</th>
+                                    <th style="width:10%">Not Started</th>
+                                    <th style="width:10%">Before</th>
+                                    <th style="width:10%">Current</th>
+                                    <th style="width:10%">Later</th>
+                                </tr>
+                                <t t-foreach="account" t-as="account_name" t-key="account_index">
+                                    <t t-set="account_total" t-value="total.get(account_name, {}) if total else {}"/>
+                                    <tr style="background:#f0f0f0;">
+                                        <td colspan="4">
+                                            <div class="ms-3">
+                                                <span class="fw-bolder">
+                                                    <strong>
+                                                        <b>
+                                                            <t t-esc="account_name"/>
+                                                        </b>
+                                                    </strong>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <strong>
+                                                <span>
+                                                    <t t-esc="account_total.get('currency_id', '')"/>
+                                                    <t t-esc="'{:,.2f}'.format(account_total.get('total', 0))"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <strong>
+                                                <span>
+                                                    <t t-esc="account_total.get('currency_id', '')"/>
+                                                    <t t-esc="'{:,.2f}'.format(account_total.get('not_started', 0))"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <strong>
+                                                <span>
+                                                    <t t-esc="account_total.get('currency_id', '')"/>
+                                                    <t t-esc="'{:,.2f}'.format(account_total.get('before', 0))"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <strong>
+                                                <span>
+                                                    <t t-esc="account_total.get('currency_id', '')"/>
+                                                    <t t-esc="'{:,.2f}'.format(account_total.get('current', 0))"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <strong>
+                                                <span>
+                                                    <t t-esc="account_total.get('currency_id', '')"/>
+                                                    <t t-esc="'{:,.2f}'.format(account_total.get('later', 0))"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Account details -->
+                                    <t t-if="account_data and account_data.get(account_name)">
+                                        <t t-foreach="account_data.get(account_name, [])" t-as="move_line"
+                                           t-key="move_line_index">
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="move_line.get('move_name', '')"/>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="move_line.get('date', '')"/>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="move_line.get('name', '')"/>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="move_line.get('partner_id', '')"/>
+                                                    </span>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <span>
+                                                        <t t-esc="account_total.get('currency_id', '')"/>
+                                                        <t t-esc="'{:,.2f}'.format(move_line.get('total', 0))"/>
+                                                    </span>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <span>
+                                                        <t t-esc="account_total.get('currency_id', '')"/>
+                                                        <t t-esc="'{:,.2f}'.format(move_line.get('not_started', 0))"/>
+                                                    </span>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <span>
+                                                        <t t-esc="account_total.get('currency_id', '')"/>
+                                                        <t t-esc="'{:,.2f}'.format(move_line.get('before', 0))"/>
+                                                    </span>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <span>
+                                                        <t t-esc="account_total.get('currency_id', '')"/>
+                                                        <t t-esc="'{:,.2f}'.format(move_line.get('current', 0))"/>
+                                                    </span>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <span>
+                                                        <t t-esc="account_total.get('currency_id', '')"/>
+                                                        <t t-esc="'{:,.2f}'.format(move_line.get('later', 0))"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+
+                    <!-- Grand Total -->
+                    <t t-if="grand_total">
+                        <table class="table table-borderless" style="font-size:14px;width:100%;">
+                            <tbody>
+                                <tr style="font-weight: bold;">
+                                    <td style="width:35%;">Total</td>
+                                    <td style="width:10%; text-align: right;">
+                                        <t t-esc="grand_total.get('currency', '')"/>
+                                        <t t-esc="'{:,.2f}'.format(float(grand_total.get('total_deferred', 0)))"/>
+                                    </td>
+                                    <td style="width:10%; text-align: right;">
+                                        <t t-esc="grand_total.get('currency', '')"/>
+                                        <t t-esc="'{:,.2f}'.format(float(grand_total.get('total_not_started', 0)))"/>
+                                    </td>
+                                    <td style="width:10%; text-align: right;">
+                                        <t t-esc="grand_total.get('currency', '')"/>
+                                        <t t-esc="'{:,.2f}'.format(float(grand_total.get('total_before', 0)))"/>
+                                    </td>
+                                    <td style="width:10%; text-align: right;">
+                                        <t t-esc="grand_total.get('currency', '')"/>
+                                        <t t-esc="'{:,.2f}'.format(float(grand_total.get('total_current', 0)))"/>
+                                    </td>
+                                    <td style="width:10%; text-align: right;">
+                                        <t t-esc="grand_total.get('currency', '')"/>
+                                        <t t-esc="'{:,.2f}'.format(float(grand_total.get('total_later', 0)))"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- Report Template for Deferred Expense -->
+    <template id="deferred_expense_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="data_report_margin_top" t-value="12"/>
+                <t t-set="data_report_header_spacing" t-value="9"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <div class="page">
+                    <h3>
+                        <center>
+                            <b>
+                                <span t-esc="title or 'Deferred Expense Report'"/>
+                            </b>
+                        </center>
+                    </h3>
+                    <br/>
+                    <br/>
+                    <div class="filters">
+                        <table class="table table-borderless" style="font-size:14px;">
+                            <tbody>
+                                <tr style="background-color:#d6dbe1;">
+                                    <th>Date Range</th>
+                                    <th>Journal</th>
+                                    <th>Analytic</th>
+                                    <th>Options</th>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <t t-if="filters and filters.get('start_date')" t-out="filters['start_date']"/>
+                                        <t t-if="filters and filters.get('end_date')">
+                                            to
+                                            <t t-out="filters['end_date']"/>
+                                        </t>
+                                    </th>
+                                    <th>
+                                        <t t-set="first_journal" t-value="True"/>
+                                        <t t-if="filters and filters.get('journal')"
+                                           t-foreach="filters.get('journal', [])" t-as="selected_journal">
+                                            <t t-if="not first_journal">,</t>
+                                            <t t-out="selected_journal"/>
+                                            <t t-set="first_journal" t-value="False"/>
+                                        </t>
+                                    </th>
+                                    <th>
+                                        <t t-set="first_account" t-value="True"/>
+                                        <t t-if="filters and filters.get('analytic')"
+                                           t-foreach="filters.get('analytic', [])" t-as="selected_analytic_account">
+                                            <t t-if="not first_account">,</t>
+                                            <t t-out="selected_analytic_account"/>
+                                            <t t-set="first_account" t-value="False"/>
+                                        </t>
+                                    </th>
+                                    <th>
+                                        <t t-if="filters and filters.get('options')">Posted ,</t>
+                                        <t t-else="">Posted</t>
+                                        <t t-set="first_option" t-value="True"/>
+                                        <t t-if="filters and filters.get('options')"
+                                           t-foreach="filters.get('options', {})" t-as="selected_options">
+                                            <t t-if="not first_option">,</t>
+                                            <t t-out="selected_options"/>
+                                            <t t-set="first_option" t-value="False"/>
+                                        </t>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+                    <br/>
+
+                    <t t-if="account">
+                        <table class="table table-borderless">
+                            <tbody style="font-size:14px;font-weight:100;">
+                                <tr style="background-color:#d6dbe1;">
+                                    <th style="width:25%">Reference</th>
+                                    <th style="width:10%">Date</th>
+                                    <th style="width:15%">Communication</th>
+                                    <th style="width:10%">Partner</th>
+                                    <th style="width:10%">Total</th>
+                                    <th style="width:10%">Not Started</th>
+                                    <th style="width:10%">Before</th>
+                                    <th style="width:10%">Current</th>
+                                    <th style="width:10%">Later</th>
+                                </tr>
+                                <t t-foreach="account" t-as="account_name" t-key="account_index">
+                                    <t t-set="account_total" t-value="total.get(account_name, {}) if total else {}"/>
+                                    <tr style="background:#f0f0f0;">
+                                        <td colspan="4">
+                                            <div class="ms-3">
+                                                <span class="fw-bolder">
+                                                    <strong>
+                                                        <b>
+                                                            <t t-esc="account_name"/>
+                                                        </b>
+                                                    </strong>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <strong>
+                                                <span>
+                                                    <t t-esc="account_total.get('currency_id', '')"/>
+                                                    <t t-esc="'{:,.2f}'.format(account_total.get('total', 0))"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <strong>
+                                                <span>
+                                                    <t t-esc="account_total.get('currency_id', '')"/>
+                                                    <t t-esc="'{:,.2f}'.format(account_total.get('not_started', 0))"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <strong>
+                                                <span>
+                                                    <t t-esc="account_total.get('currency_id', '')"/>
+                                                    <t t-esc="'{:,.2f}'.format(account_total.get('before', 0))"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <strong>
+                                                <span>
+                                                    <t t-esc="account_total.get('currency_id', '')"/>
+                                                    <t t-esc="'{:,.2f}'.format(account_total.get('current', 0))"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <strong>
+                                                <span>
+                                                    <t t-esc="account_total.get('currency_id', '')"/>
+                                                    <t t-esc="'{:,.2f}'.format(account_total.get('later', 0))"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Account details -->
+                                    <t t-if="account_data and account_data.get(account_name)">
+                                        <t t-foreach="account_data.get(account_name, [])" t-as="move_line"
+                                           t-key="move_line_index">
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="move_line.get('move_name', '')"/>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="move_line.get('date', '')"/>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="move_line.get('name', '')"/>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        <t t-esc="move_line.get('partner_id', '')"/>
+                                                    </span>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <span>
+                                                        <t t-esc="account_total.get('currency_id', '')"/>
+                                                        <t t-esc="'{:,.2f}'.format(move_line.get('total', 0))"/>
+                                                    </span>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <span>
+                                                        <t t-esc="account_total.get('currency_id', '')"/>
+                                                        <t t-esc="'{:,.2f}'.format(move_line.get('not_started', 0))"/>
+                                                    </span>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <span>
+                                                        <t t-esc="account_total.get('currency_id', '')"/>
+                                                        <t t-esc="'{:,.2f}'.format(move_line.get('before', 0))"/>
+                                                    </span>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <span>
+                                                        <t t-esc="account_total.get('currency_id', '')"/>
+                                                        <t t-esc="'{:,.2f}'.format(move_line.get('current', 0))"/>
+                                                    </span>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <span>
+                                                        <t t-esc="account_total.get('currency_id', '')"/>
+                                                        <t t-esc="'{:,.2f}'.format(move_line.get('later', 0))"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+
+                    <!-- Grand Total -->
+                    <t t-if="grand_total">
+                        <table class="table table-borderless" style="font-size:13px;width:100%;">
+                            <tbody>
+                                <tr style="font-weight: bold;">
+                                    <td style="width:35%;">Total</td>
+                                    <td style="width:10%; text-align: right;">
+                                        <t t-esc="grand_total.get('currency', '')"/>
+                                        <t t-esc="'{:,.2f}'.format(float(grand_total.get('total_deferred', 0)))"/>
+                                    </td>
+                                    <td style="width:10%; text-align: right;">
+                                        <t t-esc="grand_total.get('currency', '')"/>
+                                        <t t-esc="'{:,.2f}'.format(float(grand_total.get('total_not_started', 0)))"/>
+                                    </td>
+                                    <td style="width:10%; text-align: right;">
+                                        <t t-esc="grand_total.get('currency', '')"/>
+                                        <t t-esc="'{:,.2f}'.format(float(grand_total.get('total_before', 0)))"/>
+                                    </td>
+                                    <td style="width:10%; text-align: right;">
+                                        <t t-esc="grand_total.get('currency', '')"/>
+                                        <t t-esc="'{:,.2f}'.format(float(grand_total.get('total_current', 0)))"/>
+                                    </td>
+                                    <td style="width:10%; text-align: right;">
+                                        <t t-esc="grand_total.get('currency', '')"/>
+                                        <t t-esc="'{:,.2f}'.format(float(grand_total.get('total_later', 0)))"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

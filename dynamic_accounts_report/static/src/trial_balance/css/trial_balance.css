@@ -1,0 +1,172 @@
+/* === General Layout === */
+.trial_balance {
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    background-color: #f8f9fb;
+    color: #333;
+}
+
+/* === Header === */
+.trial_balance .header {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.trial_balance .header_section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-grow: 1;
+}
+
+/* === Sub Headers Left === */
+.trial_balance .sub_header_left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.trial_balance .btn_report_print_pdf {
+    color: #fff;
+    border: none;
+    background-color: #714B67;
+    border-radius: 6px;
+    padding: 6px;
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.trial_balance .btn_report_print_pdf:hover {
+    background-color: #5a374a;
+}
+
+.trial_balance .btn_report_print_xlsx {
+    color: #374151;
+    background-color: #e7e9ed;
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.trial_balance .btn_report_print_xlsx:hover {
+    background-color: #d2d6db;
+}
+
+/* === Sub Headers Right === */
+.trial_balance .sub_header_right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;  
+}
+
+.trial_balance .sub_header_right .time_range,
+.trial_balance .sub_header_right .comparison_range,
+.trial_balance .sub_header_right .journal,
+.trial_balance .sub_header_right .option,
+.trial_balance .sub_header_right .o_searchview {
+    margin: 8px;
+    padding: 6px;
+    border-radius: 6px;
+    color: #374151;
+    background-color: #e7e9ed;
+}
+.trial_balance .sub_header_right .journal:hover,
+.trial_balance .sub_header_right .comparison_range:hover,
+.trial_balance .sub_header_right .option:hover,
+.trial_balance .sub_header_right .time_range:hover {
+    background-color: #d2d6db;
+}
+
+.trial_balance .list-group .date_bottoms {
+    display: flex;
+    justify-content: center;
+}
+
+.trial_balance .header .dropdown-toggle {
+    cursor: pointer;
+    color: #374151;
+    font-weight: 500;
+}
+
+.trial_balance .header .dropdown-menu {
+    border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.trial_balance .report-filter-button {
+    background-color: #fff;
+    border: none;
+    text-align: left;
+    width: 100%;
+    padding: 8px 12px;
+    transition:  background-color 0.2s;
+}
+
+.trial_balance .report-filter-button:hover {
+     background-color: #f1f1f1;
+}
+
+/* === Table Styling === */
+.trial_balance .table_view_gl {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.trial_balance .table_main_view table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.trial_balance .table_main_view th,
+.trial_balance .table_main_view td {
+    text-align: center;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.trial_balance .table_main_view thead {
+    background-color: #fff;
+    color: #374151;
+}
+
+/* === Partner Rows === */
+.trial_balance .border-dark {
+    border-bottom: 2px solid #dee2e6 !important;
+}
+
+.trial_balance .trial_balance_buttons {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.trial_balance .show_gl {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.trial_balance .show_gl:hover {
+    background-color: #d2d6db;
+}
+
+.trial_balance .o_heading {
+    font-weight: 600;
+    color: #111827;
+}
+
+.trial_balance .span_number {
+    margin-right: 2px;
+    margin-left: 2px;
+}

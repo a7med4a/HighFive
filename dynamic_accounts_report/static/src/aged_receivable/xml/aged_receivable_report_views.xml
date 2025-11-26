@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+    <t t-name="age_r_template_new" owl="1">
+        <!-- Section contains a structure for the Aged Receivable report,
+        including a filter view and a table view. It has div elements for the
+        filter view and table view,with respective classes for styling.-->
+        <div class="aged_receivable">
+            <div class="header">
+                <!--  Filter View  -->
+                <div class="header_section">
+                    <div class="sub_header_left">
+                        <div class="report_print">
+                            <!-- Print (PDF) Button -->
+                            <button type="button"
+                                    class="text-nowrap btn_report_print_pdf"
+                                    t-on-click="printPdf"
+                                    style="margin-right: 8px;">
+                                PDF
+                            </button>
+                            <!-- Export (XLSX) Button -->
+                            <button type="button"
+                                    class="text-nowrap btn_report_print_xlsx"
+                                    t-on-click="print_xlsx">
+                                XLSX
+                            </button>
+                        </div>
+                        <div>
+                            <h2 style="padding:10px">
+                                <t t-esc="props.action.name"/>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="sub_header_right">
+                        <div class="o_searchview form-control d-print-contents d-flex align-items-center py-1 w-auto"
+                             role="search" aria-autocomplete="list">
+                            <i class="o_searchview_icon d-print-none oi oi-search me-2" role="img"
+                               aria-label="Search..." title="Search...">
+                            </i>
+                            <div class="o_searchview_input_container d-flex flex-grow-1 flex-wrap gap-1"
+                                 style="position: relative;">
+                                <input type="text"
+                                       class="o_searchview_input o_input d-print-none flex-grow-1 w-auto border-0"
+                                       placeholder="Search..." role="searchbox" data-hotkey="Q"
+                                       t-on-change="onSearchChange"/>
+                            </div>
+                        </div>
+                        <!-- Time Range -->
+                        <div class="time_range" style="">
+                            <a type="button" class="dropdown-toggle"
+                               data-bs-toggle="dropdown">
+                                <!-- Date Range Dropdown -->
+                                <span class="fa fa-calendar" title="Dates"
+                                      role="img"
+                                      aria-label="Dates"/>
+                                Date Range
+                            </a>
+                            <div class="dropdown-menu" role="menu">
+                                <!-- Date Range Options -->
+                                <div class="list-group">
+                                    <!-- Today Button -->
+                                    <button class="report-filter-button"
+                                            t-att-data-value="'today'"
+                                            type="button"
+                                            t-on-click="applyFilter">
+                                        Today
+                                    </button>
+                                    <!-- Last Month Button -->
+                                    <button class="report-filter-button"
+                                            t-att-data-value="'last-month-end'"
+                                            type="button"
+                                            t-on-click="applyFilter">
+                                        End of Last Month
+                                    </button>
+                                    <!-- Last Quarter Button -->
+                                    <button class="report-filter-button"
+                                            t-att-data-value="'last-quarter-end'"
+                                            type="button"
+                                            t-on-click="applyFilter">
+                                        End of Last Quarter
+                                    </button>
+                                    <!-- Last Year Button -->
+                                    <button class="report-filter-button"
+                                            t-att-data-value="'last-year-end'"
+                                            type="button"
+                                            t-on-click="applyFilter">
+                                        End of Last year
+                                    </button>
+                                    <!-- Separator -->
+                                    <div role="separator"
+                                         class="dropdown-divider"/>
+                                    <div class="date_bottoms">
+                                        <div class="input-group date"
+                                             data-target-input="nearest">
+                                            <span style="padding: 5px 10px;">Date :</span>
+                                            <input type="date" id="end_date"
+                                                   t-ref="date_to"
+                                                   t-on-input="applyFilter"
+                                                   style="border:none;padding: 5px;outline: none;"
+                                                   name="end_date"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Options Dropdown -->
+                        <div class="option" style="">
+                            <a type="button" class="dropdown-toggle"
+                               data-bs-toggle="dropdown">
+                                <span class="fa fa-glass" title="Accounts"
+                                      role="img"
+                                      aria-label="Dates"/>
+                                Options
+                            </a>
+                            <div class="dropdown-menu" role="menu">
+                                <div class="list-group">
+                                    <!-- Unfold All Button -->
+                                    <button class="report-filter-button"
+                                            type="button"
+                                            t-ref="unfoldButton"
+                                            t-on-click="unfoldAll">
+                                        Unfold All
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div>
+                <!-- Table View -->
+                <div class="table_view_gl" t-ref="table_view_gl">
+                    <div class="table_main_view">
+                        <table class="table table-borderless table-hover w-print-100 table-striped-columns">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="column_header" colspan="12" style="text-align: center;">
+                                        <t t-esc="props.action.name"/>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th/>
+                                    <th colspan="1">Invoice Date</th>
+                                    <th colspan="1">Amount Currency</th>
+                                    <th colspan="1">Currency</th>
+                                    <th colspan="1">Account</th>
+                                    <th colspan="1">Expected Date</th>
+                                    <th colspan="1">At Date</th>
+                                    <th colspan="1">1-30</th>
+                                    <th colspan="1">31-60</th>
+                                    <th colspan="1">61-90</th>
+                                    <th colspan="1">91-120</th>
+                                    <th colspan="1">Older</th>
+                                    <th colspan="1">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody t-ref="tbody">
+                                <t t-if="state.move_line">
+                                    <t t-set="i" t-value="0"/>
+                                    <t t-foreach="state.move_line"
+                                       t-as="move_line"
+                                       t-key="move_line_index">
+                                        <t t-set="i" t-value="i + 1"/>
+                                        <tr class="border-bottom border-dark border-gainsboro">
+                                            <th class="aged_receivable_buttons">
+                                                <div data-bs-toggle="collapse"
+                                                     t-attf-href="#move_line-{{i}}"
+                                                     aria-expanded="false"
+                                                     t-attf-aria-controls="move_line-{{i}}">
+                                                    <a>
+                                                        <span class="toggle-icon" style="margin-right: 5px;">
+                                                            <i class="fa fa-caret-down"/>
+                                                        </span>
+                                                        <t t-esc="move_line"/>
+                                                    </a>
+                                                </div>
+                                                <div class="buttoms_open">
+                                                    <!-- Open Partner Button -->
+                                                    <button t-att-data-id="state.total[move_line]['partner_id']"
+                                                            t-on-click="openPartner">
+                                                        Open
+                                                    </button>
+                                                    <!-- Journal Items Button -->
+                                                    <button t-att-data-id="state.total[move_line]['partner_id']"
+                                                            t-on-click="gotoJournalItem">
+                                                        Journal Items
+                                                    </button>
+                                                </div>
+                                            </th>
+                                            <th/>
+                                            <th/>
+                                            <th/>
+                                            <th/>
+                                            <th/>
+                                            <th>
+                                                <span>
+                                                    <span class="span_number">
+                                                        <t t-if="state.total[move_line]['diff0_sum']"
+                                                           t-esc="state.total[move_line]['diff0_sum']"/>
+                                                        <t t-else="">
+                                                            <span style="opacity: 0.4;">0.00</span>
+                                                        </t>
+                                                    </span>
+                                                    <t t-if="state.total[move_line]['diff0_sum']"
+                                                       t-esc="state.total[move_line]['currency_id']"/>
+                                                </span>
+                                            </th>
+                                            <th>
+                                                <span>
+                                                    <span class="span_number">
+                                                        <t t-if="state.total[move_line]['diff1_sum']"
+                                                           t-esc="state.total[move_line]['diff1_sum']"/>
+                                                        <t t-else="">
+                                                            <span style="opacity: 0.4;">0.00</span>
+                                                        </t>
+                                                    </span>
+
+                                                    <t t-if="state.total[move_line]['diff1_sum']"
+                                                       t-esc="state.total[move_line]['currency_id']"/>
+                                                </span>
+                                            </th>
+                                            <th>
+                                                <span>
+                                                    <span class="span_number">
+                                                        <t t-if="state.total[move_line]['diff2_sum']"
+                                                           t-esc="state.total[move_line]['diff2_sum']"/>
+                                                        <t t-else="">
+                                                            <span style="opacity: 0.4;">0.00</span>
+                                                        </t>
+                                                    </span>
+
+                                                    <t t-if="state.total[move_line]['diff2_sum']"
+                                                       t-esc="state.total[move_line]['currency_id']"/>
+                                                </span>
+                                            </th>
+                                            <th>
+                                                <span>
+                                                    <span class="span_number">
+                                                        <t t-if="state.total[move_line]['diff3_sum']"
+                                                           t-esc="state.total[move_line]['diff3_sum']"/>
+                                                        <t t-else="">
+                                                            <span style="opacity: 0.4;">0.00</span>
+                                                        </t>
+                                                    </span>
+                                                    <t t-if="state.total[move_line]['diff3_sum']"
+                                                       t-esc="state.total[move_line]['currency_id']"/>
+                                                </span>
+                                            </th>
+                                            <th>
+                                                <span>
+                                                    <span class="span_number">
+                                                        <t t-if="state.total[move_line]['diff4_sum']"
+                                                           t-esc="state.total[move_line]['diff4_sum']"/>
+                                                        <t t-else="">
+                                                            <span style="opacity: 0.4;">0.00</span>
+                                                        </t>
+                                                    </span>
+                                                    <t t-if="state.total[move_line]['diff4_sum']"
+                                                       t-esc="state.total[move_line]['currency_id']"/>
+                                                </span>
+                                            </th>
+                                            <th>
+                                                <span>
+                                                    <span class="span_number">
+                                                        <t t-if="state.total[move_line]['diff5_sum']"
+                                                           t-esc="state.total[move_line]['diff5_sum']"/>
+                                                        <t t-else="">
+                                                            <span style="opacity: 0.4;">0.00</span>
+                                                        </t>
+                                                    </span>
+                                                    <t t-if="state.total[move_line]['diff5_sum']"
+                                                       t-esc="state.total[move_line]['currency_id']"/>
+                                                </span>
+                                            </th>
+                                            <th>
+                                                <span>
+                                                    <span class="span_number">
+                                                        <t t-if="state.total[move_line]['debit_sum']"
+                                                           t-esc="state.total[move_line]['debit_sum']"/>
+                                                        <t t-else="">
+                                                            <span style="opacity: 0.4;">0.00</span>
+                                                        </t>
+                                                    </span>
+                                                    <t t-if="state.total[move_line]['debit_sum']"
+                                                       t-esc="state.total[move_line]['currency_id']"/>
+                                                </span>
+                                            </th>
+                                        </tr>
+                                        <t t-foreach="state.data[move_line]"
+                                           t-as="valuelist"
+                                           t-key="valuelist_index">
+                                            <tr class="border-bottom border-gainsboro collapse"
+                                                t-attf-id="move_line-{{i}}">
+                                                <th>
+                                                    <span style="gap: 12px;display: flex;" class="ms-4">
+                                                        <t t-if="valuelist['move_name']">
+                                                            <t t-esc="valuelist['move_name']"/>
+                                                        </t>
+                                                        <!--                                                                <t t-if="valuelist['name']">-->
+                                                        <!--                                                                <t t-esc="valuelist['name']"/>-->
+                                                        <!--                                                                </t>-->
+                                                        <a type="button" data-bs-toggle="dropdown">
+                                                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu  journals">
+                                                            <button t-att-data-id="valuelist['move_id'][0]"
+                                                                    type="button"
+                                                                    t-on-click="gotoJournalEntry"
+                                                                    style="border: none;
+                                                                            background-color: inherit;
+                                                                            padding: 4px 8px;
+                                                                            font-size: 16px;
+                                                                            cursor: pointer;
+                                                                            display: inline-block;">
+                                                                View
+                                                                Journal
+                                                                Entry
+                                                            </button>
+                                                        </div>
+                                                    </span>
+                                                </th>
+                                                <th>
+                                                    <span>
+                                                        <t t-esc="valuelist['date']"/>
+                                                    </span>
+                                                </th>
+                                                <th>
+                                                    <span>
+                                                        <t t-esc="valuelist['amount_currency']"/>
+                                                    </span>
+                                                </th>
+                                                <th>
+                                                    <span>
+                                                        <t t-esc="valuelist['currency_id'][1]"/>
+                                                    </span>
+                                                </th>
+                                                <th>
+                                                    <span>
+                                                        <t t-esc="valuelist['account_id'][1]"/>
+                                                    </span>
+                                                </th>
+                                                <th>
+                                                    <span>
+                                                        <t t-if="valuelist['date_maturity']"
+                                                           t-esc="valuelist['date_maturity']"/>
+                                                    </span>
+                                                </th>
+                                                <th>
+                                                    <span>
+                                                        <span class="span_number">
+                                                            <t t-if="valuelist['diff0']"
+                                                               t-esc="valuelist['diff0']"/>
+                                                            <t t-else="">
+                                                                <span style="opacity: 0.4;">0.00</span>
+                                                            </t>
+                                                        </span>
+                                                        <t t-if="valuelist['diff0']"
+                                                           t-esc="state.total[move_line]['currency_id']"/>
+                                                    </span>
+                                                </th>
+                                                <th>
+                                                    <span>
+                                                        <span class="span_number">
+                                                            <t t-if="valuelist['diff1']"
+                                                               t-esc="valuelist['diff1']"/>
+                                                            <t t-else="">
+                                                                <span style="opacity: 0.4;">0.00</span>
+                                                            </t>
+                                                        </span>
+                                                        <t t-if="valuelist['diff1']"
+                                                           t-esc="state.total[move_line]['currency_id']"/>
+                                                    </span>
+                                                </th>
+                                                <th>
+                                                    <span>
+                                                        <span class="span_number">
+                                                            <t t-if="valuelist['diff2']"
+                                                               t-esc="valuelist['diff2']"/>
+                                                            <t t-else="">
+                                                                <span style="opacity: 0.4;">0.00</span>
+                                                            </t>
+                                                        </span>
+                                                        <t t-if="valuelist['diff2']"
+                                                           t-esc="state.total[move_line]['currency_id']"/>
+                                                    </span>
+                                                </th>
+                                                <th>
+                                                    <span>
+                                                        <span class="span_number">
+                                                            <t t-if="valuelist['diff3']"
+                                                               t-esc="valuelist['diff3']"/>
+                                                            <t t-else="">
+                                                                <span style="opacity: 0.4;">0.00</span>
+                                                            </t>
+                                                        </span>
+                                                        <t t-if="valuelist['diff3']"
+                                                           t-esc="state.total[move_line]['currency_id']"/>
+                                                    </span>
+                                                </th>
+                                                <th>
+                                                    <span>
+                                                        <span class="span_number">
+                                                            <t t-if="valuelist['diff4']"
+                                                               t-esc="valuelist['diff4']"/>
+                                                            <t t-else="">
+                                                                <span style="opacity: 0.4;">0.00</span>
+                                                            </t>
+                                                        </span>
+                                                        <t t-if="valuelist['diff4']"
+                                                           t-esc="state.total[move_line]['currency_id']"/>
+                                                    </span>
+                                                </th>
+                                                <th>
+                                                    <span>
+                                                        <span class="span_number">
+                                                            <t t-if="valuelist['diff5']"
+                                                               t-esc="valuelist['diff5']"/>
+                                                            <t t-else="">
+                                                                <span style="opacity: 0.4;">0.00</span>
+                                                            </t>
+                                                        </span>
+                                                        <t t-if="valuelist['diff5']"
+                                                           t-esc="state.total[move_line]['currency_id']"/>
+                                                    </span>
+                                                </th>
+                                                <th/>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                                <tr>
+                                    <th class="o_heading">
+                                        Total
+                                    </th>
+                                    <th/>
+                                    <th/>
+                                    <th/>
+                                    <th/>
+                                    <th/>
+                                    <th class="o_heading">
+                                        <t t-out="state.diff0_sum_display"/>
+                                        <t t-esc="state.currency"/>
+                                    </th>
+                                    <th class="o_heading">
+                                        <t t-out="state.diff1_sum_display"/>
+                                        <t t-esc="state.currency"/>
+                                    </th>
+                                    <th class="o_heading">
+                                        <t t-out="state.diff2_sum_display"/>
+                                        <t t-esc="state.currency"/>
+                                    </th>
+                                    <th class="o_heading">
+                                        <t t-out="state.diff3_sum_display"/>
+                                        <t t-esc="state.currency"/>
+                                    </th>
+                                    <th class="o_heading">
+                                        <t t-out="state.diff4_sum_display"/>
+                                        <t t-esc="state.currency"/>
+                                    </th>
+                                    <th class="o_heading">
+                                        <t t-out="state.diff5_sum_display"/>
+                                        <t t-esc="state.currency"/>
+                                    </th>
+                                    <th class="o_heading">
+                                        <t t-out="state.total_debit_display"/>
+                                        <t t-esc="state.currency"/>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

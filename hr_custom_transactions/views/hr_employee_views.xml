@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Employee View -->
+    <record id="view_employee_freelancer_form" model="ir.ui.view">
+        <field name="name">hr.employee.view.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_ids']" position="after">
+                <field name="is_freelancer" string="Is Freelancer"/> 
+                <field name="hourly_rate" widget="monetary" string="Hourly Rate"
+                       invisible="not is_freelancer"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

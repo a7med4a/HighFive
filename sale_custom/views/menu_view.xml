@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <menuitem id="terms_and_conditions_menu_id"
+                  name="Terms and Conditions"
+                  parent="sale.menu_sale_config"
+                  sequence="25"
+                  groups="base.group_system"/>
+    </data>
+</odoo>

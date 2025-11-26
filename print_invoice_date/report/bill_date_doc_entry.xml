@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="bill_of_entry_custom_report_footer">
+
+        <div class="article o_report_content">
+            <t t-raw="0" />
+        </div>
+        <div class="footer o_standard_footer">
+            <div
+                style="border-top: 1px solid black; padding-top: 5px; text-align: center; font-size: 15px;">
+                <div style="text-align: center;">
+                    <span style="padding-right: 10px;">Phone number: 0581101558</span>
+                    <span>Email: Sales@asasware.com</span>
+                </div>
+                <div>Bank: Rajhi - SA1280000470608016184435</div>
+                <div>Page <span class="page" /> / <span class="topage" />
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_bill_of_entry_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="print_invoice_date.bill_of_entry_custom_report_footer">
+                    <div dir="ltr">
+                        <div>
+                            <t t-if="not o" t-set="o" t-value="doc" />
+
+                            <t t-if="not company">
+                                <!-- Multicompany -->
+                                <t t-if="company_id">
+                                    <t t-set="company" t-value="company_id" />
+                                </t>
+                                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                                    <t t-set="company" t-value="o.company_id.sudo()" />
+                                </t>
+                                <t t-else="else">
+                                    <t t-set="company" t-value="res_company" />
+                                </t>
+                            </t>
+                            <div style="padding: 10px 2px;  margin-bottom: 10px;" dir="ltr">
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-4 text-left">
+                                        <div t-field="o.company_id.name"
+                                            style="border-bottom: 1px solid black; display: inline-block; width: auto; font-size: 16px;" />
+                                        <div t-field="o.company_id.street" />
+                                        <div>
+                                            <span>VAT No:</span>
+                                            <span t-field="o.company_id.vat" />
+                                        </div>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <img t-if="o.company_id.logo"
+                                            t-att-src="image_data_uri(o.company_id.logo)"
+                                            style="max-height: 80px; max-width: 100%;" />
+                                    </div>
+                                    <div class="col-4" style="text-align: right; direction: rtl;">
+                                        <div
+                                            style="border-bottom: 1px solid black; display: inline-block; width: auto;">
+                                            <t t-esc="o.company_id.arabic_contact" />
+                                        </div>
+                                        <div>
+                                            <t t-esc="o.company_id.arabic_street" />
+                                        </div>
+                                        <div>
+                                            <span>الرقم الضريبي:</span>
+                                            <span t-field="o.company_id.vat" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" dir="ltr"
+                            style="font-weight: bold; font-size: 20px; background-color: #f0f0f0; border-bottom: 8px solid #b7fd19;">
+                            <table class="table table-borderless w-100 m-0" style="border: none;">
+                                <tr>
+                                    <td style="text-align: left; border: none;" class="col-4">
+                                        <span>Bill of Entry</span>
+                                    </td>
+                                    <td style="text-align: center; border: none;" class="col-4">
+                                        <t t-esc="o.name" />
+                                    </td>
+                                    <td style="text-align: right; border: none;" class="col-4">سند
+                                        صرف</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <table class="table table-borderless w-100 m-0"
+                            style="border: none; text-align: center;" dir="ltr">
+                            <tr>
+                                <td class="col-4" style="text-align: left;">Vendor Name</td>
+                                <td class="col-4" style="text-align: center;">
+                                    <t t-esc="o.partner_id.name" />
+                                </td>
+                                <td class="col-4" style="text-align: right;">اسم المورد</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left; border: none;" class="col-4">Amount</td>
+                                <td style="text-align: center; border: none;" class="col-4">
+                                    <t class="col-4" t-esc="o.amount_total" />
+                                </td>
+                                <td style="text-align: right; border: none;" class="col-4">المبلغ</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left; border: none;" class="col-4">Memo</td>
+                                <td style="text-align: center; border: none;" class="col-4">
+                                    <t class="col-4" t-esc="o.name" />
+                                </td>
+                                <td style="text-align: right; border: none;" class="col-4">البيان</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left; border: none;" class="col-4">Bill
+                                    Date</td>
+                                <td style="text-align: center; border: none;" class="col-4">
+                                    <t class="col-4" t-esc="o.invoice_date" />
+                                </td>
+                                <td style="text-align: right; border: none;" class="col-4">تاريخ
+                                    الفاتورة</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left; border: none;" class="col-4">Bill Due Date</td>
+                                <td style="text-align: center; border: none;" class="col-4">
+                                    <t class="col-4" t-esc="o.invoice_date_due" />
+                                </td>
+                                <td style="text-align: right; border: none;" class="col-4">تاريخ الاستحقاق</td>
+                            </tr>
+                        </table>
+                        <div style="text-align: right; direction: rtl;">
+                            <div style="padding: 40px 0px">
+                                توقيع المدير :  ___________________________
+                            </div>
+                            <div>
+                                توقيع المحاسب :  _______________________
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,13 @@
+<odoo>
+    <record id="view_account_journal_form_inherit_bank_fees" model="ir.ui.view">
+        <field name="name">account.journal.form.inherit.bank.fees</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="bank_fees_account_id" invisible="type != 'bank'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

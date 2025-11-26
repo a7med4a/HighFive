@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="form_wizard_import_seller" model="ir.ui.view">
+        <field name="name">form.wizard.import.seller.form</field>
+        <field name="model">wizard.update</field>
+        <field name="arch" type="xml">
+            <form string="Sellers">
+                <group>
+                    <group>
+                        <h2>This Is for Merge Old Data Be careful</h2>
+                    </group>
+                </group>
+                <footer>
+
+                    <button string="Update EMP" name="update_emp_cont_date" type="object" class="btn-primary"/>
+                    <button string="Update Job Grade" name="update_job_grade_date" type="object" class="btn-primary"/>
+
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_import_sellers" model="ir.actions.act_window">
+        <field name="name">Data Update Records</field>
+        <field name="res_model">wizard.update</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem action="action_wizard_import_sellers" id="product_variant_menu_import_seller"
+              parent="base.menu_administration" sequence="10" name="Update Recodes"/>
+
+</odoo>

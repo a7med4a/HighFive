@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    Report Template for Profit and Book.-->
+    <template id="profit_loss">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="data_report_margin_top" t-value="12"/>
+                <t t-set="data_report_header_spacing" t-value="9"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <div class="page">
+                    <h3>
+                        <center>
+                            <b>
+                                <span t-esc="report_name"/>
+                            </b>
+                        </center>
+                    </h3>
+                    <br/>
+                    <!--                    <div class="filters">-->
+                    <!--                        <table class="table table-sm table-reports">-->
+                    <!--                            <thead class="filter_table" style="background:#808080;">-->
+                    <!--                                <tr>-->
+                    <!--                                    <th>Date Range</th>-->
+                    <!--                                    <th>Comparison</th>-->
+                    <!--                                    <th>Account</th>-->
+                    <!--                                    <th>Journal</th>-->
+                    <!--                                    <th>Analytic Account</th>-->
+                    <!--                                    <th>Target move</th>-->
+                    <!--                                </tr>-->
+                    <!--                            </thead>-->
+                    <!--                            <tbody style="font-size:11px;font-weight:100;">-->
+                    <!--                                <tr>-->
+                    <!--                                </tr>-->
+                    <!--                            </tbody>-->
+                    <!--                        </table>-->
+                    <!--                    </div>-->
+                    <!--                    <br/>-->
+                    <div style="text-align: right;margin: 20px">
+                        <div>
+                            <t t-if="data['year']">
+                                <t t-foreach="data['year']"
+                                   t-as="periodData"
+                                   t-key="periodData_index">
+                                    <span class="text-center" style="border: 1px solid #d6dbe1; padding: 5px 20px;">
+                                        <t t-esc="periodData"/>
+                                    </span>
+                                </t>
+                            </t>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <t t-if="data['year']">
+                                <t t-foreach="data['year']"
+                                   t-as="periodData"
+                                   t-key="periodData_index">
+                                    <span class="text-center" style="padding: 10px 15px;">Balance</span>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+
+                    <table class="table table-borderless" width="100%">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    <span class="fw-bolder">
+                                        Net Profit
+                                    </span>
+                                </th>
+                                <t t-foreach="data['datas']" t-as="total" t-key="total_index">
+                                    <th class="text-end">
+                                        <span class="fw-bolder">
+                                            <t t-if="total['total']"
+                                               t-esc="total['total']"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table width="100%" class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    <span class="fw-bolder ms-2">
+                                        Income
+                                    </span>
+                                </th>
+                            </tr>
+                            <tr style="background-color: #d6dbe1;">
+                                <th>
+                                    <span class="fw-bolder ms-3">
+                                        Gross Profit
+                                    </span>
+                                </th>
+                                <th/>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                <th>
+                                    <span class="ms-5">Operating Income</span>
+                                </th>
+                                <t t-foreach="data['datas']" t-as="total"
+                                   t-key="total_index">
+                                    <th class="text-end">
+                                        <span>
+                                            <t t-esc="total['income'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                <th>
+                                    <span class="ms-5">Cost of Revenue</span>
+                                </th>
+                                <t t-foreach="data['datas']" t-as="total"
+                                   t-key="total_index">
+                                    <th class="text-end">
+                                        <span>
+                                            <t t-esc="total['expense_direct_cost'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                <th>
+                                    <span class="ms-4">Other Income</span>
+                                </th>
+                                <t t-foreach="data['datas']" t-as="total"
+                                   t-key="total_index">
+                                    <th class="text-end">
+                                        <span>
+                                            <t t-esc="total['income_other'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <span class="fw-bolder ms-4">
+                                        Total Income
+                                    </span>
+                                </th>
+                                <t t-foreach="data['datas']" t-as="total"
+                                   t-key="total_index">
+                                    <th class="text-end">
+                                        <span class="fw-bolder">
+                                            <t t-esc="total['total_income']"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr style="background-color: #d6dbe1;">
+                                <th>
+                                    <span class="fw-bolder ms-3">
+                                        Expenses
+                                    </span>
+                                </th>
+                                <th/>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                <th>
+                                    <span class="ms-5">Expenses</span>
+                                </th>
+                                <t t-foreach="data['datas']" t-as="total"
+                                   t-key="total_index">
+                                    <th class="text-end">
+                                        <span>
+                                            <t t-esc="total['expense'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                <th>
+                                    <span class="ms-3">Depreciation
+                                    </span>
+                                </th>
+                                <t t-foreach="data['datas']" t-as="total"
+                                   t-key="total_index">
+                                    <th class="text-end">
+                                        <span>
+                                            <t t-esc="total['expense_depreciation'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <span class="fw-bolder ms-3">Total Expenses
+                                    </span>
+                                </th>
+                                <t t-foreach="data['datas']" t-as="total"
+                                   t-key="total_index">
+                                    <th class="text-end">
+                                        <span class="fw-bolder">
+                                            <t t-esc="total['total_expense']"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

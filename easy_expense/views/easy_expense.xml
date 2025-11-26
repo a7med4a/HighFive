@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="sequence_easy_exp" model="ir.sequence">
+            <field name="name">Easy Exp Sequence</field>
+            <field name="code">exp.code</field>
+            <field name="prefix">EXP/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+
+    <record id="server_action_apply_tax_to_move" model="ir.actions.server">
+        <field name="name">Apply Tax to Move</field>
+        <field name="model_id" ref="model_easy_expense"/>
+        <field name="binding_model_id" ref="model_easy_expense"/>
+        <field name="state">code</field>
+        <field name="code">
+            for rec in records:
+                rec.apply_tax_to_move()
+        </field>
+    </record>
+
+    <data>
+        <!-- Form View -->
+        <record id="easy_expense_form_view" model="ir.ui.view">
+            <field name="name">easy.expense.form</field>
+            <field name="model">easy.expense</field>
+            <field name="arch" type="xml">
+                <form string="Expense">
+                    <header>
+                        <button name="action_confirm" invisible="state != 'draft'" type="object" string="Confirm"
+                                class="btn-primary"/>
+                        <button name="action_cancel" invisible="state != 'draft' and state != 'confirm'" type="object"
+                                string="Cancel" class="btn-secondary"/>
+                        <button name="%(easy_expense.action_pay_exp_wizard)d" invisible="state != 'confirm'"
+                                type="action" string="Payment" context="{'default_expense_id': id}"
+                                class="btn-success"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,paid,cancel"/>
+                    </header>
+                    <sheet>
+                        <div class="o_row" invisible="name == False">
+                            <label for="name" string="Number" class="o_form_label"/>
+                            <h3>
+                                <field name="name" readonly="1"/>
+                            </h3>
+                        </div>
+                        <group col="4">
+                            <field name="product_id" required="1" readonly="state != 'draft'"/>
+                            <field name="move_id"/>
+                            <field name="exp_date" readonly="state != 'draft'"/>
+                            <field name="amount" required="1" readonly="state != 'draft'"/>
+                            <field name="post_date" readonly="1" invisible="post_date == False"/>
+                            <field name="company_id" invisible="1" readonly="state != 'draft'"/>
+                            <field name="currency_id" invisible="1" readonly="state != 'draft'"/>
+                            <field name="note" readonly="state != 'draft'"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="easy_expense_tree_view" model="ir.ui.view">
+            <field name="name">Easy Expense</field>
+            <field name="model">easy.expense</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="move_id"/>
+                    <field name="note"/>
+                    <field name="exp_date"/>
+                    <field name="amount" sum="True" string="Total"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="easy_expense_filter" model="ir.ui.view">
+            <field name="name">easy.expense.search</field>
+            <field name="model">easy.expense</field>
+            <field name="arch" type="xml">
+                <search string="Expense Salary">
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <!-- You can add filters here if needed -->
+                    <!--                <field name="journal_id" />-->
+                    <!--                <filter string="State Draft" name="draft" domain="[('state','=','draft')]"/>-->
+                    <!--                <filter string="State Paid" name="paid" domain="[('state','=','paid')]"/>-->
+                    <!--                <filter string="State Close" name="close" domain="[('state','=','close')]"/>-->
+                    <!--                <filter string="State Confirm" name="open" domain="[('state','=','confirm')]"/>-->
+                    <!--                <separator/>-->
+                    <!--               <group expand="0" string="Group By">-->
+                    <!--                    <filter string="Employee"  context="{'group_by':'employee_id'}"/>-->
+                    <!--                    <filter string="Journal" context="{'group_by':'journal_id'}"/>-->
+                    <!--                    <filter string="State"  context="{'group_by':'state'}"/>-->
+                    <!--                </group>-->
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="easy_expense_action_id" model="ir.actions.act_window">
+            <field name="name">Expenses</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">easy.expense</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_create">
+                    Create your first expense record.
+                </p>
+                <p>
+                    Track and manage expenses easily.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menus -->
+        <menuitem id="menu_easy_expense_root" name="Easy Expenses"
+                  web_icon="easy_expense,static/description/icon.png" sequence="30"/>
+        <menuitem id="menu_easy_expense_id" parent="menu_easy_expense_root" name="All Expenses" sequence="5"/>
+        <menuitem id="easy_expense_categ_id" name="Expenses" parent="menu_easy_expense_id"
+                  action="easy_expense_action_id" sequence="5"/>
+    </data>
+</odoo>

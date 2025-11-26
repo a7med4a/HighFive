@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add Paper Format -->
+    <record model="report.paperformat" id="paperformat_payment_pdf">
+        <field name="name">A4 Payment</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">22</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">62</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Inherit existing report -->
+    <record id="account.action_report_payment_receipt" model="ir.actions.report">
+        <field name="paperformat_id" ref="print_payment_custom.paperformat_payment_pdf"/>
+    </record>
+
+    <!-- Custom Report Payment Footer -->
+    <template id="custom_report_payment_footer">
+        <div class="header">
+        </div>
+        <div class="article o_report_content">
+            <t t-raw="0"/>
+        </div>
+        <div class="footer o_standard_footer">
+            <div style="border-top: 1px solid black; padding-top: 5px; text-align: center; font-size: 15px;">
+                <div style="text-align: center;">
+                    <span style="padding-right: 10px;">Phone number: 0569629070</span>
+                    <span>Email: Sales@asasware.com</span>
+                </div>
+                <div>Bank: Rajhi - SA1280000470608016184435</div>
+                <div>Page
+                    <span class="page"/>
+                    /
+                    <span class="topage"/>
+                </div>
+
+            </div>
+        </div>
+    </template>
+    <template id="report_payment_pdf" inherit_id="account.report_payment_receipt_document">
+        <xpath expr="//t[1]" position="replace">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                    <t t-set="values" t-value="o._get_payment_receipt_report_values()"/>
+                    <t t-call="print_payment_custom.custom_report_payment_footer">
+                        <div class="page" dir="ltr">
+                            <t t-if="not company">
+                                <!-- Multicompany -->
+                                <t t-if="company_id">
+                                    <t t-set="company" t-value="company_id"/>
+                                </t>
+                                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                                </t>
+                                <t t-else="else">
+                                    <t t-set="company" t-value="res_company"/>
+                                </t>
+                            </t>
+                            <div dir="ltr">
+                                <div style="padding: 10px 2px;  margin-bottom: 10px;">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-4 text-left">
+                                            <div t-field="o.company_id.name"/>
+                                            <div t-field="o.company_id.street"/>
+                                            <div>
+                                                <span>VAT No:</span>
+                                                <span t-field="o.company_id.vat"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                                 style="max-height: 80px; max-width: 100%;"/>
+                                        </div>
+                                        <div class="col-4" style="text-align: right; direction: rtl;">
+                                            <div>
+                                                <t t-esc="o.company_id.arabic_contact"/>
+                                            </div>
+                                            <div>
+                                                <t t-esc="o.company_id.arabic_street"/>
+                                            </div>
+                                            <div>
+                                                <span>الرقم الضريبي:</span>
+                                                <span t-field="o.company_id.vat"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <t t-if="o.partner_type == 'customer'">
+                                <div class="row" dir="ltr"
+                                     style="font-weight: bold; font-size: 20px; background-color: #f0f0f0; border-bottom: 8px solid #b7fd19;">
+                                    <table class="table table-borderless w-100 m-0" style="border: none;">
+                                        <tr>
+                                            <td style="text-align: left; border: none;" class="col-4">
+                                                <span>Payment Receipt</span>
+                                            </td>
+                                            <td style="text-align: center; border: none;" class="col-4">
+                                                <t t-esc="o.name"/>
+                                            </td>
+                                            <td style="text-align: right; border: none;" class="col-4">سند قبض</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </t>
+                            <t t-elif="o.partner_type == 'supplier'">
+                                <div class="row" dir="ltr"
+                                     style="font-weight: bold; font-size: 20px; background-color: #f0f0f0; border-bottom: 8px solid #b7fd19;">
+                                    <table class="table table-borderless w-100 m-0" style="border: none;">
+                                        <tr>
+                                            <td style="text-align: left; border: none;" class="col-4">
+                                                <span>Payment Receipt</span>
+                                            </td>
+                                            <td style="text-align: center; border: none;" class="col-4">
+                                                <t t-esc="o.name"/>
+                                            </td>
+                                            <td style="text-align: right; border: none;" class="col-4">سند صرف</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </t>
+                            <table class="table table-borderless w-100 m-0" style="border: none; text-align: center;" dir="ltr">
+                                <t t-if="o.partner_type">
+                                    <tr>
+                                        <t t-if="o.partner_type == 'customer'">
+                                            <td style="text-align: left;" class="col-4">Customer</td>
+                                        </t>
+                                        <t t-elif="o.partner_type == 'supplier'">
+                                            <td style="text-align: left;" class="col-4">Vendor</td>
+                                        </t>
+                                        <td class="col-4" style="text-align: center;">
+                                            <t t-esc="o.partner_id.name"/>
+                                        </td>
+                                        <t t-if="o.partner_type == 'customer'">
+                                            <td style="text-align: right;" class="col-4">اسم العميل</td>
+                                        </t>
+                                        <t t-elif="o.partner_type == 'supplier'">
+                                            <td style="text-align: right;" class="col-4">اسم المورد</td>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <t t-if="values['display_payment_method'] and o.payment_method_id">
+                                    <tr>
+                                        <td style="text-align: left; border: none;" class="col-4">Payment Method</td>
+                                        <td style="text-align: center; border: none;" class="col-4">
+                                            <t class="col-4" t-esc="o.payment_method_id.name"/>
+                                        </td>
+                                        <td style="text-align: right; border: none;" class="col-4">طريقة الدفع</td>
+                                    </tr>
+                                </t>
+                                <t>
+                                    <tr>
+                                        <td style="text-align: left; border: none;" class="col-4">Payment Amount</td>
+                                        <td style="text-align: center; border: none;" class="col-4">
+                                            <t class="col-4" t-esc="o.amount"
+                                               t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                        <td style="text-align: right; border: none;" class="col-4">المبلغ</td>
+                                    </tr>
+                                </t>
+                                <t t-if="o.memo">
+                                    <tr>
+                                        <td style="text-align: left;" class="col-4">Memo</td>
+                                        <td style="text-align: center;" class="col-4">
+                                            <t class="col-4" t-esc="o.memo"/>
+                                        </td>
+                                        <td style="text-align: right; border: none;" class="col-4">بيان</td>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td style="text-align: left;" class="col-4">Payment Date</td>
+                                    <td style="text-align: center;" class="col-4">
+                                        <t class="col-4" t-esc="o.date"/>
+                                    </td>
+                                    <td style="text-align: right; border: none;" class="col-4">التاريخ</td>
+                                </tr>
+                            </table>
+
+                            <table name="invoices" class="table w-100 m-0"
+                                   style="border-collapse: collapse;font-size: 14px; margin-bottom: 20px"
+                                   t-if="values['display_invoices']">
+                                <t t-set="invoices" t-value="o.reconciled_invoice_ids or o.reconciled_bill_ids"/>
+                                <!-- Check if invoices include different currencies -->
+                                <t t-foreach="invoices" t-as="inv">
+                                    <t t-if="any(inv.currency_id != par[2].currency_id for par in inv._get_reconciled_invoices_partials()[0])"
+                                       t-set="otherCurrency" t-value="True"/>
+                                </t>
+                                <thead>
+                                    <tr style="background-color:  #86b300;font-weight: bold;border-bottom: 3px solid black">
+                                        <td style="border: none; text-align: center; color: white;">تاريخ الفاتورة
+                                            <br/>
+                                            Invoice Date
+                                        </td>
+                                        <td style="border: none; text-align: center; color: white;">رقم الفاتورة
+                                            <br/>
+                                            Invoice
+                                            Number
+                                        </td>
+                                        <td style="border: none; text-align: center; color: white;">المرجع
+                                            <br/>
+                                            Reference
+                                        </td>
+                                        <td t-if="otherCurrency" class="text-end">
+                                            <span>Amount In Currency</span>
+                                        </td>
+                                        <td style="border: none; text-align: right; color: white;">المبلغ<br/>Amount
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="invoices" t-as="inv">
+                                        <t t-if="inv.move_type != 'entry'">
+                                            <tr>
+                                                <td style="border: none; text-align: center;">
+                                                    <t t-esc="inv.invoice_date"/>
+                                                </td>
+                                                <td style="border: none; text-align: center;">
+                                                    <t t-esc="inv.name"/>
+                                                </td>
+                                                <td style="border: none; text-align: center;">
+                                                    <t t-esc="inv.ref"/>
+                                                </td>
+                                                <td t-if="otherCurrency"/>
+                                                <td style="border: none; text-align: right;">
+                                                    <span t-field="inv.amount_total">100.00 USD</span>
+                                                </td>
+                                            </tr>
+                                            <tr t-foreach="inv._get_reconciled_invoices_partials()[0]" t-as="par">
+                                                <t t-set="payment" t-value="par[2]"/>
+                                                <td style="border: none; text-align: center;">
+                                                    <t t-esc="payment.move_id.date"/>
+                                                </td>
+                                                <td style="border: none; text-align: center;">
+                                                    <t t-esc="payment.move_id.name"/>
+                                                </td>
+                                                <td style="border: none; text-align: center;">
+                                                    <t t-esc="payment.payment_id.memo"/>
+                                                </td>
+                                                <t t-set="amountPayment" t-value="-par[0].amount"/>
+                                                <t t-set="amountInvoice" t-value="-par[1]"/>
+                                                <t t-set="currencyPayment" t-value="payment.currency_id"/>
+                                                <t t-set="currencyInvoice" t-value="inv.currency_id"/>
+                                                <!-- Fill the column "Amount In Currency" only if necessary -->
+                                                <td t-if="otherCurrency">
+                                                    <span t-if="currencyPayment != currencyInvoice"
+                                                          t-out="amountPayment"
+                                                          t-options="{'widget': 'monetary', 'display_currency': currencyPayment}">
+                                                        50.00 EUR
+                                                    </span>
+                                                </td>
+                                                <td style="border: none; text-align: right;">
+                                                    <span t-out="amountInvoice"
+                                                          t-options="{'widget': 'monetary', 'display_currency': currencyInvoice}">
+                                                        25.00 USD
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border: none; text-align: center;"/>
+                                                <td style="border: none; text-align: center;">
+                                                    <strong>Due Amount for
+                                                        <span t-field="inv.name">INV001</span>
+                                                    </strong>
+                                                </td>
+                                                <td style="border: none; text-align: center;"/>
+                                                <td t-if="otherCurrency"/>
+                                                <td style="border: none; text-align: right;">
+                                                    <strong>
+                                                        <span t-field="inv.amount_residual"></span>
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <div style="text-align: right; direction: rtl;">
+                                <div style="padding: 40px 0px">
+                                    توقيع المدير :  ___________________________
+                                </div>
+                                <div>
+                                    توقيع المحاسب :  _______________________
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+            <div class="oe_structure"></div>
+        </xpath>
+    </template>
+</odoo>

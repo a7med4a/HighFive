@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Wizard Form View -->
+        <record id="pay_exp_wizard_form_id" model="ir.ui.view">
+            <field name="name">pay.exp.wizard.form</field>
+            <field name="model">pay.exp.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Payment">
+                    <sheet>
+                        <group col="4">
+                            <field name="expense_id" invisible="1"/>
+                            <field name="product_id" invisible="1"/>
+                            <field name="journal_id"/>
+                            <field name="amount"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="payment_date"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_pay" string="Pay" type="object" class="btn-primary"/>
+                        <button string="Cancel" special="cancel" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Wizard Action -->
+        <record id="action_pay_exp_wizard" model="ir.actions.act_window">
+            <field name="name">Payment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pay.exp.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_expense_id': active_id}</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_create">
+                Start by selecting a journal to register your payment.
+              </p>
+              <p>
+                This wizard will create a payment for the selected expense.
+              </p>
+            </field>
+        </record>
+    </data>
+</odoo>

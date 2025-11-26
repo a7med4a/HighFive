@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="deferred_revenue_template" owl="1">
+        <div class="general_ledger_reports_body">
+            <!-- Control Panel with Filters -->
+            <div class="o_control_panel d-flex flex-column">
+                <div class="o_control_panel_main d-flex align-items-center justify-content-between p-3 bg-light border-bottom">
+                    <!-- Action Buttons على اليسار -->
+                    <div class="o_control_panel_actions d-flex gap-2">
+                        <button class="btn btn-primary" t-on-click="printPdf">
+                            <i class="fa fa-file-pdf-o me-2"/> PDF
+                        </button>
+                        <button class="btn btn-success" t-on-click="print_xlsx">
+                            <i class="fa fa-file-excel-o me-2"/> XLSX
+                        </button>
+                    </div>
+
+                    <!-- مساحة فارغة للتوسيط -->
+                    <div class="flex-grow-1"></div>
+
+                    <!-- Filter Section على أقصى اليمين -->
+                    <div class="o_search_options d-flex gap-2 align-items-center ms-auto">
+                        <!-- Date Range Filter -->
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-outline-secondary dropdown-toggle btn-sm"
+                                    data-bs-toggle="dropdown" aria-expanded="false" id="dateRangeDropdown">
+                                <i class="fa fa-calendar me-1"/>
+                                Date Range
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dateRangeDropdown">
+                                <h6 class="dropdown-header">Select date range</h6>
+                                <a class="dropdown-item" href="#" data-value="month" t-on-click="applyFilter">
+                                    This Month
+                                </a>
+                                <a class="dropdown-item" href="#" data-value="year" t-on-click="applyFilter">
+                                    This Year
+                                </a>
+                                <a class="dropdown-item" href="#" data-value="quarter" t-on-click="applyFilter">
+                                    This Quarter
+                                </a>
+                                <a class="dropdown-item" href="#" data-value="last-month" t-on-click="applyFilter">
+                                    Last Month
+                                </a>
+                                <a class="dropdown-item" href="#" data-value="last-year" t-on-click="applyFilter">
+                                    Last Year
+                                </a>
+                                <a class="dropdown-item" href="#" data-value="last-quarter" t-on-click="applyFilter">
+                                    Last Quarter
+                                </a>
+                                <div class="dropdown-divider"/>
+                                <div class="px-3 py-2">
+                                    <label class="form-label small">Start Date</label>
+                                    <input type="date" name="start_date" class="form-control form-control-sm"
+                                           t-on-change="applyFilter"/>
+                                </div>
+                                <div class="px-3 py-2">
+                                    <label class="form-label small">End Date</label>
+                                    <input type="date" name="end_date" class="form-control form-control-sm"
+                                           t-on-change="applyFilter"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Journals Filter -->
+                        <div class="dropdown" t-if="state.journals and state.journals.length">
+                            <button type="button" class="btn btn-outline-secondary dropdown-toggle btn-sm"
+                                    data-bs-toggle="dropdown" aria-expanded="false" id="journalsDropdown">
+                                <i class="fa fa-book me-1"/>
+                                Journals
+                                <span t-if="state.selected_journal_list.length"
+                                      class="badge bg-primary ms-1" t-esc="state.selected_journal_list.length"/>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-checkbox dropdown-menu-end" aria-labelledby="journalsDropdown">
+                                <h6 class="dropdown-header">Select journals</h6>
+                                <t t-foreach="state.journals" t-as="journal" t-key="journal.id">
+                                    <a class="dropdown-item" href="#"
+                                       t-att-data-id="journal.id"
+                                       data-value="journal"
+                                       t-on-click="applyFilter">
+                                        <i class="fa fa-square-o me-2 journal-checkbox" t-att-data-journal-id="journal.id"/>
+                                        <t t-esc="journal.name"/>
+                                    </a>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Analytic Accounts Filter -->
+                        <div class="dropdown" t-if="state.analytics and state.analytics.length">
+                            <button type="button" class="btn btn-outline-secondary dropdown-toggle btn-sm"
+                                    data-bs-toggle="dropdown" aria-expanded="false" id="analyticsDropdown">
+                                <i class="fa fa-bar-chart me-1"/>
+                                Analytic
+                                <span t-if="state.selected_analytic_list.length"
+                                      class="badge bg-primary ms-1" t-esc="state.selected_analytic_list.length"/>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-checkbox dropdown-menu-end" aria-labelledby="analyticsDropdown">
+                                <h6 class="dropdown-header">Select analytic accounts</h6>
+                                <t t-foreach="state.analytics" t-as="analytic" t-key="analytic.id">
+                                    <a class="dropdown-item" href="#"
+                                       t-att-data-id="analytic.id"
+                                       data-value="analytic"
+                                       t-on-click="applyFilter">
+                                        <i class="fa fa-square-o me-2 analytic-checkbox" t-att-data-analytic-id="analytic.id"/>
+                                        <t t-esc="analytic.name"/>
+                                    </a>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Options Filter -->
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-outline-secondary dropdown-toggle btn-sm"
+                                    data-bs-toggle="dropdown" aria-expanded="false" id="optionsDropdown">
+                                <i class="fa fa-cog me-1"/>
+                                Options
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-checkbox dropdown-menu-end" aria-labelledby="optionsDropdown">
+                                <h6 class="dropdown-header">Include entries</h6>
+                                <a class="dropdown-item" href="#" data-value="draft" t-on-click="applyFilter">
+                                    <i class="fa fa-square-o me-2 draft-checkbox"/>
+                                    Draft Entries
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Content -->
+            <div class="o_content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <t t-if="state.account and state.account_data and state.account_total">
+                                <div class="text-center mb-4">
+                                    <h3 class="fw-bold">Deferred Revenue Report</h3>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-hover o_list_table">
+                                        <thead class="table-custom-header">
+                                            <tr>
+                                                <th style="width: 30%" class="ps-3">Account</th>
+                                                <th style="width: 8%" class="text-end">Actions</th>
+                                                <th style="width: 12%" class="text-end">Total</th>
+                                                <th style="width: 12%" class="text-end">Not Started</th>
+                                                <th style="width: 12%" class="text-end">Before</th>
+                                                <th style="width: 12%" class="text-end">Jul - Sep 2025</th>
+                                                <th style="width: 14%" class="text-end">Later</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody ref="tbody">
+                                            <t t-foreach="state.account" t-as="account_name" t-key="account_name">
+                                                <!-- Account Header Row -->
+                                                <tr class="account-header table-secondary fw-bold">
+                                                    <td class="ps-3">
+                                                        <strong>
+                                                            <t t-esc="account_name"/>
+                                                        </strong>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <div class="dropdown">
+                                                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                                                    data-bs-toggle="dropdown" aria-expanded="false"
+                                                                    t-attf-id="actionDropdown{{account_name_index}}">
+                                                                <i class="fa fa-ellipsis-v"/>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-end"
+                                                                t-attf-aria-labelledby="actionDropdown{{account_name_index}}">
+                                                                <li>
+                                                                    <a class="dropdown-item" href="#"
+                                                                       t-att-data-account-id="state.account_total[account_name]['account_id']"
+                                                                       t-on-click="openJournalItems">
+                                                                        <i class="fa fa-list me-2"/> Journal Items
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item" href="#"
+                                                                       t-att-data-account-id="state.account_total[account_name]['account_id']"
+                                                                       t-on-click="openAnnotate">
+                                                                        <i class="fa fa-comment me-2"/> Annotate
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <t t-esc="state.currency"/>
+                                                        <t t-esc="formatNumberWithSeparators(state.account_total[account_name]['total'] || 0)"/>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <t t-esc="state.currency"/>
+                                                        <t t-esc="formatNumberWithSeparators(state.account_total[account_name]['not_started'] || 0)"/>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <t t-esc="state.currency"/>
+                                                        <t t-esc="formatNumberWithSeparators(state.account_total[account_name]['before'] || 0)"/>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <t t-esc="state.currency"/>
+                                                        <t t-esc="formatNumberWithSeparators(state.account_total[account_name]['current'] || 0)"/>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <t t-esc="state.currency"/>
+                                                        <t t-esc="formatNumberWithSeparators(state.account_total[account_name]['later'] || 0)"/>
+                                                    </td>
+
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                        <tfoot class="table-custom-footer fw-bold">
+                                            <tr>
+                                                <td class="ps-3">Total</td>
+                                                <td class="text-end">-</td>
+                                                <td class="text-end">
+                                                    <t t-esc="state.currency"/>
+                                                    <t t-esc="formatNumberWithSeparators(state.total_deferred)"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <t t-esc="state.currency"/>
+                                                    <t t-esc="formatNumberWithSeparators(state.total_not_started)"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <t t-esc="state.currency"/>
+                                                    <t t-esc="formatNumberWithSeparators(state.total_before)"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <t t-esc="state.currency"/>
+                                                    <t t-esc="formatNumberWithSeparators(state.total_current)"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <t t-esc="state.currency"/>
+                                                    <t t-esc="formatNumberWithSeparators(state.total_later)"/>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="text-center mt-5">
+                                    <div class="alert alert-info">
+                                        <h5><i class="fa fa-info-circle me-2"/>No deferred revenue entries found</h5>
+                                        <p class="mb-0">Try adjusting your filters to see more results.</p>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .general_ledger_reports_body {
+                min-height: 100vh;
+                background-color: #f8f9fa;
+            }
+
+            .o_control_panel {
+                background-color: white;
+                border-bottom: 1px solid #dee2e6;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .account-header {
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+            }
+
+            .account-header:hover {
+                background-color: #e9ecef !important;
+            }
+
+            .account-detail {
+                border-left: 3px solid #007bff;
+                background-color: #f8f9fa;
+            }
+
+            /* تخصيص ألوان الجدول - رصاصي أفتح */
+            .table-custom-header {
+                background-color: #adb5bd !important; /* رصاصي أفتح */
+                color: #000000 !important; /* كتابة سوداء */
+            }
+
+            .table-custom-header th {
+                background-color: #adb5bd !important; /* رصاصي أفتح */
+                color: #000000 !important; /* كتابة سوداء */
+                font-weight: bold;
+                border-color: #6c757d;
+            }
+
+            .table-custom-footer {
+                background-color: #adb5bd !important; /* رصاصي أفتح */
+                color: #000000 !important; /* كتابة سوداء */
+            }
+
+            .table-custom-footer td {
+                background-color: #adb5bd !important; /* رصاصي أفتح */
+                color: #000000 !important; /* كتابة سوداء */
+                font-weight: bold;
+                border-color: #6c757d;
+            }
+
+            .dropdown-menu-checkbox {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            .dropdown-item:hover .fa-square-o {
+                color: #007bff;
+            }
+
+            .selected-filter .fa-square-o:before {
+                content: "\f046"; /* fa-check-square-o */
+                color: #007bff;
+            }
+
+            .badge {
+                font-size: 0.75em;
+            }
+
+            .table th {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+
+            .btn .fa {
+                margin-right: 0.25rem;
+            }
+
+            .dropdown-toggle::after {
+                margin-left: 0.5rem;
+            }
+
+            /* ترتيب العناصر في Control Panel */
+            .o_control_panel_main {
+                display: flex;
+                width: 100%;
+            }
+
+            .o_control_panel_actions {
+                flex-shrink: 0; /* الأزرار على اليسار */
+            }
+
+            .flex-grow-1 {
+                flex-grow: 1; /* مساحة فارغة في الوسط */
+            }
+
+            .o_search_options {
+                flex-shrink: 0; /* الفلاتر على أقصى اليمين */
+                margin-left: auto !important;
+            }
+
+            /* جعل الـ dropdown menus تظهر من الجهة اليمنى */
+            .dropdown-menu-end {
+                right: 0;
+                left: auto;
+            }
+
+            /* تصغير أزرار الفلاتر */
+            .btn-sm {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.875rem;
+            }
+        </style>
+    </t>
+</templates>

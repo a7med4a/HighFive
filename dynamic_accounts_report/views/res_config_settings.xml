@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.account.reports</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+<!--            <setting id="dynamic_accounts_report" position="attributes">-->
+<!--                <attribute name="invisible">not module_dynamic_accounts_report</attribute>-->
+<!--            </setting>-->
+
+            <setting id="default_taxes" position="after">
+                <setting id="account_tax_periodicity" string="Tax Return Periodicity" company_dependent="1" help="How often tax returns have to be made"
+                    documentation="/applications/finance/accounting/reporting/declarations/tax_returns.html">
+                    <div class="content-group">
+                        <div class="row mt16">
+                            <label string="Periodicity" for="account_tax_periodicity" class="col-lg-3 o_light_label"/>
+                            <field name="account_tax_periodicity"/>
+                        </div>
+                        <div class="row">
+                            <label string="Reminder" for="account_tax_periodicity_reminder_day" class="col-lg-3 o_light_label"/>
+                            <div class="col-lg-auto content-group">
+                                <field name="account_tax_periodicity_reminder_day" class="text-center oe_inline" /> days after period
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label string="Journal" for="account_tax_periodicity_journal_id" class="col-lg-3 o_light_label"/>
+                            <field name="account_tax_periodicity_journal_id" required="has_chart_of_accounts"/>
+                        </div>
+                        <div class="mt8">
+                            <button name="open_tax_group_list" icon="oi-arrow-right" type="object" string="Configure your tax accounts" class="btn-link"/>
+                        </div>
+<!--                        <div class="mt8" invisible="not account_reports_show_per_company_setting">-->
+<!--                            <button name="open_company_dependent_report_settings" icon="oi-arrow-right" type="object" string="Configure start dates" class="btn-link"/>-->
+<!--                        </div>-->
+                    </div>
+                </setting>
+            </setting>
+
+
+        </field>
+    </record>
+
+</odoo>
+
+<!--    <record id="res_config_settings_view_form" model="ir.ui.view">-->
+<!--        <field name="name">res.config.settings.view.form.inherit.account.accountant</field>-->
+<!--        <field name="model">res.config.settings</field>-->
+<!--        <field name="inherit_id" ref="account.res_config_settings_view_form"/>-->
+<!--        <field name="arch" type="xml">-->
+
+<!--            <setting id="post_bank_transactions_and_payments_setting" position="after">-->
+<!--                <setting string="Deferred expense entries:" company_dependent="1">-->
+<!--                    <div class="content-group">-->
+<!--                        <div class="row mt8">-->
+<!--                            <label for="deferred_expense_journal_id" class="col-lg-5 o_light_label" string="Journal"/>-->
+<!--                            <field name="deferred_expense_journal_id" domain="[('type', '=', 'general'), ('active', '=', True)]"/>-->
+<!--                        </div>-->
+<!--                        <div class="row mt8">-->
+<!--                            <label for="deferred_expense_account_id" class="col-lg-5 o_light_label" string="Deferred expense"/>-->
+<!--                            <field name="deferred_expense_account_id" domain="[('account_type', '=', 'asset_current'), ('deprecated', '=', False)]"/>-->
+<!--                        </div>-->
+<!--                        <div class="row mt8">-->
+<!--                            <label for="generate_deferred_expense_entries_method" class="col-lg-5 o_light_label" string="Generate Entries"/>-->
+<!--                            <field name="generate_deferred_expense_entries_method"/>-->
+<!--                        </div>-->
+<!--                        <div class="row mt8">-->
+<!--                            <label for="deferred_expense_amount_computation_method" class="col-lg-5 o_light_label" string="Based on"/>-->
+<!--                            <field name="deferred_expense_amount_computation_method"/>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </setting>-->
+<!--                <setting string="Deferred revenue entries:" company_dependent="1">-->
+<!--                    <div class="content-group">-->
+<!--                        <div class="row mt8">-->
+<!--                            <label for="deferred_revenue_journal_id" class="col-lg-5 o_light_label" string="Journal"/>-->
+<!--                            <field name="deferred_revenue_journal_id" domain="[('type', '=', 'general'), ('active', '=', True)]"/>-->
+<!--                        </div>-->
+<!--                        <div class="row mt8">-->
+<!--                            <label for="deferred_revenue_account_id" class="col-lg-5 o_light_label" string="Deferred revenue"/>-->
+<!--                            <field name="deferred_revenue_account_id" domain="[('account_type', '=', 'liability_current'), ('deprecated', '=', False)]"/>-->
+<!--                        </div>-->
+<!--                        <div class="row mt8">-->
+<!--                            <label for="generate_deferred_revenue_entries_method" class="col-lg-5 o_light_label" string="Generate Entries"/>-->
+<!--                            <field name="generate_deferred_revenue_entries_method"/>-->
+<!--                        </div>-->
+<!--                        <div class="row mt8">-->
+<!--                            <label for="deferred_revenue_amount_computation_method" class="col-lg-5 o_light_label" string="Based on"/>-->
+<!--                            <field name="deferred_revenue_amount_computation_method"/>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </setting>-->
+<!--            </setting>-->
+
+<!--        </field>-->
+<!--    </record>-->

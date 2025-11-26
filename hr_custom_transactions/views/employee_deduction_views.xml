@@ -1,0 +1,78 @@
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="employee_deduction_view_tree" model="ir.ui.view">
+            <field name="name">employee.deduction.tree</field>
+            <field name="model">employee.deduction</field>
+            <field name="arch" type="xml">
+                <list string="Employee Deductions" decoration-info="state == 'draft'"
+                      decoration-success="state == 'confirmed'" decoration-danger="state == 'cancelled'">
+                    <field name="employee_id"/>
+                    <field name="request_date"/>
+                    <field name="description"/>
+                    <field name="deduction_type"/>
+                    <field name="unit_count"/>
+                    <field name="total_value"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="employee_deduction_view_form" model="ir.ui.view">
+            <field name="name">employee.deduction.form</field>
+            <field name="model">employee.deduction</field>
+            <field name="arch" type="xml">
+                <form string="Employee Deduction">
+                    <header>
+                        <button name="action_confirm" type="object" string="Confirm" invisible="state != 'draft'"
+                                class="oe_highlight"/>
+                        <button name="action_cancel" type="object" string="Cancel"
+                                invisible="state not in ['draft','confirmed']"/>
+                        <button name="action_set_to_draft" type="object" string="Set to Draft"
+                                invisible="state != 'cancelled'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" readonly="state in ['confirmed', 'cancelled']"/>
+                                <field name="create_date" invisible="1"/>
+                                <field name="deduction_type" readonly="state in ['confirmed', 'cancelled']"/>
+                                <field name="unit_count" readonly="state in ['confirmed', 'cancelled']"/>
+                                <field name="total_value" widget="monetary" options="{'currency_field': 'currency_id'}"
+                                       readonly="state in ['confirmed', 'cancelled']"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="request_date" readonly="state in ['confirmed', 'cancelled']"/>
+                                <field name="description" readonly="state in ['confirmed', 'cancelled']"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="employee_deduction_view_search" model="ir.ui.view">
+            <field name="name">employee.deduction.search</field>
+            <field name="model">employee.deduction</field>
+            <field name="arch" type="xml">
+                <search string="Search Employee Deduction">
+                    <field name="employee_id"/>
+                    <field name="request_date"/>
+                    <field name="description"/>
+                    <filter string="Draft" name="state_draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="Confirmed" name="state_confirmed" domain="[('state', '=', 'confirmed')]"/>
+                    <filter string="Cancelled" name="state_cancelled" domain="[('state', '=', 'cancelled')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

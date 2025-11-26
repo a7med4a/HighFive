@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="journal_entry_custom_report_footer">
+            <div class="article o_report_content">
+                <t t-raw="0"/>
+            </div>
+            <div class="footer o_standard_footer">
+                <div style="border-top: 1px solid black; padding-top: 5px; text-align: center; font-size: 15px;">
+                    <div style="text-align: center;">
+                        <span style="padding-right: 10px;">Phone number: 0581101558</span>
+                        <span>Email: Sales@asasware.com</span>
+                    </div>
+                    <div>Bank: Rajhi - SA1280000470608016184435</div>
+                    <div>Page
+                        <span class="page"/>
+                        /
+                        <span class="topage"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template id="journal_entry_report_document">
+            <t t-call="print_invoice_date.journal_entry_custom_report_footer">
+                <div class="page" dir="ltr">
+                    <div dir="ltr">
+                        <t t-if="not o" t-set="o" t-value="doc"/>
+
+                        <t t-if="not company">
+                            <!-- Multicompany -->
+                            <t t-if="company_id">
+                                <t t-set="company" t-value="company_id"/>
+                            </t>
+                            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                                <t t-set="company" t-value="o.company_id.sudo()"/>
+                            </t>
+                            <t t-else="else">
+                                <t t-set="company" t-value="res_company"/>
+                            </t>
+                        </t>
+                        <div style="padding: 10px 2px;  margin-bottom: 10px;">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-4 text-left">
+                                    <div t-field="o.company_id.name"
+                                         style="border-bottom: 1px solid black; display: inline-block; width: auto; font-size: 16px;"/>
+                                    <div t-field="o.company_id.street"/>
+                                    <div>
+                                        <span>VAT No:</span>
+                                        <span t-field="o.company_id.vat"/>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                         style="max-height: 80px; max-width: 100%;"/>
+                                </div>
+                                <div class="col-4" style="text-align: right; direction: rtl;">
+                                    <div style="border-bottom: 1px solid black; display: inline-block; width: auto;">
+                                        <t t-esc="o.company_id.arabic_contact"/>
+                                    </div>
+                                    <div>
+                                        <t t-esc="o.company_id.arabic_street"/>
+                                    </div>
+                                    <div>
+                                        <span>الرقم الضريبي:</span>
+                                        <span t-field="o.company_id.vat"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" dir="ltr"
+                         style="font-weight: bold; font-size: 20px; background-color: #f0f0f0; border-bottom: 8px solid #b7fd19;">
+                        <table class="table table-borderless w-100 m-0" style="border: none;">
+                            <tr>
+                                <td style="text-align: left; border: none;" class="col-4">
+                                    <span>Journal Entry</span>
+                                </td>
+                                <td style="text-align: center; border: none;" class="col-4">
+                                    <t t-esc="o.name"/>
+                                </td>
+                                <td style="text-align: right; border: none;" class="col-4">قيد اليومية</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <table class="table table-borderless w-100 m-0" style="border: none; text-align: center;"
+                           dir="ltr">
+                        <tr>
+                            <td class="col-4" style="text-align: left;">Reference</td>
+                            <td class="col-4" style="text-align: center;">
+                                <t t-esc="o.ref"/>
+                            </td>
+                            <td class="col-4" style="text-align: right;">الرقم المرجعي</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;" class="col-4">Journal</td>
+                            <td style="text-align: center;" class="col-4">
+                                <t class="col-4" t-esc="o.journal_id.name"/>
+                            </td>
+                            <td style="text-align: right; border: none;" class="col-4">دفتر اليومية</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; border: none;" class="col-4">Date</td>
+                            <td style="text-align: center; border: none;" class="col-4">
+                                <div t-field="o.date" t-options='{"widget": "date"}'>2023-12-31</div>
+                            </td>
+                            <td style="text-align: right; border: none;" class="col-4">التاريخ</td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table class="table w-100 m-0"
+                           style="border-collapse: collapse; font-size: 14px; border: 1px solid black;"
+                           dir="ltr">
+                        <thead>
+                            <tr style="background-color: #f0f0f0;font-size: 15px; border-bottom: 3px solid black">
+                                <td style="border: none; text-align: center;">Code<br/>الكود
+                                </td>
+                                <td style="border: none; text-align: center;">Account Name<br/>اسم الحساب
+                                </td>
+                                <td style="border: none; text-align: center;">Partner<br/>العميل
+                                </td>
+                                <td style="border: none; text-align: center;">label<br/>العنوان
+                                </td>
+                                <td style="border: none; text-align: center;">Analytic Distribution<br/>التوزيع التحليلي
+                                </td>
+                                <td style="border: none; text-align: center;">Debit<br/>المدين
+                                </td>
+                                <td style="border: none; text-align: center;">Credit<br/>الدائن
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="total" t-value="0.0"/>
+                            <t t-set="total1" t-value="0.0"/>
+                            <t t-foreach="o.line_ids" t-as="line">
+                                <tr>
+                                    <td style="border: none; text-align: center;">
+                                        <span t-field="line.account_id.code"/>
+                                    </td>
+                                    <td style="border: none; text-align: center;">
+                                        <span t-field="line.account_id.name"/>
+                                    </td>
+                                    <td style="border: none; text-align: center;">
+                                        <span t-field="line.partner_id"/>
+                                    </td>
+                                    <td style="border: none; text-align: center;">
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <td style="border: none; text-align: center;">
+                                        <span>
+                                            <div t-foreach="line.analytic_distribution" t-as="distribution">
+                                                <t t-set="distributions" t-value="distribution.split(',')"/>
+                                                <t t-foreach="distributions" t-as="dist">
+                                                    <t t-if="line.env['account.analytic.account'].browse(int(dist))[0].partner_id">
+                                                        <t t-esc="line.env['account.analytic.account'].browse(int(dist))[0].name"/>
+                                                        -
+                                                        <t t-esc="line.env['account.analytic.account'].browse(int(dist))[0].partner_id.name"/>
+                                                        ,
+                                                        <t t-esc="line.analytic_distribution.get(dist)"/>
+                                                    </t>
+                                                    <t>
+                                                        <t t-esc="line.env['account.analytic.account'].browse(int(dist))[0].name"/>
+                                                        ,
+                                                        <t t-esc="line.analytic_distribution.get(dist)"/>
+                                                    </t>
+                                                    <br/>
+                                                </t>
+                                            </div>
+                                        </span>
+                                    </td>
+                                    <td style="border: none; text-align: center;">
+                                        <span t-field="line.debit"/>
+                                    </td>
+                                    <td style="border: none; text-align: center;">
+                                        <span t-field="line.credit"/>
+                                    </td>
+                                </tr>
+                                <t t-set="total" t-value="total + line.debit"/>
+                                <t t-set="total1" t-value="total1 + line.credit"/>
+                            </t>
+                        </tbody>
+                        <tfooter>
+                            <tr style="border:none;">
+                                <td colspan="5" style="border: none; text-align: left;">
+                                    <strong>Total</strong>
+                                </td>
+
+                                <td style="border: none; background-color: white;" width="10%">
+                                    <strong>
+                                        <span>
+                                            <t t-esc="total" t-options='{"widget":"float", "precision":2}'/>
+                                            <span t-esc="o.company_id.currency_id.symbol"/>
+                                        </span>
+                                    </strong>
+                                </td>
+
+                                <td style="border: none; background-color: white;" width="10%">
+                                    <strong>
+                                        <span>
+                                            <t t-esc="total1" t-options='{"widget":"float", "precision":2}'/>
+                                            <span t-esc="o.company_id.currency_id.symbol"/>
+                                        </span>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tfooter>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <template id="journal_entry_report_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="print_invoice_date.journal_entry_report_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

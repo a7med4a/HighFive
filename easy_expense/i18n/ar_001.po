@@ -1,0 +1,244 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* easy_expense
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250505\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-11 22:32+0000\n"
+"PO-Revision-Date: 2025-09-11 22:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: easy_expense
+#: model:ir.ui.menu,name:easy_expense.menu_easy_expense_id
+msgid "All Expenses"
+msgstr "كل المصروفات"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__amount
+#: model:ir.model.fields,field_description:easy_expense.field_pay_exp_wizard__amount
+msgid "Amount"
+msgstr "المبلغ"
+
+#. module: easy_expense
+#: model_terms:ir.ui.view,arch_db:easy_expense.easy_expense_form_view
+#: model_terms:ir.ui.view,arch_db:easy_expense.pay_exp_wizard_form_id
+msgid "Cancel"
+msgstr "الغاء"
+
+#. module: easy_expense
+#: model:ir.model.fields.selection,name:easy_expense.selection__easy_expense__state__cancel
+msgid "Canceled"
+msgstr "تم الإلغاء"
+
+#. module: easy_expense
+#. odoo-python
+#: code:addons/easy_expense/models/easy_expense.py:0
+msgid "Cannot delete a expense After Confirm"
+msgstr "لا يمكن حذف مصروف بعد التأكيد"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__company_id
+#: model:ir.model.fields,field_description:easy_expense.field_pay_exp_wizard__company_id
+msgid "Company"
+msgstr "الشركة"
+
+#. module: easy_expense
+#: model:ir.model.fields.selection,name:easy_expense.selection__easy_expense__state__confirm
+#: model_terms:ir.ui.view,arch_db:easy_expense.easy_expense_form_view
+msgid "Confirm"
+msgstr "تأكيد"
+
+#. module: easy_expense
+#: model_terms:ir.actions.act_window,help:easy_expense.easy_expense_action_id
+msgid "Create your first expense record."
+msgstr "قم بإنشاء أول سجل نفقاتك."
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__create_uid
+#: model:ir.model.fields,field_description:easy_expense.field_pay_exp_wizard__create_uid
+msgid "Created by"
+msgstr "تم الإنشاء بواسطة"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__create_date
+#: model:ir.model.fields,field_description:easy_expense.field_pay_exp_wizard__create_date
+msgid "Created on"
+msgstr "تم إنشاؤه في"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__currency_id
+msgid "Currency"
+msgstr "عملة"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__exp_date
+msgid "Date"
+msgstr "تاريخ"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__note
+msgid "Description"
+msgstr "وصف"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__display_name
+#: model:ir.model.fields,field_description:easy_expense.field_pay_exp_wizard__display_name
+msgid "Display Name"
+msgstr "الاسم المعروض"
+
+#. module: easy_expense
+#: model:ir.model.fields.selection,name:easy_expense.selection__easy_expense__state__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__due_date
+msgid "Due Date"
+msgstr "تاريخ الاستحقاق"
+
+#. module: easy_expense
+#: model:ir.model,name:easy_expense.model_easy_expense
+msgid "Easy Expense"
+msgstr "المصروفات"
+
+#. module: easy_expense
+#: model:ir.ui.menu,name:easy_expense.menu_easy_expense_root
+msgid "Easy Expenses"
+msgstr "المصروفات"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_pay_exp_wizard__expense_id
+#: model_terms:ir.ui.view,arch_db:easy_expense.easy_expense_form_view
+msgid "Expense"
+msgstr "النفقات"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__product_id
+#: model:ir.model.fields,field_description:easy_expense.field_pay_exp_wizard__product_id
+msgid "Expense Product"
+msgstr "المنتج المصروف"
+
+#. module: easy_expense
+#: model_terms:ir.ui.view,arch_db:easy_expense.easy_expense_filter
+msgid "Expense Salary"
+msgstr "الراتب المصروف"
+
+#. module: easy_expense
+#: model:ir.actions.act_window,name:easy_expense.easy_expense_action_id
+#: model:ir.ui.menu,name:easy_expense.easy_expense_categ_id
+msgid "Expenses"
+msgstr "المصروفات"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__id
+#: model:ir.model.fields,field_description:easy_expense.field_pay_exp_wizard__id
+msgid "ID"
+msgstr "الرقم التعريفي"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_pay_exp_wizard__journal_id
+msgid "Journal"
+msgstr "دفتر اليومية"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__write_uid
+#: model:ir.model.fields,field_description:easy_expense.field_pay_exp_wizard__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__write_date
+#: model:ir.model.fields,field_description:easy_expense.field_pay_exp_wizard__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__move_id
+msgid "Move"
+msgstr "الحركة"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: easy_expense
+#: model_terms:ir.ui.view,arch_db:easy_expense.easy_expense_form_view
+msgid "Number"
+msgstr "الرقم"
+
+#. module: easy_expense
+#: model:ir.model.fields.selection,name:easy_expense.selection__easy_expense__state__paid
+msgid "Paid"
+msgstr "مدفوع"
+
+#. module: easy_expense
+#: model_terms:ir.ui.view,arch_db:easy_expense.pay_exp_wizard_form_id
+msgid "Pay"
+msgstr "دفع"
+
+#. module: easy_expense
+#: model:ir.model,name:easy_expense.model_pay_exp_wizard
+msgid "Pay Exp Wizard"
+msgstr "pay.exp.wizard"
+
+#. module: easy_expense
+#: model:ir.actions.act_window,name:easy_expense.action_pay_exp_wizard
+#: model_terms:ir.ui.view,arch_db:easy_expense.easy_expense_form_view
+#: model_terms:ir.ui.view,arch_db:easy_expense.pay_exp_wizard_form_id
+msgid "Payment"
+msgstr "الدفع"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__payment_date
+#: model:ir.model.fields,field_description:easy_expense.field_pay_exp_wizard__payment_date
+msgid "Payment Date"
+msgstr "تاريخ الدفع"
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__post_date
+msgid "Post Date"
+msgstr "تاريخ النشر"
+
+#. module: easy_expense
+#: model_terms:ir.actions.act_window,help:easy_expense.action_pay_exp_wizard
+msgid "Start by selecting a journal to register your payment."
+msgstr "ابدأ باختيار مجلة لتسجيل دفعتك."
+
+#. module: easy_expense
+#: model:ir.model.fields,field_description:easy_expense.field_easy_expense__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: easy_expense
+#. odoo-python
+#: code:addons/easy_expense/models/easy_expense.py:0
+msgid "The Due date is in the past."
+msgstr "تاريخ الاستحقاق في الماضي."
+
+#. module: easy_expense
+#: model_terms:ir.actions.act_window,help:easy_expense.action_pay_exp_wizard
+msgid "This wizard will create a payment for the selected expense."
+msgstr "ستقوم هذه النافذة بإنشاء دفعة للنفقات المحددة."
+
+#. module: easy_expense
+#: model_terms:ir.ui.view,arch_db:easy_expense.easy_expense_tree_view
+msgid "Total"
+msgstr "الاجمالي"
+
+#. module: easy_expense
+#: model_terms:ir.actions.act_window,help:easy_expense.easy_expense_action_id
+msgid "Track and manage expenses easily."
+msgstr "Track and manage expenses easily."
+
+#. module: easy_expense
+#: model_terms:ir.ui.view,arch_db:easy_expense.easy_expense_tree_view
+msgid "True"
+msgstr "صح"

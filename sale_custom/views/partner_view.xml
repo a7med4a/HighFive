@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_moves_button" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.moves.button</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_button_box']/button[1]" position="before">
+                <button name="open_partner_ledger_action"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-exchange"
+                        string="Partner Ledger"
+                        invisible="not move_count">
+                    <field name="move_count" widget="statinfo"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

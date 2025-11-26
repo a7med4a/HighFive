@@ -1,0 +1,451 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sale_custom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-23 22:55+0000\n"
+"PO-Revision-Date: 2025-10-23 22:55+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"15%\n"
+"                                                إجمالي ضريبة القيمة المضافة"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid ""
+"15%\n"
+"                                            إجمالي ضريبة القيمة المضافة"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.custom_report_portal_sale_header_footer
+#: model_terms:ir.ui.view,arch_db:sale_custom.custom_report_sale_header_footer
+msgid ""
+"<span style=\"padding-right: 10px;\">Phone number: 0569629070</span>\n"
+"                        <span>Email: Sales@asasware.com</span>"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "<span>Quotations</span>"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "<span>VAT No:</span>"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "<span>sale order</span>"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "<span>الرقم الضريبي:</span>"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "<strong>اسم العميل</strong>"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "<strong>مندوب المبيعات</strong>"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.view_move_line_search_inherit_group_account
+msgid "Account"
+msgstr "الحساب"
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.custom_report_portal_sale_header_footer
+#: model_terms:ir.ui.view,arch_db:sale_custom.custom_report_sale_header_footer
+msgid "Bank: Rajhi - SA1280000470608016184435"
+msgstr ""
+
+#. module: sale_custom
+#: model:ir.model.fields,field_description:sale_custom.field_account_bank_statement_line__business_type
+#: model:ir.model.fields,field_description:sale_custom.field_account_move__business_type
+#: model:ir.model.fields,field_description:sale_custom.field_sale_order__business_type
+#: model_terms:ir.ui.view,arch_db:sale_custom.view_account_filter_inherit_business_type
+#: model_terms:ir.ui.view,arch_db:sale_custom.view_sales_order_filter_inherit_business_type
+msgid "Business Type"
+msgstr "نوع العمل"
+
+#. module: sale_custom
+#: model:ir.model,name:sale_custom.model_res_partner
+msgid "Contact"
+msgstr "جهة الاتصال"
+
+#. module: sale_custom
+#: model_terms:ir.actions.act_window,help:sale_custom.terms_and_conditions_action_id
+msgid "Create your first terms and conditions record."
+msgstr ""
+
+#. module: sale_custom
+#: model:ir.model.fields,field_description:sale_custom.field_terms_and_conditions__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: sale_custom
+#: model:ir.model.fields,field_description:sale_custom.field_terms_and_conditions__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: sale_custom
+#: model:ir.model.fields,field_description:sale_custom.field_terms_and_conditions__description
+msgid "Description"
+msgstr "الوصف"
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "Discount"
+msgstr ""
+
+#. module: sale_custom
+#: model:ir.model.fields,field_description:sale_custom.field_terms_and_conditions__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: sale_custom
+#: model:ir.model.fields,field_description:sale_custom.field_terms_and_conditions__id
+msgid "ID"
+msgstr ""
+
+#. module: sale_custom
+#: model:ir.model.fields,field_description:sale_custom.field_terms_and_conditions__sit_is_default
+msgid "Is Default"
+msgstr "؟هل هو افتراضي"
+
+#. module: sale_custom
+#: model:ir.model,name:sale_custom.model_account_move
+msgid "Journal Entry"
+msgstr "قيد اليومية"
+
+#. module: sale_custom
+#: model:ir.actions.act_window,name:sale_custom.action_account_moves_journal_item_bank
+#: model:ir.ui.menu,name:sale_custom.bank_menu
+msgid "Journal Item Bank"
+msgstr "دفتر يومية البنوك"
+
+#. module: sale_custom
+#: model:ir.model.fields,field_description:sale_custom.field_terms_and_conditions__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: sale_custom
+#: model:ir.model.fields,field_description:sale_custom.field_terms_and_conditions__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: sale_custom
+#: model:ir.model.fields.selection,name:sale_custom.selection__account_move__business_type__marketing
+#: model:ir.model.fields.selection,name:sale_custom.selection__sale_order__business_type__marketing
+#: model_terms:ir.ui.view,arch_db:sale_custom.view_account_filter_inherit_business_type
+#: model_terms:ir.ui.view,arch_db:sale_custom.view_sales_order_filter_inherit_business_type
+msgid "Marketing"
+msgstr "التسويق"
+
+#. module: sale_custom
+#: model:ir.model.fields,field_description:sale_custom.field_terms_and_conditions__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.custom_report_portal_sale_header_footer
+#: model_terms:ir.ui.view,arch_db:sale_custom.custom_report_sale_header_footer
+msgid ""
+"Page\n"
+"                        <span class=\"page\"/>\n"
+"                        /\n"
+"                        <span class=\"topage\"/>"
+msgstr ""
+
+#. module: sale_custom
+#: model:ir.model.fields,field_description:sale_custom.field_res_partner__move_count
+#: model:ir.model.fields,field_description:sale_custom.field_res_users__move_count
+#: model_terms:ir.ui.view,arch_db:sale_custom.view_partner_form_inherit_moves_button
+msgid "Partner Ledger"
+msgstr "كشف حساب"
+
+#. module: sale_custom
+#: model:ir.model.fields.selection,name:sale_custom.selection__account_move__business_type__printing
+#: model:ir.model.fields.selection,name:sale_custom.selection__sale_order__business_type__printing
+#: model_terms:ir.ui.view,arch_db:sale_custom.view_account_filter_inherit_business_type
+#: model_terms:ir.ui.view,arch_db:sale_custom.view_sales_order_filter_inherit_business_type
+msgid "Printing"
+msgstr "الطباعة"
+
+#. module: sale_custom
+#: model:ir.model.fields.selection,name:sale_custom.selection__account_move__business_type__printing_marketing
+#: model:ir.model.fields.selection,name:sale_custom.selection__sale_order__business_type__printing_marketing
+#: model_terms:ir.ui.view,arch_db:sale_custom.view_account_filter_inherit_business_type
+#: model_terms:ir.ui.view,arch_db:sale_custom.view_sales_order_filter_inherit_business_type
+msgid "Printing and Marketing"
+msgstr "الطباعة والتسويق"
+
+#. module: sale_custom
+#: model:ir.model,name:sale_custom.model_sale_order
+msgid "Sales Order"
+msgstr "أمر البيع"
+
+#. module: sale_custom
+#: model:ir.actions.act_window,name:sale_custom.terms_and_conditions_action_id
+#: model:ir.model,name:sale_custom.model_terms_and_conditions
+#: model:ir.model.fields,field_description:sale_custom.field_sale_order__terms_and_conditions
+#: model:ir.ui.menu,name:sale_custom.terms_and_conditions_menu_id
+#: model_terms:ir.ui.view,arch_db:sale_custom.terms_and_conditions_form_view
+msgid "Terms and Conditions"
+msgstr "الملاحظات والشروط"
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"Total\n"
+"                                                (Excluding VAT)"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"Total\n"
+"                                                Amount\n"
+"                                                Due (Incl VAT)"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"Total\n"
+"                                                VAT\n"
+"                                                15%"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid ""
+"Total\n"
+"                                            (Excluding VAT)"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid ""
+"Total\n"
+"                                            Amount\n"
+"                                            Due (Incl VAT)"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid ""
+"Total\n"
+"                                            VAT\n"
+"                                            15%"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.actions.act_window,help:sale_custom.terms_and_conditions_action_id
+msgid "Track and manage terms and conditions easily."
+msgstr ""
+
+#. module: sale_custom
+#: model:ir.ui.menu,name:sale_custom.terms_and_conditions_categ_id
+msgid "all terms and conditions"
+msgstr "كل الملاحظات والشروط "
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "أمر البيع"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "إنتهاء العرض"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "اجمالي المبلغ المستحق (شامل ضريبة القيمة المضافة)"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"الإجمالي\n"
+"                                                (غير شامل ضريبة\n"
+"                                                القيمة المضافة)"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid ""
+"الإجمالي\n"
+"                                            (غير شامل ضريبة\n"
+"                                            القيمة المضافة)"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"الاجمالي\n"
+"                                                <br/>\n"
+"                                                Total"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "الاجمالي<br/>Total"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"الخصم\n"
+"                                                <br/>\n"
+"                                                Discount"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "الخصم<br/>Discount"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "الضريبة<br/>Tax"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "الكمية<br/>Qty"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "المجموع<br/>Net"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"بيان\n"
+"                                                <br/>\n"
+"                                                Description"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "بيان<br/>Description"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "تاريخ العرض"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"رقم\n"
+"                                                <br/>NO"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"رقم المنتج\n"
+"                                                <br/>\n"
+"                                                Reference"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "رقم<br/>NO"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"سعر الوحدة\n"
+"                                                <br/>\n"
+"                                                Unit\n"
+"                                                Price"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid ""
+"سعر الوحدة<br/>Unit\n"
+"                                            Price"
+msgstr ""
+
+#. module: sale_custom
+#: model:ir.actions.report,name:sale_custom.action_report_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.view_sale_order_terms_and_conditions_inherit_form
+msgid "طباعة عرض السعر"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid "عرض سعر"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"قيمة الضريبة\n"
+"                                                <br/>Tax\n"
+"                                                Amount"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid ""
+"قيمة الضريبة<br/>Tax\n"
+"                                            Amount"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_portal_sale_order_pdf
+msgid ""
+"مجموع\n"
+"                                                الخصم"
+msgstr ""
+
+#. module: sale_custom
+#: model_terms:ir.ui.view,arch_db:sale_custom.report_sale_order_pdf
+msgid ""
+"مجموع\n"
+"                                            الخصم"
+msgstr ""

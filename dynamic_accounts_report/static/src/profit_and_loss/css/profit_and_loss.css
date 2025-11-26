@@ -1,0 +1,188 @@
+/* === General Layout === */
+.profit_and_loss {
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    background-color: #f8f9fb;
+    color: #333;
+}
+
+/* === Header === */
+.profit_and_loss .header {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.profit_and_loss .header_section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-grow: 1;
+}
+
+/* === Sub Headers Left === */
+.profit_and_loss .sub_header_left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profit_and_loss .btn_report_print_pdf {
+    color: #fff;
+    border: none;
+    background-color: #714B67;
+    border-radius: 6px;
+    padding: 6px;
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.profit_and_loss .btn_report_print_pdf:hover {
+    background-color: #5a374a;
+}
+
+.profit_and_loss .btn_report_print_xlsx {
+    color: #374151;
+    background-color: #e7e9ed;
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.profit_and_loss .btn_report_print_xlsx:hover {
+    background-color: #d2d6db;
+}
+
+/* === Sub Headers Right === */
+.profit_and_loss .sub_header_right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.profit_and_loss .sub_header_right .time_range,
+.profit_and_loss .sub_header_right .comparison_range,
+.profit_and_loss .sub_header_right .journals_filter,
+.profit_and_loss .sub_header_right .accounts_filter,
+.profit_and_loss .sub_header_right .analytic_filter,
+.profit_and_loss .sub_header_right .search_Target_move,
+.profit_and_loss .sub_header_right .o_searchview {
+    margin: 8px;
+    padding: 6px;
+    border-radius: 6px;
+    color: #374151;
+    background-color: #e7e9ed;
+}
+.profit_and_loss .sub_header_right .account:hover,
+.profit_and_loss .sub_header_right .option:hover,
+.profit_and_loss .sub_header_right .time_range:hover {
+    background-color: #d2d6db;
+}
+
+.profit_and_loss .list-group .date_bottoms {
+    display: flex;
+    justify-content: center;
+}
+
+.profit_and_loss .header .dropdown-toggle {
+    cursor: pointer;
+    color: #374151;
+    font-weight: 500;
+}
+
+.profit_and_loss .header .dropdown-menu {
+    border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.profit_and_loss .report-filter-button {
+    background-color: #fff;
+    border: none;
+    text-align: left;
+    width: 100%;
+    padding: 8px 12px;
+    transition:  background-color 0.2s;
+}
+
+.profit_and_loss .report-filter-button:hover {
+     background-color: #f1f1f1;
+}
+
+/* === Table Styling === */
+.profit_and_loss .table_view_dfr {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profit_and_loss .table_main_view {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 60%;
+}
+
+.profit_and_loss .table_main_view table {
+    border-collapse: collapse;
+}
+
+.profit_and_loss .table_main_view .main_row {
+    background-color: #d2d6db;
+}
+
+.profit_and_loss .table_main_view th,
+.profit_and_loss .table_main_view td {
+    text-align: start;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.profit_and_loss .table_main_view thead {
+    background-color: #fff;
+    color: #374151;
+}
+
+.profit_and_loss .empty::after {
+    content: "\00a0";
+}
+
+.profit_and_loss .show_gl {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.profit_and_loss .show_gl:hover {
+    background-color: #d2d6db;
+}
+
+
+/* === Partner Rows === */
+.profit_and_loss .border-dark {
+    border-bottom: 2px solid #dee2e6 !important;
+}
+
+.profit_and_loss .partner_buttons {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.profit_and_loss .o_heading {
+    font-weight: 600;
+    color: #111827;
+}
+
+.profit_and_loss .span_number {
+    margin-right: 2px;
+}

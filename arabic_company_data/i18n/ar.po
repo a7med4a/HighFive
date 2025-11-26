@@ -1,0 +1,141 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* arabic_company_data
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-04 01:42+0000\n"
+"PO-Revision-Date: 2024-12-04 01:42+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: arabic_company_data
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_partner_form
+msgid ""
+"<span class=\"o_form_label o_td_label\" name=\"address_name\">\n"
+"                                <b invisible=\"not is_company\">English Address</b>\n"
+"                        </span>"
+msgstr ""
+"<span class=\"o_form_label o_td_label\" name=\"address_name\">\n"
+"<b invisible=\"not is_company\">العنوان باللغة الإنجليزية</b>\n"
+"</span>"
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_company__arabic_city
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_company_form
+msgid "Arabic City"
+msgstr "مدينة عربية"
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_company__arabic_contact
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_company_form
+msgid "Arabic Contact"
+msgstr "اتصل بنا باللغة العربية"
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_company__arabic_contact_2
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_company_form
+msgid "Arabic Contact 2"
+msgstr "الاتصال باللغة العربية 2"
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_company__arabic_country
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_company_form
+msgid "Arabic Country"
+msgstr "دولة عربية"
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_users__arabic_name
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_users_form
+msgid "Arabic Name"
+msgstr "الاسم العربي"
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_company__arabic_street
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_company_form
+msgid "Arabic Street"
+msgstr "الشارع العربي"
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_company__arabic_street_2
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_company_form
+msgid "Arabic Street 2"
+msgstr "الشارع العربي 2"
+
+#. module: arabic_company_data
+#: model:ir.model,name:arabic_company_data.model_res_company
+msgid "Companies"
+msgstr "الشركات"
+
+#. module: arabic_company_data
+#: model:ir.model,name:arabic_company_data.model_res_partner
+msgid "Contact"
+msgstr "جهة الاتصال"
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_partner__english_address
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_users__english_address
+msgid "English Address"
+msgstr "العنوان باللغة الانجليزية"
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_partner__english_city
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_users__english_city
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_partner_form
+msgid "English City"
+msgstr "مدينة انجليزية"
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_company__english_contact
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_company_form
+msgid "English Contact"
+msgstr "اتصل بنا"
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_partner__english_country
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_users__english_country
+msgid "English Country"
+msgstr "اللغة الإنجليزية: الريف"
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_partner__english_name
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_users__english_name
+msgid "English Name"
+msgstr "الاسم الانجليزي"
+
+#. module: arabic_company_data
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_partner_form
+msgid "English Name..."
+msgstr "الاسم الانجليزي..."
+
+#. module: arabic_company_data
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_partner_form
+msgid "English Street 2..."
+msgstr "شارع انجليزي 2..."
+
+#. module: arabic_company_data
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_partner_form
+msgid "English Street1..."
+msgstr "شارع انجليزي1..."
+
+#. module: arabic_company_data
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_partner__english_street2
+#: model:ir.model.fields,field_description:arabic_company_data.field_res_users__english_street2
+msgid "English Street2"
+msgstr "شارع انجليزي2"
+
+#. module: arabic_company_data
+#: model_terms:ir.ui.view,arch_db:arabic_company_data.view_res_partner_form
+msgid "English country"
+msgstr "بلد انجليزي"
+
+#. module: arabic_company_data
+#: model:ir.model,name:arabic_company_data.model_res_users
+msgid "User"
+msgstr "المستخدم"

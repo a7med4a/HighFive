@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paperformat_a4_invoice" model="report.paperformat">
+            <field name="name">A4- Invoice</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">2</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_res_company_form" model="ir.ui.view">
+            <field name="name">res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="before">
+                    <field name="english_contact" string="English Contact"/>
+                  </xpath>
+                  <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="arabic_contact" string="Arabic Contact"/>
+                    <field name="arabic_contact_2" string="Arabic Contact 2"/>
+                  </xpath>
+                  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='general_info']/group[1]/group[1]/div[1]" position="after">
+                    <field name="arabic_street" string="Arabic Street"/>
+                    <field name="arabic_street_2" string="Arabic Street 2"/>
+                    <field name="arabic_city" string="Arabic City"/>
+                    <field name="arabic_country" string="Arabic Country"/>
+                  </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

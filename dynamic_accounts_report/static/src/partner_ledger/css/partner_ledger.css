@@ -1,0 +1,192 @@
+/* === General Layout === */
+.partner_ledger {
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    background-color: #f8f9fb;
+    color: #333;
+}
+
+/* === Header === */
+.partner_ledger .header {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.partner_ledger .header_section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-grow: 1;
+}
+
+/* === Sub Headers Left === */
+.partner_ledger .sub_header_left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.partner_ledger .btn_report_print_pdf {
+    color: #fff;
+    border: none;
+    background-color: #714B67;
+    border-radius: 6px;
+    padding: 6px;
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.partner_ledger .btn_report_print_pdf:hover {
+    background-color: #5a374a;
+}
+
+.partner_ledger .btn_report_print_xlsx {
+    color: #374151;
+    background-color: #e7e9ed;
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.partner_ledger .btn_report_print_xlsx:hover {
+    background-color: #d2d6db;
+}
+
+/* === Sub Headers Right === */
+.partner_ledger .sub_header_right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;  
+}
+
+.partner_ledger .sub_header_right .time_range,
+.partner_ledger .sub_header_right .account,
+.partner_ledger .sub_header_right .option,
+.partner_ledger .sub_header_right .o_searchview {
+    margin: 8px;
+    padding: 6px;
+    border-radius: 6px;
+    color: #374151;
+    background-color: #e7e9ed;
+}
+.partner_ledger .sub_header_right .account:hover,
+.partner_ledger .sub_header_right .option:hover,
+.partner_ledger .sub_header_right .time_range:hover {
+    background-color: #d2d6db;
+}
+
+.partner_ledger .list-group .date_bottoms {
+    display: flex;
+    justify-content: center;
+}
+
+.partner_ledger .header .dropdown-toggle {
+    cursor: pointer;
+    color: #374151;
+    font-weight: 500;
+}
+
+.partner_ledger .header .dropdown-menu {
+    border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.partner_ledger .report-filter-button {
+    background-color: #fff;
+    border: none;
+    text-align: left;
+    width: 100%;
+    padding: 8px 12px;
+    transition:  background-color 0.2s;
+}
+
+.partner_ledger .report-filter-button:hover {
+     background-color: #f1f1f1;
+}
+
+/* === Table Styling === */
+.partner_ledger .table_view_pl {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.partner_ledger .table_main_view table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.partner_ledger .table_main_view th,
+.partner_ledger .table_main_view td {
+    text-align: center;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.partner_ledger .table_main_view thead {
+    background-color: #fff;
+    color: #374151;
+}
+
+/* === Partner Rows === */
+.partner_ledger .border-dark {
+    border-bottom: 2px solid #dee2e6 !important;
+}
+
+.partner_ledger .partner_buttons {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.partner_ledger .partner_buttons .buttoms_open button {
+    color: #374151;
+    padding: 2px 2px;
+    border-radius: 4px;
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    margin: 3px 5px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.partner_ledger .partner_buttons .buttoms_open button:hover {
+    color: #0c7a87;
+} 
+
+.partner_ledger .o_heading {
+    font-weight: 600;
+    color: #111827;
+}
+
+.partner_ledger .span_number {
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+/* === Footer Notes === */
+.partner_ledger .foot_note {
+    background-color: #ffffff;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 13px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+}
+
+.partner_ledger .foot_note i.fa-trash {
+    color: #dc3545;
+    cursor: pointer;
+}
+
+.partner_ledger .foot_note i.fa-trash:hover {
+    color: #b21f2d;
+}

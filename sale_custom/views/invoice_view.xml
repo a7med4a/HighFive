@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="account_move_view_inherit_business_type">
+            <field name="name">account.move.view.inherit1.business.type</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='delivery_date']" position="after">
+                    <field name="business_type"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_filter_inherit_business_type" model="ir.ui.view">
+            <field name="name">account.list.select.inherit.business.type</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <!-- Add a new filter before Group By -->
+                <xpath expr="//filter[@name='to_check']" position="after">
+                    <filter string="Printing" name="business_type"
+                            domain="[('business_type', '=', 'printing')]"/>
+                    <filter string="Marketing" name="business_type"
+                            domain="[('business_type', '=', 'marketing')]"/>
+                    <filter string="Printing and Marketing" name="business_type"
+                            domain="[('business_type', '=', 'printing_marketing')]"/>
+                </xpath>
+
+                <!-- Add a new 'Group By' option -->
+                <xpath expr="//group" position="inside">
+                    <filter string="Business Type" name="business_type_group"
+                            domain="[]" context="{'group_by': 'business_type'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record model="ir.ui.view" id="account_move_line_view_inherit_descri">
+            <field name="name">account.move.view.inherit1.descri</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//header" position="inside">
+                    <button name="action_print_inv"
+                        invisible="move_type not in ['out_invoice','out_refund','in_invoice','in_refund'] or state != 'posted'"
+                        string="طباعة الفاتورة " class="oe_highlight" type="object" />
+                    <button name="action_print_bill_of_entry"
+                        invisible="move_type not in ['in_invoice','in_refund']"
+                        string="طباعة سند الصرف" class="oe_highlight" type="object" />
+                    <button name="action_print_journal_entry"
+                        invisible="move_type not in ['entry'] or state != 'posted'"
+                        string="طباعة القيد" class="oe_highlight" type="object" />
+                </xpath>
+
+                <xpath expr="//field[@name='ref']" position="after">
+                    <field name="company_bank_account_id_domain" invisible="1" />
+                    <field name="company_bank_account_id" invisible="1"
+                        domain="company_bank_account_id_domain"
+                        options='{"no_open": True, "no_create": True}'
+                        readonly="state not in ('draft', 'submit')" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

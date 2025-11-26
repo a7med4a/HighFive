@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="report.paperformat" id="paperformat_invoice">
+            <field name="name">A4 Invoice</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">25</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">62</field>
+            <field name="dpi">90</field>
+        </record>
+        <record id="action_report_jes_inv_date" model="ir.actions.report">
+            <field name="name">Invoice Custom</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="model">account.move</field>
+            <field name="report_name">print_invoice_date.report_invoice_document</field>
+            <field name="report_file">print_invoice_date.report_invoice_document</field>
+            <field name="print_report_name">'INV-%s' % (object.name)</field>
+            <field name="paperformat_id" ref="print_invoice_date.paperformat_invoice"/>
+            <field name="binding_model_id" eval="False"/>
+        </record>
+
+        <record model="report.paperformat" id="paperformat_bill_of_entry">
+            <field name="name">A4 Bill of Entry</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">25</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">62</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_report_jes_bill_of_entry" model="ir.actions.report">
+            <field name="name">bill of entry Custom</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="model">account.move</field>
+            <field name="report_name">print_invoice_date.report_bill_of_entry_document</field>
+            <field name="report_file">print_invoice_date.report_bill_of_entry_document</field>
+            <field name="print_report_name">'BILL-%s' % (object.name)</field>
+            <field name="paperformat_id" ref="print_invoice_date.paperformat_bill_of_entry"/>
+            <field name="binding_model_id" eval="False"/>
+        </record>
+
+        <record model="report.paperformat" id="paperformat_journal_entry">
+            <field name="name">A4 Journal Entry</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">25</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">62</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_print_journal_entry_report" model="ir.actions.report">
+            <field name="name">Print Journal Entry</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">print_invoice_date.journal_entry_report_template</field>
+            <field name="report_file">print_invoice_date.journal_entry_report_template</field>
+            <field name="print_report_name">'Entry-%s' % (object.name)</field>
+            <field name="paperformat_id" ref="print_invoice_date.paperformat_journal_entry"/>
+            <field name="binding_model_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

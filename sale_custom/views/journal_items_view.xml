@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_move_line_search_inherit_group_account" model="ir.ui.view">
+            <field name="name">account.move.line.search.group.account.inherit</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+            <field name="arch" type="xml">
+                <filter name="group_by_matching" position="after">
+                    <filter name="group_by_account_id" string="Account" context="{'group_by': 'account_id'}"/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="action_account_moves_journal_item_bank" model="ir.actions.act_window">
+            <field name="name">Journal Item Bank</field>
+            <field name="res_model">account.move.line</field>
+            <field name="view_mode">list,pivot,graph,kanban</field>
+            <field name="view_id" ref="view_move_line_search_inherit_group_account"/>
+            <field name="domain">
+                [
+                    ('display_type', 'not in', ('line_section', 'line_note')),
+                    ('account_id.account_type', '=', 'asset_cash')
+                ]
+            </field>
+            <field name="context">
+                {
+                    'search_default_group_by_account_id': 1,
+                    'search_default_posted': 1,
+                }
+            </field>
+        </record>
+
+        <menuitem id="bank_menu"
+                  name="Journal Item Bank"
+                  parent="account.menu_finance_entries"
+                  action="action_account_moves_journal_item_bank"
+                  sequence="25"/>
+    </data>
+</odoo>

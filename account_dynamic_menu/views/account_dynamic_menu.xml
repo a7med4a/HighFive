@@ -1,0 +1,6 @@
+<odoo>
+    <menuitem id="menu_common_account_moves_root"
+              name="حركات الحسابات الشائعة"
+              parent="account.menu_finance"
+              sequence="200"/>
+</odoo>

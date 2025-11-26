@@ -1,0 +1,975 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Balance Sheet Template -->
+    <!-- This template defines the structure and layout of a balance sheet
+    report -->
+    <template id="dynamic_accounts_report.balance_sheet">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="data_report_dpi" t-value="110"/>
+                <div class="page">
+                    <h3>
+                        <center>
+                            <b>
+                                <span t-esc="report_name"/>
+                            </b>
+                        </center>
+                    </h3>
+                    <br/>
+                    <div style="text-align: right;margin: 20px">
+                        <div>
+                            <t t-if="data['year']">
+                                <t t-foreach="data['year']"
+                                   t-as="periodData"
+                                   t-key="periodData_index">
+                                    <span class="text-center" style="border: 1px solid #d6dbe1; padding: 5px 20px;">
+                                        <t t-esc="periodData"/>
+                                    </span>
+                                </t>
+                            </t>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <t t-if="data['year']">
+                                <t t-foreach="data['year']"
+                                   t-as="periodData"
+                                   t-key="periodData_index">
+                                    <span class="text-center" style="padding: 10px 15px;">Balance</span>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+                    <table width="100%" class="table table-borderless">
+                        <tbody>
+                            <!-- Table body -->
+                            <tr style="background-color: #d6dbe1;">
+                                <th>
+                                    <span class="fw-bolder ms-2">
+                                        ASSETS
+                                    </span>
+                                </th>
+                                <th/>
+                                <th/>
+                            </tr>
+
+                            <tr style="border-bottom: 1.5px solid black;">
+                                <th>
+                                    <span class="fw-bolder ms-4">
+                                        Current Assets
+                                    </span>
+                                </th>
+                                <th/>
+                                <th/>
+                            </tr>
+
+                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                <th>
+                                    <span style="margin-left: 4rem;">Bank and Cash Accounts</span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas" t-key="datas_index">
+                                    <th class="text-end">
+                                        <span>
+                                            <t t-esc="datas['asset_cash'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <t t-foreach="data['datas'][0]['asset_cash'][0]"
+                               t-as="datas" t-key="datas_index">
+                                <t t-if="datas['amount'] != '0.00'">
+                                    <tr style="border-bottom: 1px solid #d6dbe1">
+                                        <th style="font-weight: normal;">
+                                            <span style="margin-left: 6rem;">
+                                                <t t-esc="datas['account_code']"/>
+                                            </span>
+                                        </th>
+                                        <th style="font-weight: normal;">
+                                            <span>
+                                                <t t-esc="datas['account_name']"/>
+                                            </span>
+                                        </th>
+                                        <!-- Assuming you want to iterate over all values to display -->
+                                        <t t-foreach="data['datas']"
+                                           t-as="values" t-key="values_index">
+                                            <t t-foreach="values['asset_cash'][0]"
+                                               t-as="account"
+                                               t-key="account_index">
+                                                <t t-if="account['name'] == datas['name']">
+                                                    <th class="text-end"
+                                                        style="font-weight: normal;">
+                                                        <span>
+                                                            <t t-esc="account['amount']"/>
+                                                        </span>
+                                                    </th>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </t>
+                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                <th>
+                                    <span style="margin-left: 4rem;">Receivables
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end"
+                                        style="font-weight: normal;">
+                                        <span>
+                                            <t t-esc="datas['asset_receivable'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <t t-foreach="data['datas']" t-as="value"
+                               t-key="value_index">
+                                <t t-if="value_index == 0">
+                                    <t t-foreach="value['asset_receivable'][0]"
+                                       t-as="datas" t-key="datas_index">
+                                        <t t-set="account_name"
+                                           t-value="datas['name']"/>
+                                        <t t-set="account_value" t-value="0"/>
+                                        <t t-foreach="data['datas']"
+                                           t-as="values"
+                                           t-key="values_index">
+                                            <t t-foreach="values['asset_receivable'][0]"
+                                               t-as="datas" t-key="datas_index">
+                                                <t t-if="account_name == datas['name']">
+                                                    <t t-if="datas['amount'] != '0.00'">
+                                                        <t t-set="account_value"
+                                                           t-value="1"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="account_value == 1">
+                                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                                <t t-foreach="data['datas']"
+                                                   t-as="values"
+                                                   t-key="values_index">
+                                                    <t t-foreach="values['asset_receivable'][0]"
+                                                       t-as="datas"
+                                                       t-key="datas_index">
+                                                        <t t-if="account_name == datas['name']">
+                                                            <th style="font-weight: normal;">
+                                                                <span style="margin-left: 6rem;">
+                                                                    <t t-esc="datas['account_code']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th style="font-weight: normal;">
+                                                                <span>
+                                                                    <t t-esc="datas['account_name']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th class="text-end"
+                                                                style="font-weight: normal;">
+                                                                <span>
+                                                                    <t t-esc="datas['amount']"/>
+                                                                </span>
+                                                            </th>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                <th>
+                                    <span style="margin-left: 4rem;">Current Assets
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end"
+                                        style="font-weight: normal;">
+                                        <span>
+                                            <t t-esc="datas['asset_current'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <t t-foreach="data['datas']" t-as="value"
+                               t-key="value_index">
+                                <t t-if="value_index == 0">
+                                    <t t-foreach="value['asset_current'][0]"
+                                       t-as="datas" t-key="datas_index">
+                                        <t t-set="account_name"
+                                           t-value="datas['name']"/>
+                                        <t t-set="account_value" t-value="0"/>
+                                        <t t-foreach="data['datas']"
+                                           t-as="values"
+                                           t-key="values_index">
+                                            <t t-foreach="values['asset_current'][0]"
+                                               t-as="datas" t-key="datas_index">
+                                                <t t-if="account_name == datas['name']">
+                                                    <t t-if="datas['amount'] != '0.00'">
+                                                        <t t-set="account_value"
+                                                           t-value="1"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="account_value == 1">
+                                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                                <t t-foreach="data['datas']"
+                                                   t-as="values"
+                                                   t-key="values_index">
+                                                    <t t-foreach="values['asset_current'][0]"
+                                                       t-as="datas"
+                                                       t-key="datas_index">
+                                                        <t t-if="account_name == datas['name']">
+                                                            <th style="font-weight: normal;">
+                                                                <span style="margin-left: 6rem;">
+                                                                    <t t-esc="datas['account_code']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th style="font-weight: normal;">
+                                                                <span>
+                                                                    <t t-esc="datas['account_name']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th class="text-end"
+                                                                style="font-weight: normal;">
+                                                                <span>
+                                                                    <t t-esc="datas['amount']"/>
+                                                                </span>
+                                                            </th>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                <th>
+                                    <span style="margin-left: 4rem;">Prepayments
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end"
+                                        style="font-weight: normal;">
+                                        <span>
+                                            <t t-esc="datas['asset_prepayments'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <t t-foreach="data['datas']" t-as="value"
+                               t-key="value_index">
+                                <t t-if="value_index == 0">
+                                    <t t-foreach="value['asset_prepayments'][0]"
+                                       t-as="datas" t-key="datas_index">
+                                        <t t-set="account_name"
+                                           t-value="datas['name']"/>
+                                        <t t-set="account_value" t-value="0"/>
+                                        <t t-foreach="data['datas']"
+                                           t-as="values"
+                                           t-key="values_index">
+                                            <t t-foreach="values['asset_prepayments'][0]"
+                                               t-as="datas" t-key="datas_index">
+                                                <t t-if="account_name == datas['name']">
+                                                    <t t-if="datas['amount'] != '0.00'">
+                                                        <t t-set="account_value"
+                                                           t-value="1"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="account_value == 1">
+                                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                                <t t-foreach="data['datas']"
+                                                   t-as="values"
+                                                   t-key="values_index">
+                                                    <t t-foreach="values['asset_prepayments'][0]"
+                                                       t-as="datas"
+                                                       t-key="datas_index">
+                                                        <t t-if="account_name == datas['name']">
+                                                            <th style="font-weight: normal;">
+                                                                <span style="margin-left: 6rem;">
+                                                                    <t t-esc="datas['account_code']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th style="font-weight: normal;">
+                                                                <span>
+                                                                    <t t-esc="datas['account_name']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th class="text-end"
+                                                                style="font-weight: normal;">
+                                                                <span>
+                                                                    <t t-esc="datas['amount']"/>
+                                                                </span>
+                                                            </th>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr style="border-bottom: 1.5px solid black;">
+                                <th>
+                                    <span class="fw-bolder ms-4">
+                                        Total Current Assets
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end">
+                                        <span style="font-weight: bolder; margin-left: 4%;">
+                                            <t t-esc="datas['total_current_asset']"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #d6dbe1;">
+                                <th>
+                                    <span style="margin-left: 4rem;">
+                                        Plus Fixed Assets
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end"
+                                        style="font-weight: normal;">
+                                        <span>
+                                            <t t-esc="datas['asset_fixed'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <t t-foreach="data['datas']" t-as="value"
+                               t-key="value_index">
+                                <t t-if="value_index == 0">
+                                    <t t-foreach="value['asset_fixed'][0]"
+                                       t-as="datas" t-key="datas_index">
+                                        <t t-set="account_name"
+                                           t-value="datas['name']"/>
+                                        <t t-set="account_value" t-value="0"/>
+                                        <t t-foreach="data['datas']"
+                                           t-as="values"
+                                           t-key="values_index">
+                                            <t t-foreach="values['asset_fixed'][0]"
+                                               t-as="datas" t-key="datas_index">
+                                                <t t-if="account_name == datas['name']">
+                                                    <t t-if="datas['amount'] != '0.00'">
+                                                        <t t-set="account_value"
+                                                           t-value="1"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="account_value == 1">
+                                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                                <t t-foreach="data['datas']"
+                                                   t-as="values"
+                                                   t-key="values_index">
+                                                    <t t-foreach="values['asset_fixed'][0]"
+                                                       t-as="datas"
+                                                       t-key="datas_index">
+                                                        <t t-if="account_name == datas['name']">
+                                                            <th>
+                                                                <span style="margin-left: 6rem;">
+                                                                    <t t-esc="datas['account_code']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th>
+                                                                <span>
+                                                                    <t t-esc="datas['account_name']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th class="text-end">
+                                                                <span>
+                                                                    <t t-esc="datas['amount']"/>
+                                                                </span>
+                                                            </th>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr style="border-bottom: 1px solid #d6dbe1;">
+                                <th>
+                                    <span style="margin-left: 4rem;">Plus Non-current Assets
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end">
+                                        <span>
+                                            <t t-esc="datas['asset_non_current'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <t t-foreach="data['datas']" t-as="value"
+                               t-key="value_index">
+                                <t t-if="value_index == 0">
+                                    <t t-foreach="value['asset_non_current'][0]"
+                                       t-as="datas" t-key="datas_index">
+                                        <t t-set="account_name"
+                                           t-value="datas['name']"/>
+                                        <t t-set="account_value" t-value="0"/>
+                                        <t t-foreach="data['datas']"
+                                           t-as="values"
+                                           t-key="values_index">
+                                            <t t-foreach="values['asset_non_current'][0]"
+                                               t-as="datas" t-key="datas_index">
+                                                <t t-if="account_name == datas['name']">
+                                                    <t t-if="datas['amount'] != '0.00'">
+                                                        <t t-set="account_value"
+                                                           t-value="1"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="account_value == 1">
+                                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                                <t t-foreach="data['datas']"
+                                                   t-as="values"
+                                                   t-key="values_index">
+                                                    <t t-foreach="values['asset_non_current'][0]"
+                                                       t-as="datas"
+                                                       t-key="datas_index">
+                                                        <t t-if="account_name == datas['name']">
+                                                            <th>
+                                                                <span style="margin-left: 6rem;">
+                                                                    <t t-esc="datas['account_code']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th>
+                                                                <span>
+                                                                    <t t-esc="datas['account_name']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th class="text-end">
+                                                                <span>
+                                                                    <t t-esc="datas['amount']"/>
+                                                                </span>
+                                                            </th>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr>
+                                <th>
+                                    <span class="fw-bolder ms-4">
+                                        Total Assets
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end">
+                                        <span style="font-weight: bolder; margin-left: 4%;">
+                                            <t t-esc="datas['total_assets']"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr style="background-color: #d6dbe1;">
+                                <th>
+                                    <span class="fw-bolder ms-2">
+                                        LIABILITIES
+                                    </span>
+                                </th>
+                                <th/>
+                                <th/>
+                            </tr>
+                            <tr style="border-bottom: 1.5px solid black;">
+                                <th>
+                                    <span class="fw-bolder ms-4">
+                                        Current Liabilities
+                                    </span>
+                                </th>
+                                <th/>
+                                <th/>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                <th>
+                                    <span style="margin-left: 4rem;">Current
+                                        Liabilities
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end"
+                                        style="font-weight: normal;">
+                                        <span>
+                                            <t t-esc="datas['liability_current'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <t t-foreach="data['datas']" t-as="value"
+                               t-key="value_index">
+                                <t t-if="value_index == 0">
+                                    <t t-foreach="value['liability_current'][0]"
+                                       t-as="datas" t-key="datas_index">
+                                        <t t-set="account_name"
+                                           t-value="datas['name']"/>
+                                        <t t-set="account_value" t-value="0"/>
+                                        <t t-foreach="data['datas']"
+                                           t-as="values"
+                                           t-key="values_index">
+                                            <t t-foreach="values['liability_current'][0]"
+                                               t-as="datas" t-key="datas_index">
+                                                <t t-if="account_name == datas['name']">
+                                                    <t t-if="datas['amount'] != '0.00'">
+                                                        <t t-set="account_value"
+                                                           t-value="1"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="account_value == 1">
+                                            <tr style="border-bottom: 1px solid #d6dbe1">
+                                                <t t-foreach="data['datas']"
+                                                   t-as="values"
+                                                   t-key="values_index">
+                                                    <t t-foreach="values['liability_current'][0]"
+                                                       t-as="datas"
+                                                       t-key="datas_index">
+                                                        <t t-if="account_name == datas['name']">
+                                                            <th>
+                                                                <span style="margin-left: 6rem;">
+                                                                    <t t-esc="datas['account_code']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th>
+                                                                <span>
+                                                                    <t t-esc="datas['account_name']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th class="text-end">
+                                                                <span>
+                                                                    <t t-esc="datas['amount']"/>
+                                                                </span>
+                                                            </th>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr style="border-bottom: 1px solid #d6dbe1;">
+                                <th>
+                                    <span style="margin-left: 4rem;">Payables
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end"
+                                        style="font-weight: normal;">
+                                        <span>
+                                            <t t-esc="datas['liability_payable'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <t t-foreach="data['datas']" t-as="value"
+                               t-key="value_index">
+                                <t t-if="value_index == 0">
+                                    <t t-foreach="value['liability_payable'][0]"
+                                       t-as="datas" t-key="datas_index">
+                                        <t t-set="account_name"
+                                           t-value="datas['name']"/>
+                                        <t t-set="account_value" t-value="0"/>
+                                        <t t-foreach="data['datas']"
+                                           t-as="values"
+                                           t-key="values_index">
+                                            <t t-foreach="values['liability_payable'][0]"
+                                               t-as="datas" t-key="datas_index">
+                                                <t t-if="account_name == datas['name']">
+                                                    <t t-if="datas['amount'] != '0.00'">
+                                                        <t t-set="account_value"
+                                                           t-value="1"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="account_value == 1">
+                                            <tr style="border-bottom: 1px solid #d6dbe1;">
+                                                <t t-foreach="data['datas']"
+                                                   t-as="values"
+                                                   t-key="values_index">
+                                                    <t t-foreach="values['liability_payable'][0]"
+                                                       t-as="datas"
+                                                       t-key="datas_index">
+                                                        <t t-if="account_name == datas['name']">
+                                                            <th>
+                                                                <span style="margin-left: 6rem;">
+                                                                    <t t-esc="datas['account_code']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th>
+                                                                <span>
+                                                                    <t t-esc="datas['account_name']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th class="text-end">
+                                                                <span>
+                                                                    <t t-esc="datas['amount']"/>
+                                                                </span>
+                                                            </th>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr style="border-bottom: 1.5px solid black;">
+                                <th>
+                                    <span class="fw-bolder ms-4">
+                                        Total Current Liabilities
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end">
+                                        <span style="font-weight: bolder; margin-left: 4%;">
+                                            <t t-esc="datas['total_current_liability']"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #d6dbe1;">
+                                <th>
+                                    <span style="margin-left: 4rem;">Plus Non-current Liabilities</span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end">
+                                        <span>
+                                            <t t-esc="datas['liability_non_current'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <t t-foreach="data['datas']" t-as="value"
+                               t-key="value_index">
+                                <t t-if="value_index == 0">
+                                    <t t-foreach="value['liability_non_current'][0]"
+                                       t-as="datas" t-key="datas_index">
+                                        <t t-set="account_name"
+                                           t-value="datas['name']"/>
+                                        <t t-set="account_value" t-value="0"/>
+                                        <t t-foreach="data['datas']"
+                                           t-as="values"
+                                           t-key="values_index">
+                                            <t t-foreach="values['liability_non_current'][0]"
+                                               t-as="datas" t-key="datas_index">
+                                                <t t-if="account_name == datas['name']">
+                                                    <t t-if="datas['amount'] != '0.00'">
+                                                        <t t-set="account_value"
+                                                           t-value="1"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="account_value == 1">
+                                            <tr style="border-bottom: 1px solid #d6dbe1;">
+                                                <t t-foreach="data['datas']"
+                                                   t-as="values"
+                                                   t-key="values_index">
+                                                    <t t-foreach="values['liability_non_current'][0]"
+                                                       t-as="datas"
+                                                       t-key="datas_index">
+                                                        <t t-if="account_name == datas['name']">
+                                                            <th>
+                                                                <span style="margin-left: 6rem;">
+                                                                    <t t-esc="datas['account_code']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th>
+                                                                <span>
+                                                                    <t t-esc="datas['account_name']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th class="text-end">
+                                                                <span>
+                                                                    <t t-esc="datas['amount']"/>
+                                                                </span>
+                                                            </th>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr>
+                                <th>
+                                    <span class="fw-bolder ms-4">
+                                        Total LIABILITIES
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end">
+                                        <span style="font-weight: bolder; margin-left: 4%;">
+                                            <t t-esc="datas['total_liability']"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr style="background-color: #d6dbe1;">
+                                <th>
+                                    <span class="fw-bolder ms-2">
+                                        EQUITY
+                                    </span>
+                                </th>
+                                <th/>
+                                <th/>
+                            </tr>
+                            <tr style="border-bottom: 1.5px solid black;">
+                                <th>
+                                    <span class="fw-bolder ms-4">
+                                        Unallocated Earnings
+                                    </span>
+                                </th>
+                                <th/>
+                                <th/>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #d6dbe1;">
+                                <th>
+                                    <span style="margin-left: 4rem;">
+                                        Unallocated Earnings
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end"
+                                        style="font-weight: normal;">
+                                        <span>
+                                            <t t-esc="datas['total_earnings']"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #d6dbe1;">
+                                <th>
+                                    <span style="margin-left: 4rem;">Current
+                                        Allocated Earnings
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end"
+                                        style="font-weight: normal;">
+                                        <span>
+                                            <t t-esc="datas['equity_unaffected'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <t t-foreach="data['datas']" t-as="value"
+                               t-key="value_index">
+                                <t t-if="value_index == 0">
+                                    <t t-foreach="value['equity_unaffected'][0]"
+                                       t-as="datas" t-key="datas_index">
+                                        <t t-set="account_name"
+                                           t-value="datas['name']"/>
+                                        <t t-set="account_value" t-value="0"/>
+                                        <t t-foreach="data['datas']"
+                                           t-as="values"
+                                           t-key="values_index">
+                                            <t t-foreach="values['equity_unaffected'][0]"
+                                               t-as="datas" t-key="datas_index">
+                                                <t t-if="account_name == datas['name']">
+                                                    <t t-if="datas['amount'] != '0.00'">
+                                                        <t t-set="account_value"
+                                                           t-value="1"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="account_value == 1">
+                                            <tr style="border-bottom: 1px solid #d6dbe1;">
+                                                <t t-foreach="data['datas']"
+                                                   t-as="values"
+                                                   t-key="values_index">
+                                                    <t t-foreach="values['equity_unaffected'][0]"
+                                                       t-as="datas"
+                                                       t-key="datas_index">
+                                                        <t t-if="account_name == datas['name']">
+                                                            <th>
+                                                                <span style="margin-left: 6rem;">
+                                                                    <t t-esc="datas['account_code']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th>
+                                                                <span>
+                                                                    <t t-esc="datas['account_name']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th class="text-end">
+                                                                <span>
+                                                                    <t t-esc="datas['amount']"/>
+                                                                </span>
+                                                            </th>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr style="border-bottom: 1.5px solid black;">
+                                <th>
+                                    <span class="fw-bolder ms-4">
+                                        Total Unallocated Earnings
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end">
+                                        <span style="font-weight: bolder; margin-left: 4%;">
+                                            <t t-esc="datas['total_unallocated_earning']"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #d6dbe1;">
+                                <th>
+                                    <span style="margin-left: 4rem;">Retained
+                                        Earnings
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end"
+                                        style="font-weight: normal;">
+                                        <span>
+                                            <t t-esc="datas['equity'][1]"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <t t-foreach="data['datas']" t-as="value"
+                               t-key="value_index">
+                                <t t-if="value_index == 0">
+                                    <t t-foreach="value['equity'][0]"
+                                       t-as="datas" t-key="datas_index">
+                                        <t t-set="account_name"
+                                           t-value="datas['name']"/>
+                                        <t t-set="account_value" t-value="0"/>
+                                        <t t-foreach="data['datas']"
+                                           t-as="values"
+                                           t-key="values_index">
+                                            <t t-foreach="values['equity'][0]"
+                                               t-as="datas" t-key="datas_index">
+                                                <t t-if="account_name == datas['name']">
+                                                    <t t-if="datas['amount'] != '0.00'">
+                                                        <t t-set="account_value"
+                                                           t-value="1"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="account_value == 1">
+                                            <tr style="border-bottom: 1px solid #d6dbe1;">
+                                                <t t-foreach="data['datas']"
+                                                   t-as="values"
+                                                   t-key="values_index">
+                                                    <t t-foreach="values['equity'][0]"
+                                                       t-as="datas"
+                                                       t-key="datas_index">
+                                                        <t t-if="account_name == datas['name']">
+                                                            <th>
+                                                                <span style="margin-left: 6rem;">
+                                                                    <t t-esc="datas['account_code']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th>
+                                                                <span>
+                                                                    <t t-esc="datas['account_name']"/>
+                                                                </span>
+                                                            </th>
+                                                            <th class="text-end">
+                                                                <span>
+                                                                    <t t-esc="datas['amount']"/>
+                                                                </span>
+                                                            </th>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr>
+                                <th>
+                                    <span class="fw-bolder ms-4">
+                                        Total EQUITY
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end">
+                                        <span style="font-weight: bolder; margin-left: 4%;">
+                                            <t t-esc="datas['total_equity']"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr style="background-color: #d6dbe1;">
+                                <th>
+                                    <span class="fw-bolder ms-2">
+                                        LIABILITIES + EQUITY
+                                    </span>
+                                </th>
+                                <th/>
+                                <t t-foreach="data['datas']" t-as="datas"
+                                   t-key="datas_index">
+                                    <th class="text-end">
+                                        <span style="font-weight: bolder; margin-left: 4%;">
+                                            <t t-esc="datas['total_balance']"/>
+                                        </span>
+                                    </th>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

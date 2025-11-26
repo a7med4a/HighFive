@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    Report Template for Partner Ledger.-->
+    <template id="partner_ledger">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="data_report_margin_top" t-value="12"/>
+                <t t-set="data_report_header_spacing" t-value="9"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <div class="page" style="margin-top: 40px">
+                    <h3>
+                        <center>
+                            <b>
+                                <span t-esc="report_name"/>
+                            </b>
+                        </center>
+                    </h3>
+                    <br/>
+                    <div>
+                        <table class="table table-borderless">
+                            <tbody style="font-size:15px;font-weight:100;">
+                                <tr style="background-color: #d6dbe1;">
+                                    <th>Date Range</th>
+                                    <th>Partner</th>
+                                    <th>Account</th>
+                                    <th>Options</th>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <t t-if="filters['start_date']"
+                                           t-out="filters['start_date']"/>
+                                        <t t-if="filters['end_date']">
+                                            to
+                                            <t t-out="filters['end_date']"/>
+                                        </t>
+                                    </th>
+                                    <th>
+                                        <t t-foreach="filters['partner']"
+                                           t-as="selected_partner"
+                                           t-key="partner_index">
+                                            <t t-out="selected_partner['display_name']"/>,
+                                        </t>
+                                    </th>
+                                    <th>
+                                        <t t-foreach="filters['account']"
+                                           t-as="selected_account"
+                                           t-key="account_index">
+                                            <t t-out="selected_account"/>,
+                                        </t>
+                                    </th>
+                                    <th>
+                                        <t t-foreach="filters['options']"
+                                           t-as="selected_options"
+                                           t-key="options_index">
+                                            <t t-out="selected_options"/>,
+                                        </t>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+
+                    <t t-if="partners">
+                        <t t-foreach="partners" t-as="partner" t-key="partner_index">
+                            <table class="table table-borderless">
+                                <tbody style="font-size:15px;font-weight:100;">
+                                    <tr style="background-color:#d6dbe1;">
+                                        <th style="width:10%"/>
+                                        <th style="width:10%">JRNL</th>
+                                        <th style="width:10%">Account</th>
+                                        <th style="width:10%">Ref</th>
+                                        <th style="width:10%">Due Date</th>
+                                        <th style="width:10%">Matching Number
+                                        </th>
+                                        <th style="width:10%">Debit</th>
+                                        <th style="width:10%">Credit</th>
+                                        <th style="width:10%">Amount Currency
+                                        </th>
+                                        <th style="width:10%">Balance</th>
+                                    </tr>
+                                    <tr style="background-color:#f0f0f0;font-weight:bold;">
+                                        <td colspan="4">
+                                            <div class="ms-3">
+                                                <span class="fw-bolder">
+                                                    <t t-if="partner != 'false'">
+                                                        <strong>
+                                                            <b>
+                                                                <t t-esc="partner"/>
+                                                            </b>
+                                                        </strong>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span>Unknown Partner
+                                                        </span>
+                                                    </t>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td style="width:10% border:0px solid transparent;"/>
+                                        <td style="width:10% border:0px solid transparent;"/>
+                                        <td style="width:10% border:0px solid transparent;">
+                                            <strong>
+                                                <span>
+                                                    <t t-if="total[partner]['total_debit']"
+                                                       t-esc="total[partner]['total_debit']"/>
+                                                    <t t-else="">
+                                                        <span style="opacity: 0.4;">0.00</span>
+                                                    </t>
+                                                    <t t-if="total[partner]['total_debit']"
+                                                       t-esc="total[partner]['currency_id']"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td style="width:10% border:0px solid transparent;">
+                                            <strong>
+                                                <span>
+                                                    <t t-if="total[partner]['total_credit']"
+                                                       t-esc="total[partner]['total_credit']"/>
+                                                    <t t-else="">
+                                                        <span style="opacity: 0.4;">0.00</span>
+                                                    </t>
+                                                    <t t-if="total[partner]['total_credit']"
+                                                       t-esc="total[partner]['currency_id']"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                        <td style="width:10% border:0px solid transparent;"/>
+                                        <td style="width:10% border:0px solid transparent;">
+                                            <strong>
+                                                <span class="fw-bolder">
+                                                    <t t-esc="total[partner]['total_debit'] - total[partner]['total_credit']"/>
+                                                    <t t-esc="total[partner]['currency_id']"/>
+                                                </span>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <!-- Iterate over partner's initial balance -->
+                                    <t t-set="j" t-value="0"/>
+                                    <t t-foreach="partners" t-as="partner_initial" t-key="partner_initial_index">
+                                        <t t-set="j" t-value="j + 1"/>
+                                        <t t-if="j == 1 and total[partner]['initial_balance'] != 0">
+                                            <tr>
+                                                <td style="width:10%"/>
+                                                <td style="width:10%"/>
+                                                <td style="width:10%"/>
+                                                <td style="width:10%">
+                                                    <span>
+                                                        <t t-esc="total[partner]['move_name']"/>
+                                                    </span>
+                                                </td>
+                                                <td style="width:10%"/>
+                                                <td style="width:10%"/>
+                                                <td style="width:10%">
+                                                    <span>
+                                                        <t t-esc="total[partner]['initial_debit']"/>
+                                                    </span>
+                                                </td>
+                                                <td style="width:10%">
+                                                    <span>
+                                                        <t t-esc="total[partner]['initial_credit']"/>
+                                                    </span>
+                                                </td>
+                                                <td style="width:10%"/>
+                                                <td style="width:10%">
+                                                    <span>
+                                                        <t t-esc="total[partner]['initial_balance']"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <!-- Iterate over partner's value list -->
+                                    <t t-foreach="data[partner]" t-as="valuelist" t-key="valuelist_index">
+                                        <tr>
+                                            <td style="width:10%">
+                                                <span>
+                                                    <t t-esc="valuelist[0]['date']"/>
+                                                </span>
+                                            </td>
+                                            <td style="width:10%">
+                                                <span>
+                                                    <t t-esc="valuelist[0].get('jrnl')"/>
+                                                </span>
+                                            </td>
+                                            <td style="width:10%">
+                                                <span>
+                                                    <t t-esc="valuelist[0]['code']"/>
+                                                </span>
+                                            </td>
+                                            <td style="width:10%">
+                                                <span>
+                                                    <t t-if="valuelist[0]['move_name']"
+                                                       t-esc="valuelist[0]['move_name']"/>
+                                                </span>
+                                            </td>
+                                            <td style="width:10%">
+                                                <span>
+                                                    <t t-if="valuelist[0]['date_maturity']"
+                                                       t-esc="valuelist[0]['date_maturity']"/>
+                                                </span>
+                                            </td>
+                                            <td style="width:10%">
+                                                <span>
+                                                    <t t-if="valuelist[0]['matching_number']"
+                                                       t-esc="valuelist[0]['matching_number']"/>
+                                                </span>
+                                            </td>
+                                            <td style="width:10%">
+                                                <span>
+                                                    <t t-if="valuelist[0]['debit']"
+                                                       t-esc="valuelist[0]['debit']"/>
+                                                    <t t-else="">
+                                                        <span style="opacity: 0.4;">0.00</span>
+                                                    </t>
+                                                    <t t-if="valuelist[0]['debit']"
+                                                       t-esc="total[partner]['currency_id']"/>
+                                                </span>
+                                            </td>
+                                            <td style="width:10%">
+                                                <span>
+                                                    <t t-if="valuelist[0]['credit']"
+                                                       t-esc="valuelist[0]['credit']"/>
+                                                    <t t-else="">
+                                                        <span style="opacity: 0.4;">0.00</span>
+                                                    </t>
+                                                    <t t-if="valuelist[0]['credit']"
+                                                       t-esc="total[partner]['currency_id']"/>
+                                                </span>
+                                            </td>
+                                            <td style="width:10%">
+                                                <span>
+                                                    <t t-if="valuelist[0]['amount_currency']"
+                                                       t-esc="valuelist[0]['amount_currency']"/>
+                                                    <t t-else="">
+                                                        <span style="opacity: 0.4;">0.00</span>
+                                                    </t>
+                                                    <t t-if="valuelist[0]['amount_currency']"
+                                                       t-esc="total[partner]['currency_id']"/>
+                                                </span>
+                                            </td>
+                                            <td style="width:10%"/>
+                                        </tr>
+                                    </t>
+                                </tbody>
+
+                            </table>
+                        </t>
+                    </t>
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <th style="width:60%;" class="ms-3">Total</th>
+                                <th style="width:10%">
+                                    <t t-out="grand_total.get('currency')"/>
+                                    <t t-out="grand_total.get('total_debit_display')"/>
+                                </th>
+                                <th style="width:10%">
+                                    <t t-out="grand_total.get('currency')"/>
+                                    <t t-out="grand_total.get('total_credit_display')"/>
+                                </th>
+                                <th style="width:10%"/>
+                                <th style="width:10%">
+                                    <t t-out="grand_total.get('currency')"/>
+                                    <t t-if="grand_total.get('total_debit') or grand_total.get('total_credit')">
+                                        <t t-out="grand_total.get('total_debit') - grand_total.get('total_credit')"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span style="opacity: 0.4;">0.00</span>
+                                    </t>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
