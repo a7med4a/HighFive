@@ -50,7 +50,7 @@ class HrLoanAcc(models.Model):
         ('approve', 'Approved'),
         ('refuse', 'Refused'),
         ('cancel', 'Canceled'),
-    ], string="State", default='draft', track_visibility='onchange',
+    ], string="State", default='draft', tracking=True,
         copy=False, help="State of the loan request")
 
     def action_approve(self):

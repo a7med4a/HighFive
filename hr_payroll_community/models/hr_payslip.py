@@ -112,70 +112,63 @@ class HrPayslip(models.Model):
                                    string="Payslip Computation Details",
                                    help="Set Payslip Count")
 
-    @api.model
-    def create(self, vals):
-        res = super(HrPayslip, self).create(vals)
-        for payslip in res:
-            input_lines = payslip.input_line_ids 
-            
+    @api.model_create_multi
+    def create(self, vals_list):
+        payslips = super().create(vals_list)
+
+        for payslip in payslips:
+            commands = []
+
+            date_domain = [
+                ('employee_id', '=', payslip.employee_id.id),
+                ('request_date', '>=', payslip.date_from),
+                ('request_date', '<=', payslip.date_to),
+                ('state', '=', 'confirmed'),
+            ]
+
             # Freelance Service
-            freelance_services = self.env['freelance.service'].search([
-                ('employee_id', '=', payslip.employee_id.id),
-                ('request_date', '>=', payslip.date_from),
-                ('request_date', '<=', payslip.date_to),
-                ('state', '=', 'confirmed'),
-            ])
-            if freelance_services:
-                total_amount = sum(service.total_value for service in freelance_services)
-                if total_amount > 0:
-                    input_lines += input_lines.new({
-                        'name': 'Freelance Service',
-                        'code': 'FREELANCE',
-                        'contract_id': payslip.contract_id.id,
-                        'amount': total_amount,
-                        'date_from': payslip.date_from,
-                        'date_to': payslip.date_to,
-                    })
+            freelance_services = self.env['freelance.service'].search(date_domain)
+            total_amount = sum(freelance_services.mapped('total_value'))
+            if total_amount:
+                commands.append((0, 0, {
+                    'name': 'Freelance Service',
+                    'code': 'FREELANCE',
+                    'contract_id': payslip.contract_id.id,
+                    'amount': total_amount,
+                    'date_from': payslip.date_from,
+                    'date_to': payslip.date_to,
+                }))
 
-            # Employee Bonus
-            bonuses = self.env['employee.bonus'].search([
-                ('employee_id', '=', payslip.employee_id.id),
-                ('request_date', '>=', payslip.date_from),
-                ('request_date', '<=', payslip.date_to),
-                ('state', '=', 'confirmed'),
-            ])
-            if bonuses:
-                total_bonus = sum(bonus.total_value for bonus in bonuses)
-                if total_bonus > 0:
-                    input_lines += input_lines.new({
-                        'name': 'Bonus',
-                        'code': 'BONUS',
-                        'contract_id': payslip.contract_id.id,
-                        'amount': total_bonus,
-                        'date_from': payslip.date_from,
-                        'date_to': payslip.date_to,
-                    })
-            # Employee Deduction
-            deductions = self.env['employee.deduction'].search([
-                ('employee_id', '=', payslip.employee_id.id),
-                ('request_date', '>=', payslip.date_from),
-                ('request_date', '<=', payslip.date_to),
-                ('state', '=', 'confirmed'),
-            ])
-            if deductions:
-                total_deduction = sum(deduction.total_value for deduction in deductions)
-                if total_deduction > 0:
-                    input_lines += input_lines.new({
-                        'name': 'Deduction',
-                        'code': 'DEDUCTION',
-                        'contract_id': payslip.contract_id.id,
-                        'amount': total_deduction * -1,
-                        'date_from': payslip.date_from,
-                        'date_to': payslip.date_to,
-                    })
+            # Bonus
+            bonuses = self.env['employee.bonus'].search(date_domain)
+            total_bonus = sum(bonuses.mapped('total_value'))
+            if total_bonus:
+                commands.append((0, 0, {
+                    'name': 'Bonus',
+                    'code': 'BONUS',
+                    'contract_id': payslip.contract_id.id,
+                    'amount': total_bonus,
+                    'date_from': payslip.date_from,
+                    'date_to': payslip.date_to,
+                }))
 
-            payslip.input_line_ids = input_lines 
-        return res
+            # Deduction
+            deductions = self.env['employee.deduction'].search(date_domain)
+            total_deduction = sum(deductions.mapped('total_value'))
+            if total_deduction:
+                commands.append((0, 0, {
+                    'name': 'Deduction',
+                    'code': 'DEDUCTION',
+                    'contract_id': payslip.contract_id.id,
+                    'amount': -total_deduction,
+                    'date_from': payslip.date_from,
+                    'date_to': payslip.date_to,
+                }))
+
+            if commands:
+                payslip.write({'input_line_ids': commands})
+
+        return payslips
 
     def _compute_details_by_salary_rule_category_ids(self):
         """Compute function for Salary Rule Category for getting

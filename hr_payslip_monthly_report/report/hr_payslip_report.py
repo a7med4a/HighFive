@@ -34,10 +34,10 @@ class HrPayrollReportView(models.Model):
     now = date.today()
     month_day = monthrange(now.year, now.month)
     start_date = fields.Date(string="Start Date",
-                             default=time.strftime('%Y-%m-01'), invisible=True,
+                             default=time.strftime('%Y-%m-01'),
                              help="Start Date for Report")
     end_date = fields.Date(string="End Date", default=time.strftime(
-        '%Y-%m-' + str(month_day[1]) + ''), invisible=True,
+        '%Y-%m-' + str(month_day[1]) + ''),
                            help="End Date for Report")
     name = fields.Many2one('hr.employee', string='Employee',
                            help="Choose Employee")

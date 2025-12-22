@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Partner Form View - HighFive Extensions -->
+    <record id="view_partner_form_highfive" model="ir.ui.view">
+        <field name="name">res.partner.form.highfive</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Add Branches Button -->
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button
+                    name="action_open_highfive_branches"
+                    type="object"
+                    string="Branches"
+                    class="oe_stat_button"
+                    icon="fa-code-branch"
+                    invisible="not is_highfive_partner or branch_count == 0"
+                    help="View branches of this supplier">
+                    <field name="branch_count" widget="statinfo" string="Branches"/>
+                </button>
+                <button
+                    name="action_view_analytic_accounts"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-line-chart"
+                    invisible="not is_highfive_partner or analytic_account_count == 0"
+                    help="View all analytic accounts (supplier + branches)">
+                    <field name="analytic_account_count" widget="statinfo" string="Analytics"/>
+                </button>
+            </xpath>
+
+            <!-- Add HighFive Tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="HighFive"
+                      name="highfive_details"
+                      invisible="not is_highfive_partner and not is_highfive_customer">
+
+                    <!-- Classification Section -->
+                    <group string="Classification">
+                        <group>
+                            <field name="is_highfive_partner"/>
+                            <field name="is_highfive_customer"/>
+                        </group>
+                        <group>
+                            <field name="highfive_account_name"/>
+                        </group>
+                    </group>
+
+                    <!-- HighFive Identifiers Section -->
+                    <group string="HighFive Identifiers">
+                        <group>
+                            <field name="highfive_partner_id"
+                                   invisible="not is_highfive_partner"
+                                   readonly="id"/>
+                        </group>
+                        <group>
+                            <field name="highfive_customer_id"
+                                   invisible="not is_highfive_customer"
+                                   readonly="id"/>
+                        </group>
+                    </group>
+
+                    <!-- Tax Configuration (for Partners/Suppliers only) -->
+                    <group string="Tax Configuration"
+                           invisible="not is_highfive_partner">
+                        <group>
+                            <field name="tax_status" widget="radio"/>
+                        </group>
+                        <group>
+                            <!-- Empty group for layout balance -->
+                        </group>
+                    </group>
+
+                    <!-- Commission Configuration (for Partners/Suppliers only) -->
+                    <group string="Commission Configuration"
+                           invisible="not is_highfive_partner">
+                        <group>
+                            <field name="commission_rate_online" widget="percentage"/>
+                            <field name="commission_rate_cash" widget="percentage"/>
+                        </group>
+                        <group>
+                            <p class="text-muted">
+                                Default commission rates for bookings.
+                                These can be overridden at the unit/service level.
+                            </p>
+                        </group>
+                    </group>
+
+                    <!-- Analytic Accounting (for Partners/Suppliers only) -->
+                    <group string="Analytic Accounting"
+                           invisible="not is_highfive_partner">
+                        <field name="analytic_parent_id" readonly="1"/>
+                        <p class="text-muted">
+                            Analytic account automatically created for tracking revenues and costs.
+                        </p>
+                    </group>
+
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Partner list View - Add HighFive Columns -->
+    <record id="view_partner_tree_highfive" model="ir.ui.view">
+        <field name="name">res.partner.list.highfive</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='email']" position="after">
+                <field name="highfive_partner_id" optional="hide"/>
+                <field name="highfive_customer_id" optional="hide"/>
+                <field name="is_highfive_partner" optional="hide" widget="boolean"/>
+                <field name="is_highfive_customer" optional="hide" widget="boolean"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Partner Search View - Add HighFive Filters -->
+    <record id="view_partner_search_highfive" model="ir.ui.view">
+        <field name="name">res.partner.search.highfive</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='supplier']" position="after">
+                <separator/>
+                <filter string="HighFive Partners" 
+                        name="highfive_partners" 
+                        domain="[('is_highfive_partner','=',True)]"
+                        help="Partners who are HighFive suppliers"/>
+                <filter string="HighFive Customers" 
+                        name="highfive_customers" 
+                        domain="[('is_highfive_customer','=',True)]"
+                        help="Customers from HighFive system"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="highfive_partner_id"/>
+                <field name="highfive_customer_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

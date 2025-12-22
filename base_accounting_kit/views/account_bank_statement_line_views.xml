@@ -62,7 +62,7 @@
                 <field name="statement_line_id" invisible="1"/>
                 <field name="lines_widget_json" invisible="1"/>
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="card">
                         <div t-attf-class="oe_kanban_card oe_kanban_global_click o_bank_reconcile_st_line_kanban_card"
                              style="width:138%;margin-top: -13px; margin-left: -15px"
                              t-att-data-oe-id="record.id">

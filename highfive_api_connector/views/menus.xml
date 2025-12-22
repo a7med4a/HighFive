@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Root Menu -->
+    <menuitem id="menu_highfive_api_root"
+              name="HighFive API"
+               parent="highfive_core.highfive_root_menu"
+              sequence="100"/>
+    
+    <!-- Request Logs Action -->
+    <record id="action_highfive_api_request_log" model="ir.actions.act_window">
+        <field name="name">Request Logs</field>
+        <field name="res_model">highfive.api.request.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <menuitem id="menu_highfive_api_request_log"
+              name="Request Logs"
+              parent="menu_highfive_api_root"
+              action="action_highfive_api_request_log"
+              sequence="10"/>
+
+</odoo>

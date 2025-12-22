@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ========================================= -->
+    <!-- Root Menu -->
+    <!-- ========================================= -->
+
+    <menuitem id="highfive_root_menu"
+          name="HighFive Operations"
+          sequence="10"
+          web_icon="highfive_core,static/description/logo.png"/>
+
+    <!-- ========================================= -->
+    <!-- Customers Menu Section -->
+    <!-- ========================================= -->
+    <menuitem id="highfive_customers_menu"
+              name="Customers"
+              parent="highfive_root_menu"
+              sequence="10"/>
+
+    <!-- Action: HighFive Customers -->
+    <record id="action_highfive_customers" model="ir.actions.act_window">
+        <field name="name">HighFive Customers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="domain">[('is_highfive_customer','=',True)]</field>
+        <field name="context">{
+            'default_is_highfive_customer': True,
+            'default_customer_rank': 1,
+            'search_default_highfive_customers': 1,
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first HighFive customer
+            </p>
+            <p>
+                HighFive customers are end users who book services through the platform.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="highfive_customers_menu_item"
+              name="Customers"
+              parent="highfive_customers_menu"
+              action="action_highfive_customers"
+              sequence="10"/>
+
+    <!-- ========================================= -->
+    <!-- Suppliers Menu Section -->
+    <!-- ========================================= -->
+    <menuitem id="highfive_suppliers_menu"
+              name="Suppliers"
+              parent="highfive_root_menu"
+              sequence="20"/>
+
+    <!-- Action: HighFive Partners (Suppliers) -->
+    <record id="action_highfive_partners" model="ir.actions.act_window">
+        <field name="name">HighFive Suppliers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="domain">[('is_highfive_partner','=',True)]</field>
+        <field name="context">{
+            'default_is_highfive_partner': True,
+            'default_supplier_rank': 1,
+            'search_default_highfive_partners': 1,
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first HighFive supplier
+            </p>
+            <p>
+                HighFive suppliers are service providers who offer their facilities 
+                (sports fields, gyms, etc.) through the platform.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="highfive_partners_menu_item"
+              name="Suppliers"
+              parent="highfive_suppliers_menu"
+              action="action_highfive_partners"
+              sequence="10"/>
+
+    <!-- Action: HighFive Branches -->
+<!-- Action: HighFive Branches -->
+<record id="action_highfive_partner_branch" model="ir.actions.act_window">
+    <field name="name">HighFive Branches</field>
+    <field name="res_model">highfive.partner.branch</field>
+    <field name="view_mode">list,form,kanban</field>
+    <field name="context">{
+        'search_default_active': 1,
+    }</field>
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+            Create your first branch
+        </p>
+        <p>
+            Branches represent physical locations where suppliers provide their services.
+            Each branch can have multiple units/services.
+        </p>
+    </field>
+</record>
+
+<!-- Explicit View Definitions for Branch Action -->
+<record id="action_highfive_partner_branch_view_list" model="ir.actions.act_window.view">
+    <field name="sequence" eval="1"/>
+    <field name="view_mode">list</field>
+    <field name="view_id" ref="view_highfive_partner_branch_tree"/>
+    <field name="act_window_id" ref="action_highfive_partner_branch"/>
+</record>
+
+<record id="action_highfive_partner_branch_view_form" model="ir.actions.act_window.view">
+    <field name="sequence" eval="2"/>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="view_highfive_partner_branch_form"/>
+    <field name="act_window_id" ref="action_highfive_partner_branch"/>
+</record>
+
+<record id="action_highfive_partner_branch_view_kanban" model="ir.actions.act_window.view">
+    <field name="sequence" eval="3"/>
+    <field name="view_mode">kanban</field>
+    <field name="view_id" ref="view_highfive_partner_branch_kanban"/>
+    <field name="act_window_id" ref="action_highfive_partner_branch"/>
+</record>
+
+<!-- Menu Item -->
+<menuitem id="highfive_partner_branch_menu_item"
+          name="Branches"
+          parent="highfive_suppliers_menu"
+          action="action_highfive_partner_branch"
+          sequence="20"/>
+
+
+    <!-- ========================================= -->
+    <!-- Services/Units Menu Section -->
+    <!-- ========================================= -->
+    <menuitem id="highfive_services_menu"
+              name="Services"
+              parent="highfive_root_menu"
+              sequence="30"/>
+
+    <!-- Action: HighFive Units (Services) -->
+    <record id="action_highfive_units" model="ir.actions.act_window">
+        <field name="name">HighFive Units</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="domain">[('highfive_unit_id','!=',False)]</field>
+        <field name="context">{
+            'default_type': 'service',
+            'default_invoice_policy': 'order',
+            'default_sale_ok': True,
+            'default_purchase_ok': False,
+            'search_default_highfive_units': 1,
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first service unit
+            </p>
+            <p>
+                Units represent bookable services (e.g., football field, tennis court, gym class).
+                Each unit must be linked to a branch.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="highfive_units_menu_item"
+              name="Units"
+              parent="highfive_services_menu"
+              action="action_highfive_units"
+              sequence="10"/>
+
+    <!-- ========================================= -->
+    <!-- Reporting Menu Section -->
+    <!-- ========================================= -->
+    <menuitem id="highfive_reporting_menu"
+              name="Reporting"
+              parent="highfive_root_menu"
+              sequence="80"
+              groups="account.group_account_manager"/>
+
+
+
+<!-- Server Action for Analytics -->
+<record id="action_server_highfive_analytics" model="ir.actions.server">
+    <field name="name">View HighFive Analytics</field>
+    <field name="model_id" ref="analytic.model_account_analytic_account"/>
+    <field name="state">code</field>
+    <field name="code">
+action = model.action_view_highfive_analytics()
+    </field>
+</record>
+
+<menuitem id="highfive_reporting_analytics_menu"
+          name="Analytics Overview"
+          parent="highfive_reporting_menu"
+          action="action_server_highfive_analytics"
+          sequence="10"/>
+
+
+    <!-- ========================================= -->
+    <!-- Configuration Menu Section -->
+    <!-- ========================================= -->
+    <menuitem id="highfive_config_menu"
+              name="Configuration"
+              parent="highfive_root_menu"
+              sequence="900"
+              groups="base.group_system"/>
+
+    <!-- Action: Settings -->
+    <record id="action_highfive_config" model="ir.actions.act_window">
+        <field name="name">HighFive Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'highfive_core'}</field>
+    </record>
+
+    <menuitem id="highfive_config_settings_menu"
+              name="Settings"
+              parent="highfive_config_menu"
+              action="action_highfive_config"
+              sequence="10"/>
+
+    <!-- Action: Analytic Plans -->
+    <menuitem id="highfive_config_analytic_menu"
+              name="Analytic Plans"
+              parent="highfive_config_menu"
+              action="analytic.account_analytic_plan_action"
+              sequence="20"/>
+
+</odoo>

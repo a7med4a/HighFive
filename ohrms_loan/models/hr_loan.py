@@ -111,26 +111,18 @@ class HrLoan(models.Model):
             loan.balance_amount = balance_amount
             loan.total_paid_amount = total_paid
 
-    @api.model
-    def create(self, values):
-        """ Check whether any pending loan is for the employee and calculate
-            the sequence
-            :param values : Dictionary which contain fields and values"""
-        # loan_count = self.env['hr.loan'].search_count(
-        #     [('employee_id', '=', values['employee_id']),
-        #      ('state', '=', 'approve'),
-        #      ('balance_amount', '!=', 0)])
-        # if loan_count:
-        #     raise ValidationError(
-        #         _("The Employee has already a pending installment"))
-        # else:
-        values['name'] = self.env['ir.sequence'].get('hr.loan.seq') or ' '
-        return super(HrLoan, self).create(values)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get('name') or vals.get('name') == _('New'):
+                vals['name'] = (
+                        self.env['ir.sequence']
+                        .next_by_code('hr.loan.seq')
+                        or _('New')
+                )
+        return super().create(vals_list)
 
     def action_compute_installment(self):
-        """This automatically create the installment the employee need to pay to
-            company based on payment start date and the no of installments.
-            """
         for loan in self:
             loan.loan_lines.unlink()
             date_start = datetime.strptime(str(loan.payment_date), '%Y-%m-%d')

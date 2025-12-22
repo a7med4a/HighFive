@@ -21,7 +21,6 @@
 #
 #############################################################################
 from odoo import fields, models, _, api
-from odoo.addons.test_convert.tests.test_env import field
 from odoo.exceptions import UserError
 
 

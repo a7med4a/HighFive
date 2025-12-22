@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- List View -->
+    <record id="view_highfive_api_request_log_tree" model="ir.ui.view">
+        <field name="name">highfive.api.request.log.tree</field>
+        <field name="model">highfive.api.request.log</field>
+        <field name="arch" type="xml">
+            <list string="API Request Logs"
+                  decoration-success="state=='success'" 
+                  decoration-danger="state=='failed'">
+                <field name="request_id"/>
+                <field name="entity_type"/>
+                <field name="action"/>
+                <field name="state"/>
+                <field name="processing_time"/>
+                <field name="remote_addr"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- Form View -->
+    <record id="view_highfive_api_request_log_form" model="ir.ui.view">
+        <field name="name">highfive.api.request.log.form</field>
+        <field name="model">highfive.api.request.log</field>
+        <field name="arch" type="xml">
+            <form string="Request Log">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="request_id"/>
+                            <field name="endpoint"/>
+                            <field name="entity_type"/>
+                            <field name="action"/>
+                        </group>
+                        <group>
+                            <field name="processing_time"/>
+                            <field name="remote_addr"/>
+                            <field name="create_date"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Request">
+                        <field name="request_body" widget="text"/>
+                    </group>
+                    
+                    <group string="Response" invisible="state == 'pending'">
+                        <field name="response_body" widget="text"/>
+                    </group>
+                    
+                    <group string="Error" invisible="state != 'failed'">
+                        <field name="error_message" widget="text"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Search View -->
+    <record id="view_highfive_api_request_log_search" model="ir.ui.view">
+        <field name="name">highfive.api.request.log.search</field>
+        <field name="model">highfive.api.request.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="request_id"/>
+                <field name="entity_type"/>
+                
+                <filter name="success" string="Success" domain="[('state', '=', 'success')]"/>
+                <filter name="failed" string="Failed" domain="[('state', '=', 'failed')]"/>
+                
+                <filter name="partners" string="Partners" domain="[('entity_type', '=', 'partner')]"/>
+                <filter name="customers" string="Customers" domain="[('entity_type', '=', 'customer')]"/>
+                <filter name="branches" string="Branches" domain="[('entity_type', '=', 'branch')]"/>
+                <filter name="units" string="Units" domain="[('entity_type', '=', 'unit')]"/>
+                
+                <group string="Group By">
+                    <filter name="group_by_entity" string="Entity Type" context="{'group_by': 'entity_type'}"/>
+                    <filter name="group_by_state" string="State" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+</odoo>

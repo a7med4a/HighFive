@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- HighFive Analytic Plan -->
+        <record id="analytic_plan_highfive" model="account.analytic.plan">
+            <field name="name">HighFive Operations</field>
+            <field name="description">Analytic plan for tracking HighFive operations by supplier and branch</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Branch Tree View -->
+    <record id="view_highfive_partner_branch_tree" model="ir.ui.view">
+        <field name="name">highfive.partner.branch.tree</field>
+        <field name="model">highfive.partner.branch</field>
+        <field name="arch" type="xml">
+            <list string="HighFive Branches"
+                  default_order="partner_id, name"
+                  decoration-muted="not active">
+                <field name="name"/>
+                <field name="code" optional="show"/>
+                <field name="highfive_branch_id" optional="hide"/>
+                <field name="partner_id"/>
+                <field name="country_id" optional="show"/>
+                <field name="state_id" optional="hide"/>
+                <field name="city" optional="show"/>
+                <field name="analytic_account_id" readonly="1" optional="hide"/>
+                <field name="unit_count" optional="show"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Branch Form View -->
+<!-- Branch Form View -->
+<record id="view_highfive_partner_branch_form" model="ir.ui.view">
+    <field name="name">highfive.partner.branch.form</field>
+    <field name="model">highfive.partner.branch</field>
+    <field name="priority">1</field>
+    <field name="arch" type="xml">
+        <form string="HighFive Branch">
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_open_units"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-cubes"
+                            invisible="unit_count == 0">
+                        <field name="unit_count" widget="statinfo" string="Units"/>
+                    </button>
+                </div>
+
+                <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+
+                <div class="oe_title">
+                    <label for="name" class="oe_edit_only"/>
+                    <h1>
+                        <field name="name" placeholder="Branch Name"/>
+                    </h1>
+                </div>
+
+                <group>
+                    <group string="Basic Information">
+                        <field name="code"/>
+                        <field name="highfive_branch_id" readonly="id"/>
+                        <field name="partner_id" readonly="id"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+
+                    <group string="Location">
+                        <field name="country_id" options="{'no_create': True}"/>
+                        <field name="state_id" options="{'no_create': True}" domain="[('country_id', '=', country_id)]"/>
+                        <field name="city"/>
+                        <field name="street"/>
+                    </group>
+                </group>
+
+                <group string="GPS Coordinates">
+                    <group>
+                        <field name="latitude"/>
+                        <field name="longitude"/>
+                    </group>
+                    <group>
+                        <p class="text-muted">
+                            GPS coordinates for location mapping and distance calculations.
+                        </p>
+                    </group>
+                </group>
+
+                <group string="Analytic Accounting">
+                    <field name="analytic_account_id" readonly="1"/>
+                    <p class="text-muted">
+                        Analytic account automatically created for tracking branch-specific revenues and costs.
+                    </p>
+                </group>
+
+            </sheet>
+                <chatter/>
+
+
+        </form>
+    </field>
+</record>
+    <!-- Branch Search View -->
+    <record id="view_highfive_partner_branch_search" model="ir.ui.view">
+        <field name="name">highfive.partner.branch.search</field>
+        <field name="model">highfive.partner.branch</field>
+        <field name="arch" type="xml">
+            <search string="Search Branches">
+                <field name="name" string="Branch" 
+                       filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]"/>
+                <field name="highfive_branch_id"/>
+                <field name="partner_id"/>
+                <field name="city"/>
+                <field name="country_id"/>
+                
+                <separator/>
+                
+                <filter string="Active" name="active" domain="[('active','=',True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                
+
+                
+                <group expand="0" string="Group By">
+                    <filter string="Supplier" name="group_partner" 
+                            context="{'group_by':'partner_id'}"/>
+                    <filter string="Country" name="group_country" 
+                            context="{'group_by':'country_id'}"/>
+                    <filter string="State" name="group_state" 
+                            context="{'group_by':'state_id'}"/>
+                    <filter string="City" name="group_city" 
+                            context="{'group_by':'city'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Branch Kanban View (Optional but nice to have) -->
+    <record id="view_highfive_partner_branch_kanban" model="ir.ui.view">
+        <field name="name">highfive.partner.branch.kanban</field>
+        <field name="model">highfive.partner.branch</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="partner_name"/>
+                <field name="city"/>
+                <field name="unit_count"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="oe_kanban_global_click #{record.active.raw_value ? '' : 'o_kanban_record_archived'}">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <field name="partner_name"/>
+                                <t t-if="record.city.raw_value">
+                                    <br/>
+                                    <i class="fa fa-map-marker" title="Location"/> <field name="city"/>
+                                </t>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <span class="badge text-bg-info">
+                                        <i class="fa fa-cubes" title="Units Count"/> <field name="unit_count"/> Units
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

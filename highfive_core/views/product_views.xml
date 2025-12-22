@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Product Template Form View - HighFive Extensions -->
+    <record id="product_template_form_view_highfive" model="ir.ui.view">
+        <field name="name">product.template.form.highfive</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            
+            <!-- Add buttons for HighFive units -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_branch" 
+                        type="object"
+                        class="oe_stat_button" 
+                        icon="fa-code-branch"
+                        invisible="not highfive_unit_id or not branch_id"
+                        help="View the branch of this unit">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Branch</span>
+                    </div>
+                </button>
+                
+                <button name="action_view_supplier" 
+                        type="object"
+                        class="oe_stat_button" 
+                        icon="fa-building"
+                        invisible="not highfive_unit_id or not partner_id"
+                        help="View the supplier of this unit">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Supplier</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <!-- Add HighFive tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="HighFive" name="highfive" invisible="not highfive_unit_id">
+                    <group>
+                        <group string="HighFive Unit Information">
+                            <field name="highfive_unit_id" readonly="id"/>
+                            <field name="branch_id" 
+                                   options="{'no_create': True, 'no_open': True}"
+                                   domain="[('active', '=', True)]"/>
+                            <field name="partner_id" readonly="1"/>
+                        </group>
+                        <group string="Help">
+                            <p class="text-muted">
+                                This service/unit is managed by the HighFive system.
+                                <br/>
+                                <br/>
+                                <strong>Branch:</strong> The physical location providing this service.
+                                <br/>
+                                <strong>Supplier:</strong> The partner/supplier who owns the branch.
+                            </p>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product Template list View - Add HighFive Columns -->
+    <record id="product_template_tree_view_highfive" model="ir.ui.view">
+        <field name="name">product.template.list.highfive</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="highfive_unit_id" optional="hide"/>
+                <field name="branch_id" optional="hide"/>
+                <field name="partner_id" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product Template Search View - Add HighFive Filters -->
+    <record id="product_template_search_view_highfive" model="ir.ui.view">
+        <field name="name">product.template.search.highfive</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="highfive_unit_id"/>
+                <field name="branch_id"/>
+                <field name="partner_id"/>
+            </xpath>
+            
+            <xpath expr="//filter[@name='services']" position="after">
+                <separator/>
+                <filter string="HighFive Units" 
+                        name="highfive_units" 
+                        domain="[('highfive_unit_id','!=',False)]"
+                        help="Services that are HighFive units"/>
+            </xpath>
+            
+            <xpath expr="//filter[@name='filter_to_sell']" position="after">
+                <separator/>
+                <filter string="HighFive Branch"
+                        name="group_by_branch"
+                        context="{'group_by':'branch_id'}"/>
+                <filter string="HighFive Supplier"
+                        name="group_by_supplier"
+                        context="{'group_by':'partner_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

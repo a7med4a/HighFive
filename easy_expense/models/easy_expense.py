@@ -39,11 +39,13 @@ class easy_expense(models.Model):
         self.state='cancel'
     def action_confirm(self):
         self.state='confirm'
-    @api.model
-    def create(self, vals):
-        vals['name'] = self.env['ir.sequence'].next_by_code('exp.code') or 'New'
-        new_record= super(easy_expense, self).create(vals)
-        return new_record
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get('name') or vals.get('name') == _('New'):
+                vals['name'] = self.env['ir.sequence'].next_by_code('exp.code') or _('New')
+        return super().create(vals_list)
 
 
     def unlink(self):

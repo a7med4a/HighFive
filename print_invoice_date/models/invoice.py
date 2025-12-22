@@ -41,7 +41,7 @@ class AccountMove(models.Model):
                 record.company_bank_account_id_domain = []
 
     company_bank_account_id_domain = fields.Char(
-        compute="_compute_bank_account_domain", invisible=True
+        compute="_compute_bank_account_domain"
     )
 
     def action_print_inv(self):
