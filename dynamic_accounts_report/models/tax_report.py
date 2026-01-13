@@ -353,7 +353,7 @@ class TaxReport(models.TransientModel):
         purchase = []
 
         # Get all taxes used in move lines
-        tax_ids = self.env["account.move.line"].search([]).mapped("tax_line_id")
+        tax_ids = self.env["account.move.line"].search([]).mapped("tax_ids")
 
         today = fields.Date.today()
         start_date, end_date = get_month(today)
@@ -361,6 +361,7 @@ class TaxReport(models.TransientModel):
         for tax in tax_ids:
             # Get move lines related to this tax within the month
             move_lines = self.env["account.move.line"].search([
+                ("tax_ids", "=", tax.id),
                 ("parent_state", "=", "posted"),
                 ("date", ">=", start_date),
                 ("date", "<=", end_date),

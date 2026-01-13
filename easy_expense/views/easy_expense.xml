@@ -11,16 +11,16 @@
         </record>
     </data>
 
-    <record id="server_action_apply_tax_to_move" model="ir.actions.server">
-        <field name="name">Apply Tax to Move</field>
-        <field name="model_id" ref="model_easy_expense"/>
-        <field name="binding_model_id" ref="model_easy_expense"/>
-        <field name="state">code</field>
-        <field name="code">
-            for rec in records:
-                rec.apply_tax_to_move()
-        </field>
-    </record>
+<!--    <record id="server_action_apply_tax_to_move" model="ir.actions.server">-->
+<!--        <field name="name">Apply Tax to Move</field>-->
+<!--        <field name="model_id" ref="model_easy_expense"/>-->
+<!--        <field name="binding_model_id" ref="model_easy_expense"/>-->
+<!--        <field name="state">code</field>-->
+<!--        <field name="code">-->
+<!--            for rec in records:-->
+<!--                rec.apply_tax_to_move()-->
+<!--        </field>-->
+<!--    </record>-->
 
     <data>
         <!-- Form View -->

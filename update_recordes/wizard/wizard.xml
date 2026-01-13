@@ -11,12 +11,8 @@
                     </group>
                 </group>
                 <footer>
-
-                    <button string="Update EMP" name="update_emp_cont_date" type="object" class="btn-primary"/>
-                    <button string="Update Job Grade" name="update_job_grade_date" type="object" class="btn-primary"/>
-
+                    <button string="Update Easy Expenses Records" name="update_easy_expenses_records" type="object" class="btn-primary"/>
                     <button string="Cancel" class="oe_link" special="cancel"/>
-
                 </footer>
             </form>
         </field>

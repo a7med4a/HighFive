@@ -53,50 +53,30 @@ class easy_expense(models.Model):
             raise exceptions.ValidationError(_('Cannot delete a expense After Confirm'))
         return super(easy_expense, self).unlink()
 
-    @api.model
-    def apply_tax_to_move(self):
-        for exp in self:
-            if not exp.move_id:
-                continue
-            move = exp.move_id
-            # unpost move if posted
-            # if move.state == 'posted':
-            #     move.button_draft()
-            print("unpost Done ==> ", move)
-            # get product taxes
-
-            taxes = exp.product_id.supplier_taxes_id
-            grad_base = taxes.invoice_repartition_line_ids.filtered(lambda l: l.repartition_type == 'base').tag_ids
-            grad_tax = taxes.invoice_repartition_line_ids.filtered(lambda l: l.repartition_type == 'tax').tag_ids
-            tax_account_id = taxes.invoice_repartition_line_ids.filtered(lambda l: l.repartition_type == 'tax').account_id
-            print("taxes ==> ", taxes)
-            print("grad_base ==> ", grad_base)
-            print("grad_tax ==> ", grad_tax)
-            expense_lines = move.line_ids.filtered(lambda l: l.account_id.account_type == 'expense')
-            tax_lines = move.line_ids.filtered(lambda l: l.account_id.id == tax_account_id.id)
-            # total = expense_lines.debit + tax_lines.debit
-            print("expense_lines ==> ", expense_lines)
-            print("tax_lines ==> ", tax_lines)
-            # expense_lines.write(
-            #     {
-            #         "tax_ids": [(6, 0, taxes.ids)],
-            #         "debit": total,
-            #         "tax_tag_ids": [(6, 0, grad_base.ids)],
-            #     })
-            self.env.cr.execute("""
-                                UPDATE account_move_line
-                                SET tax_line_id = %s
-                                WHERE id = %s
-                                """, (taxes.id, tax_lines.id))
-            # account_move_line.write(
-            #     {
-            #         "tax_line_id": taxes.id
-            #     })
-            # tax_lines.unlink()
-            # repost
-            # move.action_post()
-
-        return True
+    # @api.model
+    # def apply_tax_to_move(self):
+    #     for exp in self:
+    #         if not exp.move_id:
+    #             continue
+    #
+    #         move = exp.move_id
+    #
+    #         # unpost move if posted
+    #         if move.state == 'posted':
+    #             move.button_draft()
+    #
+    #         # get product taxes
+    #         taxes = exp.product_id.supplier_taxes_id
+    #
+    #         # apply tax on all lines (or only the relevant line)
+    #         for line in move.line_ids:
+    #             if line.debit:
+    #                 line.tax_ids = taxes
+    #
+    #         # repost
+    #         move.action_post()
+    #
+    #     return True
 
 
 

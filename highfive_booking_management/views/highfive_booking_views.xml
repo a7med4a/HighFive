@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Enhanced List View -->
+    <record id="view_highfive_booking_tree" model="ir.ui.view">
+        <field name="name">highfive.booking.list.enhanced</field>
+        <field name="model">highfive.booking</field>
+        <field name="arch" type="xml">
+            <list string="Bookings"
+                  decoration-success="state == 'completed'"
+                  decoration-info="state == 'confirmed'"
+                  decoration-warning="state == 'draft'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="booking_date"/>
+                <field name="booking_day" optional="show"/>
+                <field name="session_start_time" widget="float_time" optional="show"/>
+                <field name="customer_id"/>
+                <field name="partner_id"/>
+                <field name="branch_id"/>
+                <field name="total" sum="Total" decoration-bf="1"/>
+                <field name="payment_state" optional="show"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Enhanced Form View -->
+    <record id="view_highfive_booking_form" model="ir.ui.view">
+        <field name="name">highfive.booking.form.enhanced</field>
+        <field name="model">highfive.booking</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Booking">
+                <header>
+                    <button name="action_confirm"
+                            string="Confirm Booking"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="state != 'draft'"
+                            icon="fa-check"/>
+                    <button name="action_complete"
+                            string="Mark as Completed"
+                            type="object"
+                            class="btn-success"
+                            invisible="state != 'confirmed'"
+                            icon="fa-check-circle"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed,completed"/>
+                </header>
+
+                <sheet>
+                    <!-- Smart Buttons -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoices"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-files-o"
+                                invisible="invoice_count == 0">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="invoice_count"/>
+                                </span>
+                                <span class="o_stat_text">Invoices</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <!-- Payment Status Alert -->
+                    <div class="alert alert-info" role="alert" invisible="payment_state == 'paid'">
+                        <i class="fa fa-info-circle"/> Payment Status: <field name="payment_state" readonly="1" class="fw-bold"/>
+                    </div>
+
+                    <!-- Main Sections -->
+                    <group>
+                        <group string="👥 Customer Information">
+                            <field name="customer_id" placeholder="Select customer..."/>
+                            <field name="customer_phone" readonly="1" widget="phone"/>
+                            <field name="customer_email" readonly="1" widget="email"/>
+                        </group>
+
+                        <group string="🏢 Partner &amp; Branch">
+                            <field name="partner_id" placeholder="Select partner..."/>
+                            <field name="branch_id" placeholder="Select branch..."/>
+                            <field name="branch_city" readonly="1" invisible="not branch_city"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="📋 Booking Details">
+                            <field name="booking_date"/>
+                            <field name="booking_day" readonly="1" widget="badge"/>
+                            <field name="payment_method" widget="radio" options="{'horizontal': true}"/>
+                            <field name="tax_status" widget="radio" options="{'horizontal': true}"/>
+                            <field name="highfive_booking_id" placeholder="e.g., HF-2026-001"/>
+                        </group>
+
+                        <group string="⏰ Session Schedule">
+                            <label for="session_start_time" string="Session Time"/>
+                            <div class="o_row">
+                                <field name="session_start_time" widget="float_time" class="oe_inline"/>
+                                <span class="mx-2">→</span>
+                                <field name="session_end_time" widget="float_time" class="oe_inline"/>
+                            </div>
+                            <field name="session_duration" widget="float_time" readonly="1" class="text-primary fw-bold"/>
+                            <field name="session_start_datetime" invisible="1"/>
+                            <field name="session_end_datetime" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <!-- Hidden fields -->
+                    <field name="currency_id" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+
+                    <!-- Notebook -->
+                    <notebook>
+                        <!-- Booking Lines -->
+                        <page string="📦 Booking Lines">
+                            <field name="booking_line_ids"
+                                   context="{'default_quantity': 1}">
+                                <list editable="bottom"
+                                      decoration-primary="line_type == 'unit'"
+                                      decoration-info="line_type == 'service'">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="line_type" widget="badge"/>
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit" widget="monetary"/>
+                                    <field name="price_subtotal" widget="monetary"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+
+                            <!-- Financial Summary -->
+                            <group class="mt-4">
+                                <group/>
+                                <group>
+                                    <table class="table table-sm table-borderless">
+                                        <tr class="border-bottom">
+                                            <td class="text-end"><strong class="text-primary">Unit Base Price:</strong></td>
+                                            <td class="text-end">
+                                                <field name="session_base_price" readonly="1" widget="monetary" nolabel="1" class="text-primary fw-bold"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom" invisible="services_total == 0">
+                                            <td class="text-end"><span class="text-info">Additional Services:</span></td>
+                                            <td class="text-end">
+                                                <field name="services_total" readonly="1" widget="monetary" nolabel="1" class="text-info"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="text-end"><span class="text-danger">Discount:</span></td>
+                                            <td class="text-end">
+                                                <field name="discount" widget="monetary" nolabel="1" class="text-danger"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom border-2">
+                                            <td class="text-end"><strong>Subtotal:</strong></td>
+                                            <td class="text-end">
+                                                <field name="subtotal" readonly="1" widget="monetary" nolabel="1" class="fw-bold"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-end">
+                                                <field name="tax_percent" widget="percentage" nolabel="1" style="width: 80px; display: inline-block;"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <field name="tax_amount" readonly="1" widget="monetary" nolabel="1" class="text-muted"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-top border-2 border-success">
+                                            <td class="text-end pt-2"><strong class="fs-5 text-success">Total:</strong></td>
+                                            <td class="text-end pt-2">
+                                                <field name="total" readonly="1" widget="monetary" nolabel="1" class="fs-4 fw-bold text-success"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- Payment Details -->
+                        <page string="💳 Payment Details" invisible="payment_method != 'online'">
+                            <group>
+                                <group>
+                                    <label for="payment_card"/>
+                                    <div class="o_row">
+                                        <i class="fa fa-credit-card text-primary fa-lg"/>
+                                        <field name="payment_card" widget="monetary" class="oe_inline ms-2"/>
+                                    </div>
+
+                                    <label for="payment_wallet"/>
+                                    <div class="o_row">
+                                        <i class="fa fa-wallet text-success fa-lg"/>
+                                        <field name="payment_wallet" widget="monetary" class="oe_inline ms-2"/>
+                                    </div>
+
+                                    <label for="payment_coupon"/>
+                                    <div class="o_row">
+                                        <i class="fa fa-ticket text-warning fa-lg"/>
+                                        <field name="payment_coupon" widget="monetary" class="oe_inline ms-2"/>
+                                    </div>
+                                </group>
+
+                                <group>
+                                    <field name="payment_transaction_ref"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- Invoices & Financial -->
+                        <page string="📄 Invoices &amp; Financial" name="invoices_financial">
+                            <group>
+                                <group string="Customer Invoice" class="o_group_col_6">
+                                    <field name="sales_invoice_id"
+                                           readonly="1"
+                                           options="{'no_create': True}"
+                                           context="{'form_view_ref': 'account.view_move_form'}"/>
+                                </group>
+
+                                <group string="Vendor Bill" class="o_group_col_6">
+                                    <field name="vendor_bill_id"
+                                           readonly="1"
+                                           options="{'no_create': True}"
+                                           context="{'form_view_ref': 'account.view_move_form'}"/>
+                                </group>
+                            </group>
+
+                            <group>
+                                <group string="Financial" class="o_group_col_6">
+                                    <field name="analytic_account_id"
+                                           readonly="1"
+                                           options="{'no_create': True, 'no_open': True}"/>
+                                </group>
+                                <group class="o_group_col_6"/>
+                            </group>
+                        </page>
+
+                        <!-- Notes -->
+                        <page string="📝 Notes">
+                            <field name="notes" placeholder="Add internal notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Search View -->
+    <record id="view_highfive_booking_search" model="ir.ui.view">
+        <field name="name">highfive.booking.search</field>
+        <field name="model">highfive.booking</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Reference" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="highfive_booking_id" string="Booking ID"/>
+                <field name="customer_id" string="Customer"/>
+                <field name="partner_id" string="Partner"/>
+                <field name="branch_id" string="Branch"/>
+                <field name="booking_date" string="Date"/>
+
+                <separator/>
+
+                <!-- Status Filters -->
+                <filter string="📝 Draft" name="filter_draft"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter string="✅ Confirmed" name="filter_confirmed"
+                        domain="[('state', '=', 'confirmed')]"/>
+                <filter string="🎉 Completed" name="filter_completed"
+                        domain="[('state', '=', 'completed')]"/>
+                <filter string="❌ Cancelled" name="filter_cancelled"
+                        domain="[('state', '=', 'cancelled')]"/>
+
+                <separator/>
+
+                <!-- Payment Filters -->
+                <filter string="💳 Online Payment" name="filter_online"
+                        domain="[('payment_method', '=', 'online')]"/>
+                <filter string="💵 Cash Payment" name="filter_cash"
+                        domain="[('payment_method', '=', 'cash')]"/>
+
+                <separator/>
+
+                <!-- Payment Status -->
+                <filter string="⚠️ Not Paid" name="filter_not_paid"
+                        domain="[('payment_state', '=', 'not_paid')]"/>
+                <filter string="✅ Fully Paid" name="filter_paid"
+                        domain="[('payment_state', '=', 'paid')]"/>
+
+                <separator/>
+
+                <!-- Date Filters - Simple domains only -->
+                <filter string="📅 Today" name="filter_today"
+                        domain="[('booking_date', '=', context_today())]"/>
+                <filter string="📆 Yesterday" name="filter_yesterday"
+                        domain="[('booking_date', '=', (context_today() - relativedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                <filter string="📊 This Month" name="filter_this_month"
+                        domain="[('booking_date', '&gt;=', context_today().strftime('%Y-%m-01')),
+                                 ('booking_date', '&lt;=', (context_today() + relativedelta(day=31)).strftime('%Y-%m-%d'))]"/>
+                <filter string="📈 Last 7 Days" name="filter_last_7_days"
+                        domain="[('booking_date', '&gt;=', (context_today() - relativedelta(days=7)).strftime('%Y-%m-%d')),
+                                 ('booking_date', '&lt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="📉 Last 30 Days" name="filter_last_30_days"
+                        domain="[('booking_date', '&gt;=', (context_today() - relativedelta(days=30)).strftime('%Y-%m-%d')),
+                                 ('booking_date', '&lt;=', context_today().strftime('%Y-%m-%d'))]"/>
+
+                <separator/>
+
+                <!-- Group By -->
+                <group expand="0" string="Group By">
+                    <filter string="👤 Customer" name="group_customer"
+                            context="{'group_by': 'customer_id'}"/>
+                    <filter string="🏢 Partner" name="group_partner"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter string="🏪 Branch" name="group_branch"
+                            context="{'group_by': 'branch_id'}"/>
+                    <filter string="📊 Status" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="💰 Payment Method" name="group_payment"
+                            context="{'group_by': 'payment_method'}"/>
+                    <filter string="💳 Payment Status" name="group_payment_state"
+                            context="{'group_by': 'payment_state'}"/>
+                    <filter string="📅 Booking Date" name="group_date"
+                            context="{'group_by': 'booking_date'}"/>
+                    <filter string="📆 Day of Week" name="group_day"
+                            context="{'group_by': 'booking_day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_highfive_booking" model="ir.actions.act_window">
+        <field name="name">Bookings</field>
+        <field name="res_model">highfive.booking</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_draft': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                📅 Create your first booking!
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -44,7 +44,7 @@
                             <field name="is_highfive_customer"/>
                         </group>
                         <group>
-                            <field name="highfive_account_name"/>
+<!--                            <field name="highfive_account_name"/>-->
                         </group>
                     </group>
 
@@ -77,8 +77,10 @@
                     <group string="Commission Configuration"
                            invisible="not is_highfive_partner">
                         <group>
-                            <field name="commission_rate_online" widget="percentage"/>
-                            <field name="commission_rate_cash" widget="percentage"/>
+<!--                            <field name="commission_rate_online" widget="percentage"/>-->
+<!--                            <field name="commission_rate_cash" widget="percentage"/>-->
+                            <field name="commission_rate_online"/>
+                            <field name="commission_rate_cash"/>
                         </group>
                         <group>
                             <p class="text-muted">

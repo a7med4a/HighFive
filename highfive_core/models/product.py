@@ -28,6 +28,22 @@ class ProductTemplate(models.Model):
         ondelete="restrict",
         help="Operational branch that provides this unit/service.",
     )
+    is_highfive_service = fields.Boolean(
+        'Is HighFive Service',
+        default=False,
+        help='Check this if this is an additional service (not a main unit)'
+    )
+    is_highfive_unit = fields.Boolean(
+        string='Is HighFive Unit',
+        store=True,
+        help='Automatically set when highfive_unit_id is provided'
+    )
+    highfive_service_id = fields.Char(
+        string="HighFive Service ID",
+        copy=False,
+        index=True,
+        help="Unique identifier from HighFive system for additional services"
+    )
     
     partner_id = fields.Many2one(
         "res.partner",
@@ -46,6 +62,11 @@ class ProductTemplate(models.Model):
             "highfive_unit_id_uniq",
             "unique(highfive_unit_id)",
             "HighFive Unit ID must be unique.",
+        ),
+        (
+            "highfive_service_id_uniq",
+            "unique(highfive_service_id)",
+            "HighFive Service ID must be unique.",
         ),
     ]
 

@@ -57,7 +57,7 @@ class ReportTax(models.AbstractModel):
         # compute the tax amount
         sql = self._sql_from_amls_one()
         tables, where_clause, where_params = self.env["account.move.line"]._query_get()
-        print("88888 = where_clause ===> ",where_clause)
+
         query = sql % (tables, where_clause)
         self.env.cr.execute(query, where_params)
         results = self.env.cr.fetchall()

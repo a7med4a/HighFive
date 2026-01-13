@@ -135,7 +135,7 @@
     <!-- Services/Units Menu Section -->
     <!-- ========================================= -->
     <menuitem id="highfive_services_menu"
-              name="Services"
+              name="Services And Units"
               parent="highfive_root_menu"
               sequence="30"/>
 
@@ -162,12 +162,40 @@
             </p>
         </field>
     </record>
+    <record id="action_highfive_services" model="ir.actions.act_window">
+        <field name="name">HighFive Units</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="domain">[('is_highfive_service','=',True)]</field>
+        <field name="context">{
+            'default_is_highfive_service': True,
+            'default_type': 'service',
+            'default_invoice_policy': 'order',
+            'default_sale_ok': True,
+            'default_purchase_ok': False,
+            'search_default_highfive_services': 1,
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first service unit
+            </p>
+            <p>
+                Units represent bookable services (e.g., football field, tennis court, gym class).
+                Each unit must be linked to a branch.
+            </p>
+        </field>
+    </record>
 
     <menuitem id="highfive_units_menu_item"
               name="Units"
               parent="highfive_services_menu"
               action="action_highfive_units"
               sequence="10"/>
+    <menuitem id="highfive_services_menu_item"
+              name="Services"
+              parent="highfive_services_menu"
+              action="action_highfive_services"
+              sequence="15"/>
 
     <!-- ========================================= -->
     <!-- Reporting Menu Section -->

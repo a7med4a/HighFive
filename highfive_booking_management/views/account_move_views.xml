@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Invoice Form -->
+    <record id="view_move_form_inherit_booking" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.booking</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- إضافة الحقول بعد partner_id -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="highfive_partner_id" readonly="1"
+                       invisible="not highfive_booking_id"
+                       options="{'no_create': True}"/>
+                <field name="highfive_branch_id" readonly="1"
+                       invisible="not highfive_booking_id"
+                       options="{'no_create': True}"/>
+                <field name="highfive_payment_method" readonly="1"
+                       invisible="not highfive_booking_id"/>
+            </xpath>
+
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="highfive_booking_id" readonly="1"
+                       invisible="not highfive_booking_id"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Payment Details"
+                      invisible="not highfive_booking_id">
+                    <group>
+                        <group string="Payment Breakdown">
+                            <field name="payment_card" readonly="1"/>
+                            <field name="payment_wallet" readonly="1"/>
+                            <field name="payment_coupon" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="payment_transaction_ref" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend Invoice Tree/List View -->
+    <record id="view_invoice_tree_inherit_booking" model="ir.ui.view">
+        <field name="name">account.move.tree.inherit.booking</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <!-- إضافة الأعمدة في القائمة -->
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="highfive_partner_id" optional="show"/>
+                <field name="highfive_branch_id" optional="show"/>
+                <field name="highfive_payment_method" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Add Search/Filter View -->
+    <record id="view_account_invoice_filter_inherit_booking" model="ir.ui.view">
+        <field name="name">account.move.filter.inherit.booking</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <!-- إضافة فلاتر البحث -->
+            <xpath expr="//search" position="inside">
+                <field name="highfive_partner_id" string="Supplier"
+                       filter_domain="[('highfive_partner_id', 'ilike', self)]"/>
+                <field name="highfive_branch_id" string="Branch"
+                       filter_domain="[('highfive_branch_id', 'ilike', self)]"/>
+
+                <!-- Filters -->
+                <filter string="Online Payment" name="filter_online"
+                        domain="[('highfive_payment_method', '=', 'online')]"/>
+                <filter string="Cash Payment" name="filter_cash"
+                        domain="[('highfive_payment_method', '=', 'cash')]"/>
+
+                <!-- Group By -->
+                <filter string="Supplier" name="group_supplier"
+                        context="{'group_by': 'highfive_partner_id'}"/>
+                <filter string="Branch" name="group_branch"
+                        context="{'group_by': 'highfive_branch_id'}"/>
+                <filter string="Payment Method" name="group_payment_method"
+                        context="{'group_by': 'highfive_payment_method'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

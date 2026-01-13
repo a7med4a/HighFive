@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_highfive_booking_user,highfive.booking.user,model_highfive_booking,base.group_user,1,1,1,0
+access_highfive_booking_manager,highfive.booking.manager,model_highfive_booking,account.group_account_manager,1,1,1,1
+access_highfive_booking_line_manager,highfive.booking.line.manager,model_highfive_booking_line,base.group_user,1,1,1,1
+access_highfive_unit_commission_user,highfive.unit.commission.user,model_highfive_unit_commission,base.group_user,1,1,1,0
+access_highfive_unit_commission_manager,highfive.unit.commission.manager,model_highfive_unit_commission,account.group_account_manager,1,1,1,1

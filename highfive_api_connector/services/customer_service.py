@@ -80,5 +80,7 @@ class CustomerService:
         # City
         if data.get('city'):
             vals['city'] = data['city']
+        if data.get('vat'):
+            vals['vat'] = data['vat']
         
         return vals

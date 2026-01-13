@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Booking Line List View (Standalone) -->
+    <record id="view_highfive_booking_line_tree" model="ir.ui.view">
+        <field name="name">highfive.booking.line.tree</field>
+        <field name="model">highfive.booking.line</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="line_type"/>
+                <field name="product_id"
+                       options="{'no_create': True, 'no_open': True}"/>
+                <field name="name"/>
+                <field name="quantity"/>
+                <field name="price_unit"/>
+                <field name="price_subtotal"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Booking Line Form View (Standalone) -->
+    <record id="view_highfive_booking_line_form" model="ir.ui.view">
+        <field name="name">highfive.booking.line.form</field>
+        <field name="model">highfive.booking.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="line_type"/>
+                        <field name="product_id"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="quantity"/>
+                        <field name="price_unit"/>
+                        <field name="price_subtotal" readonly="1"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>

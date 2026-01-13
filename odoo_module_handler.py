@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # Server Connection Parameters
-HOST = "http://167.71.241.12:8069"  # Odoo server address
-DB = "AsasWare-Live"            # Database name
+HOST = "http://167.71.241.12:8070"  # Odoo server address
+DB = "HighFive-Test"            # Database name
 USERNAME = "admin"            # Odoo username
-PASSWORD = "Admin@2025"  # Odoo password
+PASSWORD = "Admin2025"  # Odoo password
 
 # Localhost Connection Parameters
 
@@ -14,12 +14,23 @@ PASSWORD = "Admin@2025"  # Odoo password
 
 # List of modules to handle
 MODULES_TO_HANDLE = [
-    "dynamic_accounts_report",
-    "ohrms_loan_accounting",
-    "sale_custom",
+    "base_account_budget",
+    "base_accounting_kit",
+    "custom_partner",
     "easy_expense",
-
+    "highfive_api_connector",
+    "highfive_core",
+    "hr_employee_updation",
+    "hr_payroll_account_community",
+    "hr_payroll_community",
+    "hr_payslip_monthly_report",
+    "ohrms_loan",
+    "ohrms_loan_accounting",
+    "ohrms_salary_advance",
+    "print_invoice_date",
+    "sale_custom",
 ]
+
 
 import xmlrpc.client
 import logging

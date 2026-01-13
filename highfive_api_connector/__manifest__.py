@@ -1,18 +1,41 @@
 {
     'name': 'HighFive API Connector',
-    'version': '1.0.0',
-    'summary': 'Simple API Integration with HighFive Platform',
+    'version': '2.0.0',
+    'summary': 'Complete API Integration with HighFive Platform',
     'description': """
-        Simple webhook-based integration for HighFive platform.
+        Complete webhook-based integration for HighFive platform.
+        
+        Version 2.0.0 Features:
+        ========================
+        
+        Core Endpoints:
+        - Partners API (Create/Update partners)
+        - Customers API (Create/Update customers)
+        - Branches API (Create/Update branches)
+        - Units API (Create/Update units with default commissions)
+        
+        New in v2.0:
+        - Commissions API (Manage scheduled commissions)
+        - Bookings API (Full booking management)
+        - Payment Updates API
+        - Booking Cancellation API
+        - Query APIs (Get booking status, commission info)
         
         Features:
-        - Webhook endpoints for Partners, Customers, Branches, Units
         - Complete request/response logging
-        - API Key authentication
-        - Data validation
-        - Automatic processing
+        - API Key authentication (Odoo's built-in system)
+        - Comprehensive data validation
+        - Automatic invoice generation (sales + vendor)
+        - Commission calculation (default + scheduled)
+        - Analytic account linking
+        - Payment tracking
+        - Error handling with detailed logging
         
-        No complex sync mechanisms - just simple, reliable webhooks.
+        Architecture:
+        - Webhook-based (reliable, simple)
+        - Service layer pattern
+        - Clean separation of concerns
+        - Easy to extend and maintain
     """,
     'category': 'Technical',
     'author': 'HighFive Team',
@@ -21,6 +44,7 @@
         'base',
         'web',
         'highfive_core',
+        'highfive_booking_management',
     ],
     'data': [
         'security/ir.model.access.csv',

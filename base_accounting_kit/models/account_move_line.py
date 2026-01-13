@@ -155,7 +155,6 @@ class AccountInvoiceLine(models.Model):
 
     @api.model
     def _query_get(self, domain=None):
-        print("_query_get *************************************")
         """Used to add domain constraints to the query"""
         self.check_access_rights("read")
 
@@ -229,18 +228,15 @@ class AccountInvoiceLine(models.Model):
         where_clause = ""
         where_clause_params = []
         tables = ""
-        print("domain***> ",domain)
         if domain:
             domain.append(("display_type", "not in", ("line_section", "line_note")))
             domain.append(("parent_state", "!=", "cancel"))
-            print("domain***2> ", domain)
+
             query = self._where_calc(domain)
-            print("domain***2> ", domain)
+
             # Wrap the query with 'company_id IN (...)' to avoid bypassing company access rights.
             self._apply_ir_rules(query)
             tables, from_params = query.from_clause
             where_clause, where_params = query.where_clause
-            print("where_params***2> ", where_params)
-            print("where_clause***2> ", where_clause)
             where_clause_params = from_params + where_params
         return tables, where_clause, where_clause_params

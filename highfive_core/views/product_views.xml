@@ -35,14 +35,18 @@
 
             <!-- Add HighFive tab -->
             <xpath expr="//notebook" position="inside">
-                <page string="HighFive" name="highfive" invisible="not highfive_unit_id">
+                <page string="HighFive" name="highfive" invisible="not highfive_unit_id and not highfive_service_id">
                     <group>
                         <group string="HighFive Unit Information">
                             <field name="highfive_unit_id" readonly="id"/>
-                            <field name="branch_id" 
+                            <field name="highfive_service_id" readonly="id"/>
+                            <field name="branch_id"
                                    options="{'no_create': True, 'no_open': True}"
                                    domain="[('active', '=', True)]"/>
                             <field name="partner_id" readonly="1"/>
+                            <field name="is_highfive_unit" readonly="0"/>
+                            <field name="is_highfive_service" readonly="0"/>
+
                         </group>
                         <group string="Help">
                             <p class="text-muted">
@@ -68,6 +72,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="after">
                 <field name="highfive_unit_id" optional="hide"/>
+                <field name="highfive_service_id" optional="hide"/>
                 <field name="branch_id" optional="hide"/>
                 <field name="partner_id" optional="hide"/>
             </xpath>
@@ -82,6 +87,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="after">
                 <field name="highfive_unit_id"/>
+                <field name="highfive_service_id"/>
                 <field name="branch_id"/>
                 <field name="partner_id"/>
             </xpath>
@@ -91,6 +97,10 @@
                 <filter string="HighFive Units" 
                         name="highfive_units" 
                         domain="[('highfive_unit_id','!=',False)]"
+                        help="Services that are HighFive units"/>
+                <filter string="HighFive Service"
+                        name="highfive_services"
+                        domain="[('highfive_service_id','!=',False)]"
                         help="Services that are HighFive units"/>
             </xpath>
             
