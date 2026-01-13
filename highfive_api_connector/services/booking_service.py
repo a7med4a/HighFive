@@ -595,7 +595,7 @@ class BookingService:
             'customer_id': customer.id,
             'partner_id': partner.id,
             'unit_id': unit.id,
-            'currency_id': currency_id.id,
+            'currency_id': currency_id,
             'branch_id': branch.id,
             'discount': float(data.get('discount', 0)),
             'tax_percent': float(data['tax_percent']),
