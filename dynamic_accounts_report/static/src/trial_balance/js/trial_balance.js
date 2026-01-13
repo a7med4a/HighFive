@@ -125,19 +125,27 @@ class TrialBalance extends owl.Component {
         }
         else {
             if (val && val.target.name === 'start_date') {
-                this.state.date_viewed = []
-                this.state.date_viewed.push('From' + ' ' + this.formatDate(this.start_date.el.value) + ' ' + 'To' + ' ' + this.formatDate(this.end_date.el.value))
-                this.state.date_range = {
-                    ...this.state.date_range,
-                    start_date: val.target.value
-                };
+                const value = val.target.value;
+                if (value){
+                    this.start_date.el.value = value
+                    this.state.date_viewed = []
+                    this.state.date_viewed.push('From' + '  ' + this.formatDate(this.start_date.el.value) + '  ' + 'To' + '  ' + this.formatDate(this.end_date.el.value))
+                    this.state.date_range = {
+                        ...this.state.date_range,
+                        start_date: value
+                    };
+                }
             } else if (val && val.target.name === 'end_date') {
-                this.state.date_viewed = []
-                this.state.date_viewed.push('From' + ' ' + this.formatDate(this.start_date.el.value) + 'To' + ' ' + this.formatDate(this.end_date.el.value))
-                this.state.date_range = {
-                    ...this.state.date_range,
-                    end_date: val.target.value
-                };
+                const value = val.target.value;
+                if (value){
+                    this.end_date.el.value = value
+                    this.state.date_viewed = []
+                    this.state.date_viewed.push('From' + '  ' + this.formatDate(this.start_date.el.value) + '  ' + 'To' + '  ' + this.formatDate(this.end_date.el.value))
+                    this.state.date_range = {
+                        ...this.state.date_range,
+                        end_date: value
+                    };
+                }
             } else if (val && val.target.attributes["data-value"].value == 'month') {
                 this.start_date.el.value = today.startOf('month').toISODate()
                 this.end_date.el.value = today.endOf('month').toISODate()
