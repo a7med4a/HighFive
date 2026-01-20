@@ -7,7 +7,6 @@
         
         Version 2.0.0 Features:
         ========================
-        
         Core Endpoints:
         - Partners API (Create/Update partners)
         - Customers API (Create/Update customers)
