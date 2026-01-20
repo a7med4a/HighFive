@@ -15,8 +15,7 @@ class AccountMove(models.Model):
     # HighFive Related Fields
     highfive_partner_id = fields.Many2one(
         'res.partner',
-        string='HighFive Supplier',
-        compute='_compute_highfive_fields',
+        string='HighFive Partner',
         store=True,
         index=True,
         help='Supplier/Partner from booking'
@@ -25,7 +24,6 @@ class AccountMove(models.Model):
     highfive_branch_id = fields.Many2one(
         'highfive.partner.branch',
         string='HighFive Branch',
-        compute='_compute_highfive_fields',
         store=True,
         index=True,
         help='Branch from booking'
@@ -35,7 +33,6 @@ class AccountMove(models.Model):
         ('online', 'Online Payment'),
         ('cash', 'Cash Payment')
     ], string='Payment Method',
-       compute='_compute_highfive_fields',
        store=True,
        index=True,
        help='Payment method from booking')
@@ -61,18 +58,3 @@ class AccountMove(models.Model):
         'Payment Transaction Reference'
     )
 
-    @api.depends('highfive_booking_id',
-                 'highfive_booking_id.partner_id',
-                 'highfive_booking_id.branch_id',
-                 'highfive_booking_id.payment_method')
-    def _compute_highfive_fields(self):
-        """Compute HighFive related fields from booking"""
-        for move in self:
-            if move.highfive_booking_id:
-                move.highfive_partner_id = move.highfive_booking_id.partner_id
-                move.highfive_branch_id = move.highfive_booking_id.branch_id
-                move.highfive_payment_method = move.highfive_booking_id.payment_method
-            else:
-                move.highfive_partner_id = False
-                move.highfive_branch_id = False
-                move.highfive_payment_method = False

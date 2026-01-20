@@ -13,6 +13,7 @@
                 <field name="name"/>
                 <field name="booking_date"/>
                 <field name="booking_day" optional="show"/>
+                <field name="create_date" optional="show"/>
                 <field name="session_start_time" widget="float_time" optional="show"/>
                 <field name="customer_id"/>
                 <field name="partner_id"/>

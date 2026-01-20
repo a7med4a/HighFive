@@ -21,43 +21,38 @@ class HighFiveBookingWebhook(http.Controller):
     # BOOKING ENDPOINTS
     # =========================================================================
 
-    @http.route('/api/odoo/bookings', type='json', auth='none', methods=['POST'], csrf=False)
+    @http.route('/api/odoo/bookings', type='http', auth='none', methods=['POST'], csrf=False)
     def create_booking(self, **kwargs):
         """Create or update booking"""
         data = request.get_json_data()
         return self._process_request('booking', data, 'create')
 
-    @http.route('/api/odoo/bookings/<int:booking_id>/payment', type='json', auth='none', methods=['POST'], csrf=False)
+    @http.route('/api/odoo/bookings/<int:booking_id>/payment', type='http', auth='none', methods=['POST'], csrf=False)
     def update_payment(self, booking_id, **kwargs):
         """Update booking payment status"""
         data = request.get_json_data()
         data['booking_id'] = booking_id
         return self._process_request('booking', data, 'update_payment')
 
-
-
-    @http.route('/api/odoo/bookings/<int:booking_id>/refund', type='json', auth='none', methods=['POST'], csrf=False)
+    @http.route('/api/odoo/bookings/<int:booking_id>/refund', type='http', auth='none', methods=['POST'], csrf=False)
     def refund_booking(self, booking_id, **kwargs):
         """Refund booking (credit notes & refund payments)"""
         data = request.get_json_data()
         data['booking_id'] = booking_id
-
         return self._process_request('booking', data, 'refund')
 
-    @http.route('/api/odoo/bookings/<int:booking_id>/cancel', type='json', auth='none', methods=['POST'], csrf=False)
+    @http.route('/api/odoo/bookings/<int:booking_id>/cancel', type='http', auth='none', methods=['POST'], csrf=False)
     def cancel_booking(self, booking_id, **kwargs):
         """Cancel booking (direct cancellation)"""
         data = request.get_json_data()
         data['booking_id'] = booking_id
-
         return self._process_request('booking', data, 'cancel')
 
     @http.route('/api/odoo/bookings/<int:booking_id>', type='http', auth='none', methods=['GET'], csrf=False)
     def get_booking(self, booking_id, **kwargs):
         """Get booking status"""
         data = {'booking_id': booking_id}
-        result = self._process_request('booking', data, 'get_status')
-        return request.make_json_response(result)
+        return self._process_request('booking', data, 'get_status')
 
     # =========================================================================
     # MAIN PROCESSING
@@ -99,12 +94,12 @@ class HighFiveBookingWebhook(http.Controller):
                 result = service.process(data)
             elif action == 'update_payment':
                 result = service.update_payment(data['booking_id'], data)
-            elif action == 'refund':  # ← أضف
+            elif action == 'refund':
                 result = service.refund_booking(
                     data['booking_id'],
                     data.get('reason', '')
                 )
-            elif action == 'cancel':  # ← أضف
+            elif action == 'cancel':
                 result = service.cancel_booking(
                     data['booking_id'],
                     data.get('reason', '')
@@ -135,21 +130,26 @@ class HighFiveBookingWebhook(http.Controller):
             )
 
             # ================================================================
-            # 5. Return Success Response
+            # 5. Return Success Response - HTTP 200 or 201
             # ================================================================
-            return {
+            response_data = {
                 'success': True,
                 'request_id': log.request_id,
                 'data': result,
                 'processing_time_ms': processing_time,
             }
 
-        except ValidationError as e:
-            # Validation error
-            processing_time = (time.time() - start_time) * 1000
+            # Use 201 for create, 200 for everything else
+            status_code = 201 if action == 'create' and result.get('action') == 'created' else 200
 
-            # Save request_id before rollback
-            request_id = log.request_id if log else None
+            return request.make_json_response(response_data, status=status_code)
+
+        except ValidationError as e:
+            # ================================================================
+            # Validation Error - HTTP 400
+            # ================================================================
+            processing_time = (time.time() - start_time) * 1000
+            request_id = log.request_id if log else 'N/A'
 
             # Rollback the transaction
             request.env.cr.rollback()
@@ -164,21 +164,24 @@ class HighFiveBookingWebhook(http.Controller):
 
             _logger.warning(f"[{request_id}] Validation error: {str(e)}")
 
-            return {
-                'success': False,
-                'request_id': request_id,
-                'error': str(e),
-                'error_type': 'validation_error',
-                'processing_time_ms': processing_time,
-            }
+            return request.make_json_response(
+                {
+                    'success': False,
+                    'request_id': request_id,
+                    'error': str(e),
+                    'error_type': 'validation_error',
+                    'processing_time_ms': processing_time,
+                },
+                status=400  # Bad Request
+            )
 
         except Exception as e:
-            # Unexpected error
+            # ================================================================
+            # Internal Server Error - HTTP 500
+            # ================================================================
             processing_time = (time.time() - start_time) * 1000
             error_traceback = traceback.format_exc()
-
-            # Save request_id before rollback
-            request_id = log.request_id if log else None
+            request_id = log.request_id if log else 'N/A'
 
             # Rollback the transaction
             request.env.cr.rollback()
@@ -193,17 +196,21 @@ class HighFiveBookingWebhook(http.Controller):
                 request.env.cr.commit()
 
             _logger.error(
-                f"[{request_id}] Unexpected error: {str(e)}\n"
+                f"[{request_id}] Internal server error: {str(e)}\n"
                 f"{error_traceback}"
             )
 
-            return {
-                'success': False,
-                'request_id': request_id,
-                'error': 'Internal server error',
-                'error_type': 'server_error',
-                'processing_time_ms': processing_time,
-            }
+            return request.make_json_response(
+                {
+                    'success': False,
+                    'request_id': request_id,
+                    'error': 'Internal server error',
+                    'error_type': 'server_error',
+                    'message': str(e),  # Include actual error in development
+                    'processing_time_ms': processing_time,
+                },
+                status=500  # Internal Server Error
+            )
 
     # =========================================================================
     # HELPER METHODS
@@ -228,7 +235,7 @@ class HighFiveBookingWebhook(http.Controller):
         api_key = http_request.httprequest.headers.get('Authorization')
 
         if not api_key:
-            raise ValidationError("API Key not found or invalid")
+            raise ValidationError("API Key is required in Authorization header")
 
         # Remove 'Bearer ' prefix if exists
         if api_key.startswith('Bearer '):
@@ -248,7 +255,7 @@ class HighFiveBookingWebhook(http.Controller):
             _logger.warning(
                 f"Invalid API key attempt from {http_request.httprequest.remote_addr}"
             )
-            raise ValidationError("API Key not found or invalid")
+            raise ValidationError("Invalid or expired API key")
 
         # Update environment with authenticated user
         http_request.update_env(user=user_id)

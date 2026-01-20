@@ -971,7 +971,7 @@ class BookingService:
 
         except Exception as e:
             _logger.error(f"Error creating refund payment: {e}")
-            return Nonecurrency_code
+            return None
 
     def _get_currency(self, currency_code):
         """

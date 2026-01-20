@@ -27,7 +27,7 @@ class HighFiveWebhookController(http.Controller):
         data = request.get_json_data()
         return self._process_request('partner', data)
 
-    @http.route('/api/odoo/players', type='json', auth='none', methods=['POST'], csrf=False)
+    @http.route('/api/odoo/customers', type='json', auth='none', methods=['POST'], csrf=False)
     def create_customer(self, **kwargs):
         """Receive customer webhook"""
         data = request.get_json_data()

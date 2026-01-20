@@ -707,11 +707,12 @@ class HighFiveBooking(models.Model):
             if len(unit_lines) > 1:
                 raise ValidationError("Booking can have only one Unit!")
 
-    @api.depends('payment_ids.amount', 'payment_ids.state', 'total')
+    @api.depends('payment_ids.amount', 'payment_ids.state', 'total','state')
     def _compute_payment_status(self):
         """Calculate payment status"""
         for record in self:
-            paid_payments = record.payment_ids.filtered(lambda p: p.state == 'posted')
+            # paid_payments = record.payment_ids.filtered(lambda p: p.state == 'posted')
+            paid_payments = record.payment_ids
             record.paid_amount = sum(paid_payments.mapped('amount'))
 
             if record.paid_amount == 0:
@@ -959,8 +960,12 @@ class HighFiveBooking(models.Model):
         # Create sales invoice
         invoice_vals = {
             'move_type': 'out_invoice',
-            'partner_id': self.partner_id.id,  # المورد
+            'partner_id': self.customer_id.id,  # المورد
             'currency_id': self.currency_id.id,
+            'highfive_partner_id': self.partner_id.id,
+            'highfive_branch_id': self.branch_id.id,
+            'highfive_payment_method': self.payment_method,
+            'highfive_booking_id': self.id,
             'invoice_date': self.booking_date,
             'invoice_line_ids': invoice_lines,
             'ref': f'Booking: {self.name}',
@@ -976,7 +981,9 @@ class HighFiveBooking(models.Model):
 
         invoice = self.env['account.move'].create(invoice_vals)
         invoice.action_post()
+
         self.sales_invoice_id = invoice.id
+        self._register_payment(invoice)
 
         _logger.info(
             f"Sales invoice created: {invoice.name} - "
@@ -1018,6 +1025,9 @@ class HighFiveBooking(models.Model):
             'partner_id': self.partner_id.id,  # المورد
             'currency_id': self.currency_id.id,
             'invoice_date': self.booking_date,
+            'highfive_branch_id': self.branch_id.id,
+            'highfive_payment_method': self.payment_method,
+            'highfive_booking_id': self.id,
             'invoice_line_ids': bill_lines,
             'ref': f'Booking: {self.name}',
             'narration': (
@@ -1084,6 +1094,9 @@ class HighFiveBooking(models.Model):
             'partner_id': self.partner_id.id,  # المورد
             'currency_id': self.currency_id.id,
             'invoice_date': self.booking_date,
+            'highfive_branch_id': self.branch_id.id,
+            'highfive_payment_method': self.payment_method,
+            'highfive_booking_id': self.id,
             'invoice_line_ids': invoice_lines,
             'ref': f'Commission: {self.name}',
             'narration': (
@@ -1177,6 +1190,7 @@ class HighFiveBooking(models.Model):
 
         payment_details = payment_details or {}
 
+
         payment_vals = {
             'payment_type': 'inbound',
             'partner_type': 'customer',
@@ -1184,7 +1198,7 @@ class HighFiveBooking(models.Model):
             'amount': invoice.amount_total,
             'journal_id': journal.id,
             'date': fields.Date.today(),
-            'memo': f"Payment for Booking {self.name}",  # ✅ memo بدلاً من ref
+            'memo': f"Payment for Booking# {self.name} {payment_details.get('transaction_ref') or self.payment_transaction_ref}",  # ✅ memo بدلاً من ref
 
             # HighFive Fields
             'highfive_booking_id': self.id,
@@ -1192,7 +1206,7 @@ class HighFiveBooking(models.Model):
             'payment_card': payment_details.get('card', 0) or self.payment_card,
             'payment_wallet': payment_details.get('wallet', 0) or self.payment_wallet,
             'payment_coupon': payment_details.get('coupon', 0) or self.payment_coupon,
-            'transaction_reference': payment_details.get('transaction_ref'),
+            'transaction_reference': payment_details.get('transaction_ref') or self.payment_transaction_ref,
         }
 
         try:
@@ -1202,6 +1216,7 @@ class HighFiveBooking(models.Model):
 
             # ترحيل الدفعة
             payment.action_post()
+            print("payment_ids ==> ",self.payment_ids)
             _logger.info(f"Payment posted: {payment.name}")
 
             # ✅ في Odoo 18: استخدم move_id.line_ids بدلاً من line_ids
@@ -1239,42 +1254,7 @@ class HighFiveBooking(models.Model):
             _logger.error(f"❌ Error: {str(e)}", exc_info=True)
             return None
 
-    def _create_commission_invoice(self, commission_amount):
-        """Create commission-only invoice for cash bookings"""
-        commission_product = self.env.ref('highfive_core.product_highfive_commission',
-                                         raise_if_not_found=False)
-        if not commission_product:
-            raise UserError("Commission product not found!")
-        
-        tax = self._get_tax(self.tax_percent, 'sale')
-        
-        invoice_vals = {
-            'move_type': 'out_invoice',
-            'partner_id': self.partner_id.id,  # Partner pays commission
-            'invoice_date': fields.Date.today(),
-            'invoice_line_ids': [
-                (0, 0, {
-                    'product_id': commission_product.id,
-                    'name': f'Commission - {self.unit_id.name}',
-                    'quantity': 1,
-                    'price_unit': commission_amount,
-                    'tax_ids': [(6, 0, [tax.id])] if tax else False,
-                    'analytic_distribution': {
-                        str(self.analytic_account_id.id): 100
-                    } if self.analytic_account_id else False,
-                }),
-            ],
-            'narration': f'Commission for Booking: {self.name}\nHighFive ID: {self.highfive_booking_id}',
-        }
-        
-        invoice = self.env['account.move'].create(invoice_vals)
-        invoice.write({
-            'highfive_booking_id': self.id,
-        })
-        invoice.action_post()
-        
-        return invoice
-    
+
     # =========================================================================
     # HELPER METHODS
     # =========================================================================
