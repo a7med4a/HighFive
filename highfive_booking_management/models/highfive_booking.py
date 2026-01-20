@@ -768,13 +768,15 @@ class HighFiveBooking(models.Model):
     # =========================================================================
     # CRUD METHODS
     # =========================================================================
-    
-    @api.model
-    def create(self, vals):
-        """Create booking with sequence"""
-        if vals.get('name', 'New') == 'New':
-            vals['name'] = self.env['ir.sequence'].next_by_code('highfive.booking') or 'New'
-        return super(HighFiveBooking, self).create(vals)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Create booking with sequence (batch-friendly)"""
+        seq = self.env['ir.sequence']
+        for vals in vals_list:
+            if vals.get('name', 'New') == 'New':
+                vals['name'] = seq.next_by_code('highfive.booking') or 'New'
+        return super().create(vals_list)
     
     def write(self, vals):
         """Prevent editing confirmed bookings"""

@@ -76,7 +76,7 @@
 
                     <!-- Payment Status Alert -->
                     <div class="alert alert-info" role="alert" invisible="payment_state == 'paid'">
-                        <i class="fa fa-info-circle"/> Payment Status: <field name="payment_state" readonly="1" class="fw-bold"/>
+                        <i class="fa fa-info-circle" title="Payment Status"/> Payment Status: <field name="payment_state" readonly="1" class="fw-bold"/>
                     </div>
 
                     <!-- Main Sections -->
@@ -194,19 +194,19 @@
                                 <group>
                                     <label for="payment_card"/>
                                     <div class="o_row">
-                                        <i class="fa fa-credit-card text-primary fa-lg"/>
+                                        <i class="fa fa-credit-card text-primary fa-lg" title="payment card"/>
                                         <field name="payment_card" widget="monetary" class="oe_inline ms-2"/>
                                     </div>
 
                                     <label for="payment_wallet"/>
                                     <div class="o_row">
-                                        <i class="fa fa-wallet text-success fa-lg"/>
+                                        <i class="fa fa-wallet text-success fa-lg" title="payment wallet"/>
                                         <field name="payment_wallet" widget="monetary" class="oe_inline ms-2"/>
                                     </div>
 
                                     <label for="payment_coupon"/>
                                     <div class="o_row">
-                                        <i class="fa fa-ticket text-warning fa-lg"/>
+                                        <i class="fa fa-ticket text-warning fa-lg" title="payment coupon"/>
                                         <field name="payment_coupon" widget="monetary" class="oe_inline ms-2"/>
                                     </div>
                                 </group>
