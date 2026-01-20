@@ -264,6 +264,15 @@ class HighFiveBooking(models.Model):
         ('online', 'Online Payment'),
         ('cash', 'Cash Payment')
     ], string='Payment Method', required=True, tracking=True)
+    booking_type = fields.Selection([
+        ('online_booking', 'Online Booking'),
+        ('cash_booking', 'Cash Booking'),
+        ('walk_in_booking', 'Walk-in Booking'),
+        ('linked_booking', 'Linked Booking'),
+        ('online_public_event', 'Online Public Event'),
+        ('cash_public_event', 'Cash Public Event'),
+    ], string='Booking Type', required=True, default='online_booking', tracking=True,
+        help='Type of booking that determines commission calculation')
 
     payment_ids = fields.One2many(
         'account.payment',
@@ -391,7 +400,137 @@ class HighFiveBooking(models.Model):
     )
     
     active = fields.Boolean('Active', default=True)
-    
+    commission_rate = fields.Float(
+        string='Commission Rate (%)',
+        compute='_compute_commission',
+        store=True,
+        help="Commission percentage applied to this booking"
+    )
+
+    commission_type = fields.Selection([
+        ('percentage', 'Percentage'),
+        ('fixed', 'Fixed Amount')
+    ], string='Commission Type', compute='_compute_commission', store=True)
+
+    commission_amount_net = fields.Monetary(
+        string='Commission (Net)',
+        currency_field='currency_id',
+        compute='_compute_commission',
+        store=True,
+        help="Commission amount before tax"
+    )
+    commission_id = fields.Many2one(
+        'highfive.unit.commission',
+        string='Applied Commission Rule',
+        compute='_compute_commission',
+        store=True,
+        readonly=True,
+        help='The commission rule that was applied to this booking'
+    )
+
+    commission_amount_tax = fields.Monetary(
+        string='Commission Tax',
+        currency_field='currency_id',
+        compute='_compute_commission',
+        store=True,
+        help="Tax on commission"
+    )
+
+    commission_percent = fields.Float(
+        string='Commission %',
+        compute='_compute_commission',
+        store=True,
+        help="Commission percentage value"
+    )
+
+    commission_fixed = fields.Monetary(
+        string='Commission Fixed',
+        currency_field='currency_id',
+        compute='_compute_commission',
+        store=True,
+        help="Fixed commission amount"
+    )
+
+    commission_amount_total = fields.Monetary(
+        string='Commission (Total)',
+        currency_field='currency_id',
+        compute='_compute_commission',
+        store=True,
+        help="Commission amount including tax"
+    )
+
+    commission_invoice_id = fields.Many2one(
+        'account.move',
+        'Commission Invoice',
+        readonly=True,
+        copy=False,
+        help='Commission invoice for cash payment bookings'
+    )
+
+    # ================================================================
+    # Commission Computation
+    # ================================================================
+
+    @api.depends('commission_id', 'booking_type', 'subtotal', 'tax_percent')
+    def _compute_commission(self):
+        """
+        Calculate commission based on commission_id and booking_type
+
+        Simple Logic:
+        1. Use commission_id (sent from API)
+        2. Get percent + fixed for booking_type
+        3. Calculate commission amount
+        """
+        for booking in self:
+            # Reset if no commission
+            if not booking.commission_id or not booking.booking_type:
+                booking._reset_commission()
+                continue
+
+            # ================================================================
+            # Get Commission Values (percent + fixed)
+            # ================================================================
+            commission = booking.commission_id
+            percent, fixed = commission.get_commission_values(booking.booking_type)
+
+            booking.commission_percent = percent
+            booking.commission_fixed = fixed
+
+            # ================================================================
+            # Calculate Commission Amount
+            # ================================================================
+            # All prices are tax-included
+            tax_rate = booking.tax_percent / 100.0
+
+            # Get net amount (before tax)
+            # Subtotal already includes tax
+            total_net = booking.subtotal / (1 + tax_rate)
+
+            # Commission = (Net × Percent%) + Fixed
+            commission_net = (total_net * (percent / 100.0)) + fixed
+
+            # Tax on commission
+            commission_tax = commission_net * tax_rate
+            commission_total = commission_net + commission_tax
+
+            booking.commission_amount_net = round(commission_net, 2)
+            booking.commission_amount_tax = round(commission_tax, 2)
+            booking.commission_amount_total = round(commission_total, 2)
+
+            _logger.info(
+                f"Commission for booking {booking.name}: "
+                f"Rule={commission.name}, Type={booking.booking_type}, "
+                f"Formula=({percent}% × {total_net:.2f}) + {fixed} = {commission_net:.2f}, "
+                f"Total={commission_total:.2f}"
+            )
+
+    def _reset_commission(self):
+        """Reset all commission fields"""
+        self.commission_percent = 0.0
+        self.commission_fixed = 0.0
+        self.commission_amount_net = 0.0
+        self.commission_amount_tax = 0.0
+        self.commission_amount_total = 0.0
     # =========================================================================
     # CONSTRAINTS
     # =========================================================================
@@ -710,199 +849,306 @@ class HighFiveBooking(models.Model):
     # =========================================================================
     # INVOICE CREATION
     # =========================================================================
-    
+
     def _create_invoices(self):
-        """Create invoices based on payment method"""
+        """
+        Create invoices based on payment method
+
+        Logic:
+        - payment_method = 'online': Sales Invoice (3 lines) + Vendor Bill (2 lines)
+        - payment_method = 'cash': Sales Invoice (1 line: commission)
+
+        All prices include tax (price_include_override = 'tax_included')
+        """
         self.ensure_one()
-        
+
         if not self.analytic_account_id:
-            raise UserError(
-                "No analytic account found for this branch! "
-                "Please configure analytic account for the partner."
-            )
-        
+            raise UserError("No analytic account found for this branch!")
+
+        # Get commission
+        commission_net = self.commission_amount_net
+        commission_total = self.commission_amount_total
+
+        if commission_total <= 0:
+            raise UserError("Commission calculation failed!")
+
+        # Route based on payment_method
         if self.payment_method == 'online':
-            self._create_online_invoices()
+            self._create_online_invoices(commission_net, commission_total)
         elif self.payment_method == 'cash':
-            self._create_cash_invoice()
+            self._create_cash_invoice(commission_total)
         else:
             raise ValidationError(f"Unknown payment method: {self.payment_method}")
 
-    def _create_online_invoices(self):
-        """Create sales invoice and vendor bill for online payment"""
-        # 1. Create Sales Invoice
-        self.sales_invoice_id = self._create_sales_invoice()
+    # ============================================================================
+    # METHOD: _create_online_invoices() - UPDATED
+    # ============================================================================
 
-        # 2. Create Vendor Bill
-        self.vendor_bill_id = self._create_vendor_bill()
+    def _create_online_invoices(self, commission_net, commission_total):
+        """
+        Create invoices for ONLINE payment
 
-        # 3. Register Payment
-        if self.sales_invoice_id:
-            self._register_payment(self.sales_invoice_id)
+        Creates:
+        1. Sales Invoice → Partner (Unit + Services + Commission) = 200 SAR
+        2. Vendor Bill → Partner (Unit + Services) = 174.25 SAR
 
-        _logger.info(
-            f"Created invoices for booking {self.name}: "
-            f"Sales={self.sales_invoice_id.name}, Bill={self.vendor_bill_id.name}"
-        )
-    
-    def _create_cash_invoice(self):
-        """Create commission invoice for cash payment"""
-        # Get commission rate
-        commission_rate = self._get_commission_rate()
-        
-        # Calculate commission
-        base_amount = self.subtotal
-        commission_amount = base_amount * (commission_rate / 100)
-        
-        # Create commission invoice
-        self.sales_invoice_id = self._create_commission_invoice(commission_amount)
-        
-        _logger.info(
-            f"Created commission invoice for booking {self.name}: {self.sales_invoice_id.name}"
-        )
+        All prices include tax (tax_included)
+        """
+        self.ensure_one()
 
-    def _create_sales_invoice(self):
-        """Create sales invoice with accurate rounding"""
-        commission_product = self.env.ref('highfive_core.product_highfive_commission',
-                                          raise_if_not_found=False)
-        if not commission_product:
-            raise UserError("Commission product not found! Please install highfive_core module.")
+        # Get tax (tax_included for both sale and purchase)
+        tax_sale = self._get_tax('sale')
+        tax_purchase = self._get_tax('purchase')
 
-        # Get commission
-        commission_rate = self._get_commission_rate()
-        base_amount = self.subtotal  # بدون ضريبة
+        # Get lines
+        unit_line = self.booking_line_ids.filtered(lambda l: l.line_type == 'unit')
+        if not unit_line:
+            raise ValidationError("Unit line not found!")
 
-        # ✅ حساب العمولة والخدمة
-        commission_amount = round(base_amount * (commission_rate / 100), 2)
-        service_amount = round(base_amount - commission_amount, 2)
+        service_lines = self.booking_line_ids.filtered(lambda l: l.line_type == 'service')
 
-        # ✅ حساب الإجمالي المتوقع (مع الضريبة)
-        tax_rate = self.tax_percent / 100
-        expected_total = self.total  # القيمة الصحيحة من الحجز
+        # Calculate unit price after commission deduction
+        tax_rate = self.tax_percent / 100.0
+        unit_price_incl = unit_line.price_unit  # 150 SAR (includes tax)
+        unit_price_net = unit_price_incl / (1 + tax_rate)  # 130.43 SAR
+        unit_net_after_commission = unit_price_net - commission_net  # 130.43 - 22.39 = 108.04
+        unit_incl_after_commission = unit_net_after_commission * (1 + tax_rate)  # 124.25 SAR
+        unit_incl_after_commission = round(unit_incl_after_commission, 2)
 
-        # ✅ حساب ما سينتج من Odoo
-        service_with_tax = round(service_amount * (1 + tax_rate), 2)
-        commission_with_tax = round(commission_amount * (1 + tax_rate), 2)
-        calculated_total = service_with_tax + commission_with_tax
+        # ================================================================
+        # 1. SALES INVOICE (Partner → HighFive)
+        # ================================================================
+        # Partner owes HighFive for booking (Unit + Services + Commission)
 
-        # ✅ حساب الفرق وتوزيعه
-        difference = round(expected_total - calculated_total, 2)
+        invoice_lines = []
 
-        if abs(difference) >= 0.01:
-            # ✅ أضف الفرق على سطر العمولة (الأصغر)
-            _logger.info(
-                f"Adjusting invoice total by {difference}: "
-                f"expected={expected_total}, calculated={calculated_total}"
-            )
-            # تصحيح العمولة بدون ضريبة
-            commission_amount = round(commission_amount + (difference / (1 + tax_rate)), 2)
-            # إعادة حساب الخدمة من الفرق
-            service_amount = round(base_amount - commission_amount, 2)
-
-        # Get tax
-        tax = self._get_tax(self.tax_percent, 'sale')
-
-        # Prepare invoice lines
-        lines = []
-
-        # Main unit line
-        lines.append((0, 0, {
-            'product_id': self.unit_id.product_variant_id.id,
-            'name': self.unit_id.name,
-            'quantity': 1,
-            'price_unit': service_amount,
-            'tax_ids': [(6, 0, [tax.id])] if tax else False,
-            'analytic_distribution': {
-                str(self.analytic_account_id.id): 100
-            } if self.analytic_account_id else False,
+        # Line 1: Unit (after commission deduction)
+        invoice_lines.append((0, 0, {
+            'product_id': unit_line.product_id.id,
+            'name': unit_line.name,
+            'quantity': unit_line.quantity,
+            'price_unit': unit_incl_after_commission,  # 124.25 SAR (tax included)
+            'tax_ids': [(6, 0, [tax_sale.id])],
+            'analytic_distribution': {str(self.analytic_account_id.id): 100},
         }))
 
-        # Commission line
-        lines.append((0, 0, {
-            'product_id': commission_product.id,
-            'name': f'Commission ({commission_rate}%) - {self.unit_id.name}',
-            'quantity': 1,
-            'price_unit': commission_amount,
-            'tax_ids': [(6, 0, [tax.id])] if tax else False,
-            'analytic_distribution': {
-                str(self.analytic_account_id.id): 100
-            } if self.analytic_account_id else False,
-        }))
-
-        # Additional services
-        for line in self.booking_line_ids.filtered(lambda l: l.line_type == 'service'):
-            lines.append((0, 0, {
-                'product_id': line.product_id.product_variant_id.id,
-                'name': line.name,
-                'quantity': line.quantity,
-                'price_unit': line.price_unit,
-                'tax_ids': [(6, 0, [tax.id])] if tax else False,
-                'analytic_distribution': {
-                    str(self.analytic_account_id.id): 100
-                } if self.analytic_account_id else False,
+        # Line 2: Services (as-is)
+        for service_line in service_lines:
+            invoice_lines.append((0, 0, {
+                'product_id': service_line.product_id.id,
+                'name': service_line.name,
+                'quantity': service_line.quantity,
+                'price_unit': service_line.price_unit,  # Tax included
+                'tax_ids': [(6, 0, [tax_sale.id])],
+                'analytic_distribution': {str(self.analytic_account_id.id): 100},
             }))
 
-        # Create invoice
+        # Line 3: Commission
+        commission_product = self._get_commission_product()
+        invoice_lines.append((0, 0, {
+            'product_id': commission_product.id,
+            'name': f'HighFive Commission {self.commission_percent}% + {self.commission_fixed}',
+            'quantity': 1,
+            'price_unit': commission_total,  # 25.75 SAR (tax included)
+            'tax_ids': [(6, 0, [tax_sale.id])],
+            'analytic_distribution': {str(self.analytic_account_id.id): 100},
+        }))
+
+        # Create sales invoice
         invoice_vals = {
             'move_type': 'out_invoice',
-            'partner_id': self.customer_id.id if self.customer_id else self.env.company.partner_id.id,
-            'invoice_date': fields.Date.today(),
-            'invoice_line_ids': lines,
-            'narration': f'Booking: {self.name}\nHighFive ID: {self.highfive_booking_id}',
+            'partner_id': self.partner_id.id,  # المورد
+            'currency_id': self.currency_id.id,
+            'invoice_date': self.booking_date,
+            'invoice_line_ids': invoice_lines,
+            'ref': f'Booking: {self.name}',
+            'narration': (
+                f'HighFive Booking ID: {self.highfive_booking_id}\n'
+                f'Customer: {self.customer_id.name if self.customer_id else "N/A"}\n'
+                f'Payment: Online\n'
+                f'Booking Type: {dict(self._fields["booking_type"].selection).get(self.booking_type)}\n'
+                f'Commission: {commission_total:.2f} ({self.commission_percent}% + {self.commission_fixed})\n'
+                f'Unit after commission: {unit_incl_after_commission:.2f}'
+            ),
         }
 
         invoice = self.env['account.move'].create(invoice_vals)
-        invoice.write({
-            'highfive_booking_id': self.id,
-            'payment_card': self.payment_card,
-            'payment_wallet': self.payment_wallet,
-            'payment_coupon': self.payment_coupon,
-        })
-
         invoice.action_post()
+        self.sales_invoice_id = invoice.id
 
-        _logger.info(f"Sales invoice created: {invoice.name} with total {invoice.amount_total}")
+        _logger.info(
+            f"Sales invoice created: {invoice.name} - "
+            f"Total={invoice.amount_total:.2f} "
+            f"(Unit={unit_incl_after_commission:.2f} + Services + Commission={commission_total:.2f})"
+        )
 
-        return invoice
-    
-    def _create_vendor_bill(self):
-        """Create vendor bill"""
-        # Get partner tax rate
-        partner_tax_rate = self._get_partner_tax_rate()
-        tax = self._get_tax(partner_tax_rate * 100, 'purchase')
-        
-        # Calculate service amount (excluding commission)
-        commission_rate = self._get_commission_rate()
-        base_amount = self.subtotal
-        commission_amount = base_amount * (commission_rate / 100)
-        service_amount = base_amount - commission_amount
-        
+        # ================================================================
+        # 2. VENDOR BILL (HighFive → Partner)
+        # ================================================================
+        # HighFive owes Partner for services (Unit + Services, no commission)
+
+        bill_lines = []
+
+        # Line 1: Unit (after commission deduction, same price)
+        bill_lines.append((0, 0, {
+            'product_id': unit_line.product_id.id,
+            'name': unit_line.name,
+            'quantity': unit_line.quantity,
+            'price_unit': unit_incl_after_commission,  # 124.25 SAR (tax included)
+            'tax_ids': [(6, 0, [tax_purchase.id])],
+            'analytic_distribution': {str(self.analytic_account_id.id): 100},
+        }))
+
+        # Line 2: Services (as-is)
+        for service_line in service_lines:
+            bill_lines.append((0, 0, {
+                'product_id': service_line.product_id.id,
+                'name': service_line.name,
+                'quantity': service_line.quantity,
+                'price_unit': service_line.price_unit,  # Tax included
+                'tax_ids': [(6, 0, [tax_purchase.id])],
+                'analytic_distribution': {str(self.analytic_account_id.id): 100},
+            }))
+
+        # Create vendor bill
         bill_vals = {
             'move_type': 'in_invoice',
-            'partner_id': self.partner_id.id,
-            'invoice_date': fields.Date.today(),
-            'invoice_line_ids': [
-                (0, 0, {
-                    'product_id': self.unit_id.product_variant_id.id,
-                    'name': self.unit_id.name,
-                    'quantity': 1,
-                    'price_unit': service_amount,
-                    'tax_ids': [(6, 0, [tax.id])] if tax else False,
-                    'analytic_distribution': {
-                        str(self.analytic_account_id.id): 100
-                    } if self.analytic_account_id else False,
-                }),
-            ],
-            'narration': f'Booking: {self.name}\nHighFive ID: {self.highfive_booking_id}',
+            'partner_id': self.partner_id.id,  # المورد
+            'currency_id': self.currency_id.id,
+            'invoice_date': self.booking_date,
+            'invoice_line_ids': bill_lines,
+            'ref': f'Booking: {self.name}',
+            'narration': (
+                f'HighFive Booking ID: {self.highfive_booking_id}\n'
+                f'Payment to partner for services\n'
+                f'Unit price (after commission): {unit_incl_after_commission:.2f}\n'
+                f'Commission: {commission_total:.2f} deducted'
+            ),
         }
-        
+
         bill = self.env['account.move'].create(bill_vals)
-        bill.write({
-            'highfive_booking_id': self.id,
-        })
         bill.action_post()
-        
-        return bill
+        self.vendor_bill_id = bill.id
+
+        _logger.info(
+            f"Vendor bill created: {bill.name} - "
+            f"Total={bill.amount_total:.2f} "
+            f"(Unit + Services, commission deducted)"
+        )
+
+    # ============================================================================
+    # METHOD: _create_cash_invoice() - CASH PAYMENT
+    # ============================================================================
+
+    def _create_cash_invoice(self, commission_total):
+        """
+        Create commission invoice for CASH payment
+
+        Creates:
+        - Sales Invoice → Partner (Commission only) = 25.75 SAR
+
+        Price includes tax (tax_included)
+        """
+        self.ensure_one()
+
+        # Get tax
+        tax_sale = self._get_tax('sale')
+
+        # Get commission product
+        commission_product = self._get_commission_product()
+
+        # Get customer name for narration
+        customer_name = self.customer_id.name if self.customer_id else 'غير محدد'
+
+        invoice_lines = []
+
+        # Line 1: Commission only
+        invoice_lines.append((0, 0, {
+            'product_id': commission_product.id,
+            'name': (
+                f'HighFive Commission - Cash Booking\n'
+                f'{self.commission_percent}% + {self.commission_fixed}\n'
+                f'Booking: {self.name}'
+            ),
+            'quantity': 1,
+            'price_unit': commission_total,  # 25.75 SAR (tax included)
+            'tax_ids': [(6, 0, [tax_sale.id])],
+            'analytic_distribution': {str(self.analytic_account_id.id): 100},
+        }))
+
+        # Create sales invoice
+        invoice_vals = {
+            'move_type': 'out_invoice',
+            'partner_id': self.partner_id.id,  # المورد
+            'currency_id': self.currency_id.id,
+            'invoice_date': self.booking_date,
+            'invoice_line_ids': invoice_lines,
+            'ref': f'Commission: {self.name}',
+            'narration': (
+                f'عميل الحجز: {customer_name}\n'
+                f'تم الدفع: كاش\n'
+                f'ـــــــــــــــــــــــــــــــــــــ\n'
+                f'HighFive Booking ID: {self.highfive_booking_id}\n'
+                f'Booking Type: {dict(self._fields["booking_type"].selection).get(self.booking_type)}\n'
+                f'Booking Date: {self.booking_date}\n'
+                f'Commission: {commission_total:.2f} {self.currency_id.name} '
+                f'({self.commission_percent}% + {self.commission_fixed})'
+            ),
+        }
+
+        invoice = self.env['account.move'].create(invoice_vals)
+        invoice.action_post()
+        self.sales_invoice_id = invoice.id
+
+        _logger.info(
+            f"Cash commission invoice created: {invoice.name} - "
+            f"Total={commission_total:.2f}"
+        )
+
+    def _get_commission_product(self):
+        """Get or create commission product"""
+        commission_product = self.env['product.product'].search([
+            ('default_code', '=', 'HF-COMMISSION')
+        ], limit=1)
+
+        if not commission_product:
+            commission_product = self.env['product.product'].create({
+                'name': 'HighFive Commission',
+                'default_code': 'HF-COMMISSION',
+                'type': 'service',
+                'categ_id': self.env.ref('product.product_category_all').id,
+                'list_price': 0.0,
+                'taxes_id': [(5, 0, 0)],  # No default taxes
+                'supplier_taxes_id': [(5, 0, 0)],
+            })
+            _logger.info("Created commission product: HF-COMMISSION")
+
+        return commission_product
+
+
+
+    def _get_tax(self, tax_type='sale'):
+        """
+        Get tax with price_include_override = tax_included
+
+        Args:
+            tax_type: 'sale' or 'purchase'
+        """
+        tax = self.env['account.tax'].search([
+            ('type_tax_use', '=', tax_type),
+            ('amount', '=', self.tax_percent),
+            ('price_include_override', '=', 'tax_included'),
+            ('company_id', '=', self.company_id.id)
+        ], limit=1)
+
+        if not tax:
+            raise UserError(
+                f"Tax {self.tax_percent}% (tax_included) not found for {tax_type}!\n"
+                "Please create it in: Accounting → Configuration → Taxes\n"
+                "Domain: price_include_override = 'tax_included'"
+            )
+
+        return tax
 
     # =========================================================================
     # INVOICE PAYMENT
@@ -1067,21 +1313,7 @@ class HighFiveBooking(models.Model):
             return tax_map.get(self.partner_id.tax_status, 0.15)
         return 0.15
     
-    def _get_tax(self, rate, type_tax_use):
-        """Get tax record"""
-        tax = self.env['account.tax'].search([
-            ('amount', '=', rate),
-            ('type_tax_use', '=', type_tax_use),
-            ('amount_type', '=', 'percent'),
-            ('company_id', '=', self.company_id.id)
-        ], limit=1)
-        
-        if not tax:
-            _logger.warning(
-                f"Tax not found: {rate}% {type_tax_use}"
-            )
-        
-        return tax
+
 
     # في BUTTON METHODS section:
 

@@ -218,6 +218,10 @@ class BookingService:
             'sales_invoice': booking.sales_invoice_id.payment_state if booking.sales_invoice_id else None,
             'vendor_bill': booking.vendor_bill_id.payment_state if booking.vendor_bill_id else None,
         }
+        result['invoice_states'] = {
+            'sales_invoice': booking.sales_invoice_id.payment_state if booking.sales_invoice_id else None,
+            # vendor_bill_id is no longer used
+        }
 
         return result
 
@@ -514,6 +518,19 @@ class BookingService:
                 'coupon': booking.payment_coupon,
                 'transaction_ref': booking.payment_transaction_ref
             },
+            # ================================================================
+            # Commission Info (NEW)
+            # ================================================================
+            'commission': {
+                'id': booking.commission_id.id if booking.commission_id else None,
+                'name': booking.commission_id.name if booking.commission_id else None,
+                'booking_type': booking.booking_type,
+                'percent': booking.commission_percent,
+                'fixed': booking.commission_fixed,
+                'amount_net': booking.commission_amount_net,
+                'amount_tax': booking.commission_amount_tax,
+                'amount_total': booking.commission_amount_total
+            },
             'invoices': self._get_invoice_info(booking)
         }
 
@@ -536,6 +553,8 @@ class BookingService:
             'tax_status',
             'total',
             'payment_method',
+            'booking_type',  # ← جديد: نوع الحجز (6 أنواع)
+            'commission_id',  # ← جديد: ID قاعدة العمولة
             'status'
         ]
 
@@ -550,6 +569,36 @@ class BookingService:
         # Validate payment method
         if data['payment_method'] not in ['online', 'cash']:
             raise ValidationError("Invalid payment method")
+
+        # ================================================================
+        # Validate booking_type (NEW)
+        # ================================================================
+        valid_booking_types = [
+            'online_booking',
+            'cash_booking',
+            'walk_in_booking',
+            'linked_booking',
+            'online_public_event',
+            'cash_public_event'
+        ]
+        if data['booking_type'] not in valid_booking_types:
+            raise ValidationError(
+                f"Invalid booking_type: {data['booking_type']}. "
+                f"Must be one of: {', '.join(valid_booking_types)}"
+            )
+
+        # ================================================================
+        # Validate commission_id exists (NEW)
+        # ================================================================
+        commission = self.env['highfive.unit.commission'].search([
+            ('highfive_commission_id', '=', str(data['commission_id']))
+        ], limit=1)
+
+        if not commission:
+            raise ValidationError(
+                f"Commission rule {data['commission_id']} not found. "
+                "Please create/sync commission rule first."
+            )
 
         # Validate tax status
         if data['tax_status'] not in ['included', 'excluded']:
@@ -576,22 +625,35 @@ class BookingService:
         # Get customer
         customer = self._get_customer(data['booker_id'])
 
-        # Get partner from unit (related field from branch)
+        # Get partner from unit
         partner = unit.partner_id
         if not partner:
             raise ValidationError(f"Unit {data['unit_id']} has no partner assigned")
 
-        # Get branch from unit (required field)
+        # Get branch from unit
         branch = unit.branch_id
         if not branch:
             raise ValidationError(f"Unit {data['unit_id']} has no branch assigned")
+
+        # ================================================================
+        # Get commission (NEW)
+        # ================================================================
+        commission = self.env['highfive.unit.commission'].search([
+            ('highfive_commission_id', '=', str(data['commission_id']))
+        ], limit=1)
+
+        if not commission:
+            raise ValidationError(f"Commission {data['commission_id']} not found")
+
+        # Get currency
         currency_id = self._get_currency(data.get('currency', 'SAR'))
+
         vals = {
             'highfive_booking_id': str(data['id']),
             'booking_date': data['booking_date'],
             'session_start_time': float(data['session_start_time']),
             'session_end_time': float(data['session_end_time']),
-            'session_base_price': float(data['session_base_price']),  # ← أضيف
+            'session_base_price': float(data['session_base_price']),
             'customer_id': customer.id,
             'partner_id': partner.id,
             'unit_id': unit.id,
@@ -601,6 +663,12 @@ class BookingService:
             'tax_percent': float(data['tax_percent']),
             'tax_status': data['tax_status'],
             'payment_method': data['payment_method'],
+
+            # ================================================================
+            # NEW FIELDS
+            # ================================================================
+            'booking_type': data['booking_type'],  # نوع الحجز
+            'commission_id': commission.id,  # ربط قاعدة العمولة
         }
 
         # Payment details
@@ -797,25 +865,25 @@ class BookingService:
         """Get invoice information"""
         invoices = []
 
+        # Sales invoice (always exists for both online and cash)
         if booking.sales_invoice_id:
             invoices.append({
-                'type': 'out_invoice',
+                'type': 'sales_invoice',
                 'id': booking.sales_invoice_id.id,
                 'ref': booking.sales_invoice_id.name,
                 'state': booking.sales_invoice_id.state,
                 'payment_state': booking.sales_invoice_id.payment_state,
-                'amount_total': booking.sales_invoice_id.amount_total
+                'amount_total': booking.sales_invoice_id.amount_total,
+                'partner': booking.sales_invoice_id.partner_id.name,
+                'description': (
+                    'Customer invoice (Unit + Services + Commission)'
+                    if booking.payment_method == 'online'
+                    else 'Partner invoice (Commission only)'
+                )
             })
 
-        if booking.vendor_bill_id:
-            invoices.append({
-                'type': 'in_invoice',
-                'id': booking.vendor_bill_id.id,
-                'ref': booking.vendor_bill_id.name,
-                'state': booking.vendor_bill_id.state,
-                'payment_state': booking.vendor_bill_id.payment_state,
-                'amount_total': booking.vendor_bill_id.amount_total
-            })
+        # Note: vendor_bill_id is no longer used in the new system
+        # All invoicing is done through sales_invoice_id
 
         return invoices
 

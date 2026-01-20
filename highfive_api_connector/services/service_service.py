@@ -83,6 +83,7 @@ class ServiceService:
     
     def _transform(self, data):
         """Transform HighFive data to Odoo format"""
+
         vals = {
             'highfive_service_id': str(data['id']),
             'name': data['name'],
@@ -95,8 +96,16 @@ class ServiceService:
             'is_highfive_unit': False,  # Important: NOT a unit
             'is_highfive_service': True,  # Important: NOT a unit
         }
+        partner = data.get('partner_id',False)
+        branch = self.env['highfive.partner.branch']
+        if partner:
+            branch = self.env['highfive.partner.branch'].search([
+                ('partner_id', '=', int(partner))
+            ], limit=1)
         
         # Optional fields
+        if branch:
+            vals['branch_id'] = branch.id
         if data.get('description'):
             vals['description'] = data['description']
         

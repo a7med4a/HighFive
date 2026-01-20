@@ -11,9 +11,9 @@
               parent="menu_highfive_bookings"
               action="action_highfive_booking"
               sequence="10"/>
-    <menuitem id="menu_unit_commission"
-          name="Commission Rates"
-          parent="menu_highfive_bookings"
-          action="action_unit_commission"
-          sequence="20"/>
+<!--    <menuitem id="menu_unit_commission"-->
+<!--          name="Commission Rates"-->
+<!--          parent="menu_highfive_bookings"-->
+<!--          action="action_unit_commission"-->
+<!--          sequence="20"/>-->
 </odoo>

@@ -1,244 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- ======================================================================= -->
-    <!-- List View -->
-    <!-- ======================================================================= -->
+
+    <!-- ================================================================ -->
+    <!-- TREE VIEW -->
+    <!-- ================================================================ -->
     <record id="view_unit_commission_tree" model="ir.ui.view">
-        <field name="name">highfive.unit.commission.list</field>
+        <field name="name">highfive.unit.commission.tree</field>
         <field name="model">highfive.unit.commission</field>
         <field name="arch" type="xml">
-            <list string="Commission Rates"
-                  decoration-success="status == 'active' and type == 'scheduled'"
-                  decoration-info="type == 'default'"
-                  decoration-muted="status == 'expired'"
-                  decoration-warning="status == 'upcoming'">
-                <field name="unit_id"/>
+            <list string="Unit Commissions" decoration-muted="active == False"
+                  decoration-info="status == 'upcoming'"
+                  decoration-success="status == 'active'"
+                  decoration-danger="status == 'expired'">
                 <field name="name"/>
-                <field name="type" widget="badge"/>
+                <field name="unit_id"/>
+                <field name="type"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="online_display" string="Online"/>
+                <field name="cash_display" string="Cash"/>
+                <field name="walkin_display" string="Walk-in"/>
                 <field name="status" widget="badge"
+                       decoration-info="status == 'upcoming'"
                        decoration-success="status == 'active'"
-                       decoration-warning="status == 'upcoming'"
-                       decoration-danger="status == 'expired'"
-                       optional="show"/>
-                <field name="online_rate_display" string="Online"/>
-                <field name="cash_rate_display" string="Cash"/>
-                <field name="start_at" optional="hide"/>
-                <field name="end_at" optional="hide"/>
-                <field name="highfive_commission_id" optional="hide"/>
-                <field name="active" widget="boolean_toggle"/>
+                       decoration-danger="status == 'expired'"/>
+                <field name="active" invisible="1"/>
             </list>
         </field>
     </record>
 
-    <!-- ======================================================================= -->
-    <!-- Form View -->
-    <!-- ======================================================================= -->
+    <!-- ================================================================ -->
+    <!-- FORM VIEW -->
+    <!-- ================================================================ -->
     <record id="view_unit_commission_form" model="ir.ui.view">
         <field name="name">highfive.unit.commission.form</field>
         <field name="model">highfive.unit.commission</field>
         <field name="arch" type="xml">
-            <form string="Commission Rate">
+            <form string="Unit Commission">
                 <header>
-                    <!-- Status Badge -->
                     <field name="status" widget="statusbar"
-                           statusbar_visible="upcoming,active,expired"
-                           invisible="type != 'scheduled'"/>
+                           statusbar_visible="upcoming,active,expired"/>
                 </header>
-
                 <sheet>
-                    <!-- Button Box -->
-                    <div class="oe_button_box" name="button_box">
-                        <field name="active" widget="boolean_button"
-                               options="{'terminology': 'active'}"/>
-                    </div>
-
                     <!-- Title -->
-                    <div class="oe_title" invisible="not name">
+                    <div class="oe_title">
                         <h1>
-                            <field name="name" placeholder="e.g., Ramadan Special Offer"/>
+                            <field name="name" placeholder="Commission Name (e.g., Ramadan Special)"/>
                         </h1>
                     </div>
 
-                    <!-- Basic Info -->
                     <group>
-                        <group string="Basic Information">
+                        <group name="basic_info" string="Basic Information">
                             <field name="unit_id"
                                    options="{'no_create': True, 'no_open': True}"/>
                             <field name="type" widget="radio"/>
-                            <field name="highfive_commission_id"
-                                   placeholder="Auto-filled from HighFive"
-                                   readonly="1"/>
+                            <field name="highfive_commission_id" readonly="1" invisible="highfive_commission_id == False"/>
+                            <field name="currency_id" invisible="1"/>
                         </group>
-                        <group string="Current Rates (Display)">
-                            <field name="online_rate_display"
-                                   class="text-primary fw-bold"/>
-                            <field name="cash_rate_display"
-                                   class="text-success fw-bold"/>
+
+                        <group name="schedule" string="Schedule" invisible="type == 'default'">
+                            <field name="start_date" required="type == 'scheduled'"/>
+                            <field name="end_date" required="type == 'scheduled'"/>
+                            <field name="active"/>
                         </group>
                     </group>
 
-                    <!-- Commission Rates -->
-                    <group string="📊 Commission Configuration">
-                        <group string="Online Payment Commission">
-                            <label for="online_booking" string="Rate (JSON)"/>
-                            <div>
-                                <field name="online_booking"
-                                       widget="text"
-                                       class="o_field_text"
-                                       placeholder='{"type": "percentage", "value": 15}'
-                                       nolabel="1"/>
-                                <div class="text-muted small mt-1">
-                                    <i class="fa fa-info-circle"/>
-                                    Format: {"type": "percentage", "value": 15}
-                                </div>
-                            </div>
-                        </group>
-                        <group string="Cash Payment Commission">
-                            <label for="cash_booking" string="Rate (JSON)"/>
-                            <div>
-                                <field name="cash_booking"
-                                       widget="text"
-                                       class="o_field_text"
-                                       placeholder='{"type": "percentage", "value": 10}'
-                                       nolabel="1"/>
-                                <div class="text-muted small mt-1">
-                                    <i class="fa fa-info-circle"/>
-                                    Format: {"type": "percentage", "value": 10}
-                                </div>
-                            </div>
-                        </group>
-                    </group>
-
-                    <!-- Scheduled Commission Dates -->
-                    <group string="📅 Scheduled Period"
-                           invisible="type != 'scheduled'">
-                        <group>
-                            <field name="start_at"
-                                   required="type == 'scheduled'"/>
-                        </group>
-                        <group>
-                            <field name="end_at"
-                                   required="type == 'scheduled'"/>
-                        </group>
-                    </group>
-
-                    <!-- Notebook -->
                     <notebook>
-                        <!-- Help Tab -->
-                        <page string="ℹ️ Help &amp; Examples" name="help">
+                        <!-- Tab 1: Regular Bookings -->
+                        <page string="Regular Bookings" name="regular_bookings">
                             <group>
-                                <div class="alert alert-info">
-                                    <h4><i class="fa fa-book"/> Commission Format Guide:</h4>
-
-                                    <h5 class="mt-3">📌 Basic Structure:</h5>
-                                    <pre class="bg-light p-2">
-{
-    "type": "percentage" or "fixed",
-    "value": 15
-}</pre>
-
-                                    <h5 class="mt-3">💡 Examples:</h5>
-                                    <ul>
-                                        <li>
-                                            <strong>15% Commission:</strong><br/>
-                                            <code>{"type": "percentage", "value": 15}</code>
-                                        </li>
-                                        <li>
-                                            <strong>10% Commission:</strong><br/>
-                                            <code>{"type": "percentage", "value": 10}</code>
-                                        </li>
-                                        <li>
-                                            <strong>Fixed 50 SAR:</strong><br/>
-                                            <code>{"type": "fixed", "value": 50}</code>
-                                        </li>
-                                    </ul>
-
-                                    <h5 class="mt-3">🎯 Commission Types:</h5>
-                                    <ul>
-                                        <li>
-                                            <strong>Default:</strong> Used when no scheduled commission is active
-                                        </li>
-                                        <li>
-                                            <strong>Scheduled:</strong> Used during specific date range (promotions, special offers)
-                                        </li>
-                                    </ul>
-
-                                    <h5 class="mt-3">⚙️ How It Works:</h5>
-                                    <ol>
-                                        <li>When creating a booking, Odoo checks for active scheduled commission</li>
-                                        <li>If found and booking date is within range → use scheduled commission</li>
-                                        <li>Otherwise → use default commission</li>
-                                        <li>Commission amount is calculated automatically</li>
-                                    </ol>
-
-                                    <div class="alert alert-warning mt-3">
-                                        <strong><i class="fa fa-warning"/> Important Notes:</strong>
-                                        <ul>
-                                            <li>Each unit can have only ONE default commission</li>
-                                            <li>Multiple scheduled commissions are allowed</li>
-                                            <li>JSON format must be valid</li>
-                                            <li>Value must be numeric</li>
-                                        </ul>
+                                <group string="Online Booking">
+                                    <label for="commission_online_percent"/>
+                                    <div class="o_row">
+                                        <field name="commission_online_percent" class="oe_inline"/>
+                                        <span class="oe_inline">%</span>
+                                        <span class="oe_inline mx-2">+</span>
+                                        <field name="commission_online_fixed" class="oe_inline"/>
                                     </div>
-                                </div>
+                                </group>
+
+                                <group string="Cash Booking">
+                                    <label for="commission_cash_percent"/>
+                                    <div class="o_row">
+                                        <field name="commission_cash_percent" class="oe_inline"/>
+                                        <span class="oe_inline">%</span>
+                                        <span class="oe_inline mx-2">+</span>
+                                        <field name="commission_cash_fixed" class="oe_inline"/>
+                                    </div>
+                                </group>
+                            </group>
+
+                            <group>
+                                <group string="Walk-in Booking">
+                                    <label for="commission_walkin_percent"/>
+                                    <div class="o_row">
+                                        <field name="commission_walkin_percent" class="oe_inline"/>
+                                        <span class="oe_inline">%</span>
+                                        <span class="oe_inline mx-2">+</span>
+                                        <field name="commission_walkin_fixed" class="oe_inline"/>
+                                    </div>
+                                </group>
+
+                                <group string="Linked Booking">
+                                    <label for="commission_linked_percent"/>
+                                    <div class="o_row">
+                                        <field name="commission_linked_percent" class="oe_inline"/>
+                                        <span class="oe_inline">%</span>
+                                        <span class="oe_inline mx-2">+</span>
+                                        <field name="commission_linked_fixed" class="oe_inline"/>
+                                    </div>
+                                </group>
                             </group>
                         </page>
 
-                        <!-- API Info Tab (for developers) -->
-                        <page string="🔧 API Reference" name="api_info" groups="base.group_system">
+                        <!-- Tab 2: Public Events -->
+                        <page string="Public Events" name="public_events">
                             <group>
-                                <div class="alert alert-success">
-                                    <h4><i class="fa fa-code"/> Developer Information:</h4>
+                                <group string="Online Public Event">
+                                    <label for="commission_online_event_percent"/>
+                                    <div class="o_row">
+                                        <field name="commission_online_event_percent" class="oe_inline"/>
+                                        <span class="oe_inline">%</span>
+                                        <span class="oe_inline mx-2">+</span>
+                                        <field name="commission_online_event_fixed" class="oe_inline"/>
+                                    </div>
+                                </group>
 
-                                    <h5 class="mt-3">📝 Fields:</h5>
-                                    <table class="table table-sm">
-                                        <tr>
-                                            <td><strong>highfive_commission_id</strong></td>
-                                            <td>Original ID from HighFive database</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>name</strong></td>
-                                            <td>Commission name/description</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>status</strong></td>
-                                            <td>Computed: upcoming/active/expired</td>
-                                        </tr>
-                                    </table>
+                                <group string="Cash Public Event">
+                                    <label for="commission_cash_event_percent"/>
+                                    <div class="o_row">
+                                        <field name="commission_cash_event_percent" class="oe_inline"/>
+                                        <span class="oe_inline">%</span>
+                                        <span class="oe_inline mx-2">+</span>
+                                        <field name="commission_cash_event_fixed" class="oe_inline"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
 
-                                    <h5 class="mt-3">🔨 Key Methods:</h5>
-                                    <ul>
-                                        <li><code>get_commission_data(payment_method)</code> - Get full commission info</li>
-                                        <li><code>calculate_commission_amount(base, method)</code> - Calculate amount</li>
-                                        <li><code>get_active_commission(unit_id, date)</code> - Find active commission</li>
-                                        <li><code>get_commission_for_booking(...)</code> - All-in-one method</li>
-                                    </ul>
+                        <!-- Tab 3: Examples -->
+                        <page string="Examples" name="examples">
+                            <group>
+                                <group string="Commission Calculation Examples">
+                                    <label for="commission_online_percent" string="Example: Online Booking"/>
+                                    <div>
+                                        <p>Base Amount: 100 SAR</p>
+                                        <p>Commission = (100 × <field name="commission_online_percent" readonly="1" class="oe_inline"/>%) + <field name="commission_online_fixed" readonly="1" class="oe_inline"/> SAR</p>
+                                    </div>
 
-                                    <h5 class="mt-3">💻 Usage Example:</h5>
-                                    <pre class="bg-light p-2">
-# Get commission info
-commission = env['highfive.unit.commission'].browse(10)
-data = commission.get_commission_data('online')
-# Returns: {
-#   'type': 'percentage',
-#   'value': 15.0,
-#   'commission_id': 10,
-#   'commission_name': 'Ramadan Special'
-# }
+                                    <label  for="commission_cash_percent" string="Example: Cash Booking"/>
+                                    <div>
+                                        <p>Base Amount: 100 SAR</p>
+                                        <p>Commission = (100 × <field name="commission_cash_percent" readonly="1" class="oe_inline"/>%) + <field name="commission_cash_fixed" readonly="1" class="oe_inline"/> SAR</p>
+                                    </div>
+                                </group>
 
-# Calculate amount
-amount = commission.calculate_commission_amount(100.00, 'online')
-# Returns: 15.00
-
-# All-in-one for booking
-result = env['highfive.unit.commission'].get_commission_for_booking(
-    unit_id=5,
-    booking_date=datetime.now(),
-    payment_method='online',
-    base_amount=100.00
-)
-# Returns full result with commission record and calculated amount</pre>
-                                </div>
+                                <group string="Notes">
+                                    <div>
+                                        <ul>
+                                            <li><strong>Default Commission:</strong> Applied when no scheduled commission is active</li>
+                                            <li><strong>Scheduled Commission:</strong> Applied during specified date range</li>
+                                            <li><strong>Priority:</strong> Scheduled > Default</li>
+                                            <li><strong>Formula:</strong> Commission = (Base × Percent) + Fixed</li>
+                                            <li><strong>Tax:</strong> Applied after commission calculation</li>
+                                        </ul>
+                                    </div>
+                                </group>
                             </group>
                         </page>
                     </notebook>
@@ -247,29 +174,26 @@ result = env['highfive.unit.commission'].get_commission_for_booking(
         </field>
     </record>
 
-    <!-- ======================================================================= -->
-    <!-- Search View -->
-    <!-- ======================================================================= -->
+    <!-- ================================================================ -->
+    <!-- SEARCH VIEW -->
+    <!-- ================================================================ -->
     <record id="view_unit_commission_search" model="ir.ui.view">
         <field name="name">highfive.unit.commission.search</field>
         <field name="model">highfive.unit.commission</field>
         <field name="arch" type="xml">
-            <search>
-                <field name="unit_id"/>
-                <field name="name"/>
-                <field name="highfive_commission_id"/>
+            <search string="Search Commissions">
+                <field name="name" string="Commission Name"/>
+                <field name="unit_id" string="Unit"/>
+                <field name="highfive_commission_id" string="HighFive ID"/>
 
-                <separator/>
-
-                <!-- Filters -->
-                <filter string="Default Commissions" name="filter_default"
+                <filter string="Default" name="filter_default"
                         domain="[('type', '=', 'default')]"/>
-                <filter string="Scheduled Commissions" name="filter_scheduled"
+                <filter string="Scheduled" name="filter_scheduled"
                         domain="[('type', '=', 'scheduled')]"/>
 
                 <separator/>
 
-                <filter string="Active" name="filter_active_status"
+                <filter string="Active" name="filter_active"
                         domain="[('status', '=', 'active')]"/>
                 <filter string="Upcoming" name="filter_upcoming"
                         domain="[('status', '=', 'upcoming')]"/>
@@ -278,14 +202,9 @@ result = env['highfive.unit.commission'].get_commission_for_booking(
 
                 <separator/>
 
-                <filter string="Active Records" name="filter_active"
-                        domain="[('active', '=', True)]"/>
                 <filter string="Archived" name="filter_archived"
                         domain="[('active', '=', False)]"/>
 
-                <separator/>
-
-                <!-- Group By -->
                 <group expand="0" string="Group By">
                     <filter string="Unit" name="group_unit"
                             context="{'group_by': 'unit_id'}"/>
@@ -298,28 +217,38 @@ result = env['highfive.unit.commission'].get_commission_for_booking(
         </field>
     </record>
 
-    <!-- ======================================================================= -->
-    <!-- Action -->
-    <!-- ======================================================================= -->
+    <!-- ================================================================ -->
+    <!-- ACTION -->
+    <!-- ================================================================ -->
     <record id="action_unit_commission" model="ir.actions.act_window">
-        <field name="name">Commission Rates</field>
+        <field name="name">Unit Commissions</field>
         <field name="res_model">highfive.unit.commission</field>
         <field name="view_mode">list,form</field>
         <field name="context">{
-            'search_default_filter_active': 1,
-            'search_default_filter_active_status': 1
+            'search_default_filter_active': 1
         }</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                No commission rates configured
+                Create your first commission rule!
             </p>
             <p>
-                Create commission rates to define how much HighFive earns from each booking.
+                Set commission rates for your units based on booking types.
+                You can create:
+                <ul>
+                    <li><b>Default Commission:</b> Always active unless overridden</li>
+                    <li><b>Scheduled Commission:</b> Active during specific dates (e.g., Ramadan special)</li>
+                </ul>
             </p>
-            <ul>
-                <li><strong>Default:</strong> Always-active commission rate</li>
-                <li><strong>Scheduled:</strong> Special offers for specific periods</li>
-            </ul>
         </field>
     </record>
+
+    <!-- ================================================================ -->
+    <!-- MENU ITEM -->
+    <!-- ================================================================ -->
+    <menuitem id="menu_unit_commission"
+              name="Commissions"
+              parent="highfive_core.highfive_config_menu"
+              action="action_unit_commission"
+              sequence="30"/>
+
 </odoo>
